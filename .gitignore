@@ -6,6 +6,20 @@
 *.lo
 *.o
 *.obj
+/.vs
+/simplegame/x64
+*.exe
+*.lik
+*.pdb
+*.idb
+*.pch
+*.log
+*.tlog
+*.lastbuildstate
+*.suo
+*.db
+*.ilk
+*.sln
 
 # Precompiled Headers
 *.gch
