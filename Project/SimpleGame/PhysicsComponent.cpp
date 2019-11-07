@@ -2,16 +2,19 @@
 #include "PhysicsComponent.h"
 #include "Object.h"
 #include "Input.h"
-#include <iostream>
-using namespace std;
+
 void IPhysicsComponent::process(Object* o){
 	Vector3D velocity{ o->getVelocity() };
 	Vector3D acc{ power / o->getMass() };
+	float time = D_INPUT->getDeltaTime();
 
-	velocity = velocity + acc * Input::instance()->getDeltaTime();
-	auto [x,y,z] = o->getPos() + velocity.getValue() *  Input::instance()->getDeltaTime();
+	velocity = velocity + acc * time;
+
+	auto[vx, vy, vz] = velocity.getValue();
+	auto [x,y,z] = o->getPos() + velocity.getValue() *  time;
+
 	o->setPos(x, y, z);
-	o->setVelocity(velocity.getX(), velocity.getY(), velocity.getZ());
+	o->setVelocity(vx, vy, vz);
 }
 
 void IPhysicsComponent::addForce(float x, float y, float z){
