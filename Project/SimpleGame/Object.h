@@ -4,7 +4,7 @@
 class Object {
 public:
 	Object() = default;
-	~Object() = default;
+	virtual ~Object() = default;
 	void setPos(float x, float y, float z);
 	value getPos();
 
@@ -17,12 +17,17 @@ public:
 	void setColor(float r, float g, float b, float a);
 	color getColor();
 
-	void update(float deltaTime);
+	void setVelocity(float x, float y, float z);
+	value getVelocity();
+
+	virtual void update(float deltaTime);
 	void setIdx(int idx);
+
 	int getIdx();
 private:
 	value position;
 	value volume;
+	value velocity;
 	float mass;
 
 	color stColor;

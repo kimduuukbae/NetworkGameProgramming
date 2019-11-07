@@ -38,6 +38,14 @@ color Object::getColor(){
 	return stColor;
 }
 
+void Object::setVelocity(float x, float y, float z){
+	velocity = value{ x,y,z };
+}
+
+value Object::getVelocity() {
+	return velocity;
+}
+
 void Object::update(float deltaTime){
 
 }

@@ -6,6 +6,7 @@ struct value {
 	value(float tx, float ty, float tz);
 	value operator*(float scalar);
 	value operator+(const value& other);
+	value operator/(float scalar);
 	bool operator<(float scalar);
 	float x, y, z;
 };
@@ -17,6 +18,7 @@ struct color {
 };
 
 class Vector3D {	
+public:
 	Vector3D() = default;
 	Vector3D(float x, float y, float z);
 	Vector3D(value tv);
@@ -27,6 +29,7 @@ class Vector3D {
 	Vector3D operator+(const Vector3D& rhs);
 	Vector3D& operator+=(const Vector3D& rhs);
 	Vector3D operator*(float _scalar);
+	Vector3D operator/(float _scalar);
 
 	float getX() const;
 	float getY() const;

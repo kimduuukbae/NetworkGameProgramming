@@ -19,7 +19,9 @@ but WITHOUT ANY WARRANTY.
 
 int elapsedTime{};
 void RenderScene(int temp){
-	D_SCENE->update(float(glutGet(GLUT_ELAPSED_TIME) - elapsedTime) / 1000.0f);
+	float time = float(glutGet(GLUT_ELAPSED_TIME) - elapsedTime) / 1000.0f;
+	D_INPUT->setDeltaTime(time);
+	D_SCENE->update(time);
 	D_SCENE->render();
 	glutSwapBuffers();
 	elapsedTime = glutGet(GLUT_ELAPSED_TIME);

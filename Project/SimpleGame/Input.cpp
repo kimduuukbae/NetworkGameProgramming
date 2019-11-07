@@ -30,6 +30,14 @@ bool Input::isKeyOverlap(int key){
 	return keyFlag[key];
 }
 
+void Input::setDeltaTime(float t){
+	deltaTime = t;
+}
+
+float Input::getDeltaTime(){
+	return deltaTime;
+}
+
 void KeyDownInput(unsigned char key, int x, int y) {
 	keyFlag[key] = true;
 }

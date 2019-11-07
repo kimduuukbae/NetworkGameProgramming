@@ -3,15 +3,18 @@
 #include "structure.h"
 #include "Define.h"
 #include "Object.h"
+#include "testObject.h"
 #include "Renderer.h"
 
 void MenuScene::init(){
 	renderer = new Renderer(500, 500);
 	if (!renderer->IsInitialized())
 		return;
-	lists.push_back(new Object());
+	lists.push_back(new testObject());
 	lists.back()->setPos(0, 0, 0);
-	lists.back()->setVolume(500, 500, 0);
+	lists.back()->setVolume(100, 100, 0);
+	lists.back()->setMass(0.5f);
+	lists.back()->setVelocity(0.0f, 0.0f, 0.0f);
 	lists.back()->setIdx(renderer->GenPngTexture("texture/title.png"));
 }
 

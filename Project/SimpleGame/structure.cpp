@@ -12,6 +12,9 @@ value value::operator*(float scalar) {
 value value::operator+(const value& other) {
 	return value{ x + other.x, y + other.y , z + other.z };
 }
+value value::operator/(float scalar){
+	return { x / scalar, y / scalar, z / scalar };
+}
 bool value::operator<(float scalar) {
 	float F{ x + y + z };
 	return F < scalar;
@@ -51,6 +54,10 @@ Vector3D & Vector3D::operator+=(const Vector3D & rhs){
 
 Vector3D Vector3D::operator*(float _scalar){
 	return Vector3D{ v * _scalar };
+}
+
+Vector3D Vector3D::operator/(float _scalar){
+	return Vector3D{ v.x / _scalar, v.y / _scalar, v.z / _scalar };
 }
 
 
