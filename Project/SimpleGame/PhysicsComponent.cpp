@@ -11,6 +11,7 @@ void IPhysicsComponent::process(Object* o){
 	velocity = velocity + acc * Input::instance()->getDeltaTime();
 	auto [x,y,z] = o->getPos() + velocity.getValue() *  Input::instance()->getDeltaTime();
 	o->setPos(x, y, z);
+	o->setVelocity(velocity.getX(), velocity.getY(), velocity.getZ());
 }
 
 void IPhysicsComponent::addForce(float x, float y, float z){
