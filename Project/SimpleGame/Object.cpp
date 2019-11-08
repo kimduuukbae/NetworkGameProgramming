@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "Object.h"
-#include "Define.h"
-
 
 void Object::setPos(float x, float y, float z){
 	setValue(x, y, z, position);
