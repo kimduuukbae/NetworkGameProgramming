@@ -3,7 +3,6 @@
 #include "Dependencies\freeglut.h"
 #include "structure.h"
 #include "Scene.h"
-#include <iostream>
 
 static SceneManager* inst = NULL;
 SceneManager* SceneManager::instance(){

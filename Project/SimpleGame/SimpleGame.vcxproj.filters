@@ -74,6 +74,9 @@
     <ClInclude Include="testObject.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="ship.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -107,6 +110,9 @@
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="testObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ship.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>

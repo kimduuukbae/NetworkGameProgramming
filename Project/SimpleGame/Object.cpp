@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "Object.h"
-
+#include "IComponent.h"
+#include <type_traits>
+Object::~Object(){
+	for (auto& i : components) 
+		delete i;
+	components.clear();
+}
 void Object::setPos(float x, float y, float z){
 	setValue(x, y, z, position);
 }
@@ -45,7 +51,8 @@ value Object::getVelocity() {
 }
 
 void Object::update(float deltaTime){
-
+	for (auto& i : components)
+		i->process(this);
 }
 
 void Object::setIdx(int idx){
@@ -61,18 +68,17 @@ void Object::setValue(float x, float y, float z, value & v) {
 	v.y = y;
 	v.z = z;
 }
+
 template <typename T>
-void addObject(const value& pos, const color& c, const value& volume,
+Object* addObject(const value& pos, const color& c, const value& volume,
 	const value& velocity, float fric, float mass) {
 	Object* o = new T();
 	o->setPos(pos.x, pos.y, pos.z);
 	o->setVolume(volume.x , volume.y, volume.z);
 	o->setColor(c.r, c.b, c.g, c.r);
-	o->setFriction(fric);
 	o->setVelocity(velocity.x, velocity.y, velocity.z);
 	o->setMass(mass);
-
-	v.push_back(o);
+	return o;
 }
 void delObject(Object* o) {
 	delete o;

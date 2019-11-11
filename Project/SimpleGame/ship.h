@@ -2,12 +2,12 @@
 #include "Object.h"
 class IPhysicsComponent;
 
-class testObject : public Object {
-
+class Ship : public Object {
 public:
-	testObject();
-	~testObject() = default;
+	Ship();
+	~Ship() = default;
 	void update(float deltaTime) override;
+
 private:
 	IPhysicsComponent* physics;
 };

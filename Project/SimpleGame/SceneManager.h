@@ -3,7 +3,7 @@
 #include <string>
 #include "structure.h"
 class Scene;
-class Renderer;
+
 class SceneManager {
 public:
 	static SceneManager* instance();

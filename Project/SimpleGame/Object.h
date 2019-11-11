@@ -1,10 +1,13 @@
 #pragma once
 #include "structure.h"
+#include <vector>
+#include <typeinfo>
+class IComponent;
 
 class Object {
 public:
 	Object() = default;
-	virtual ~Object() = default;
+	virtual ~Object();
 	void setPos(float x, float y, float z);
 	value getPos();
 
@@ -24,6 +27,18 @@ public:
 	void setIdx(int idx);
 
 	int getIdx();
+
+	template <typename T>
+	T* getComponent() {
+		for (auto& i : components)
+			if (typeid(T) == typeid(*i)) 
+				return dynamic_cast<T*>(i);
+		return nullptr;
+	}
+	template <typename T>
+	void addComponent() {
+		components.push_back(new T());
+	}
 private:
 	value position;
 	value volume;
@@ -34,6 +49,8 @@ private:
 	void setValue(float x, float y, float z, value& v);
 
 	int pngIdx;
+	std::vector<IComponent*> components;
+	
 };
 template <typename T>
 Object* addObject(const value& pos, const color& c, const value& volume,
