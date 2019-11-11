@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Object.h"
 #include "IComponent.h"
-#include <type_traits>
 Object::~Object(){
 	for (auto& i : components) 
 		delete i;

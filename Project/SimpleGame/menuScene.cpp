@@ -2,7 +2,6 @@
 #include "menuScene.h"
 #include "structure.h"
 #include "Define.h"
-#include "Object.h"
 #include "Renderer.h"
 #include "ship.h"
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "IComponent.h"
-#include "structure.h"
 class IPhysicsComponent : public IComponent {
 public:
 	IPhysicsComponent() = default;

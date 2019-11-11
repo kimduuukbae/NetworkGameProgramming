@@ -4,7 +4,6 @@
 #include "Input.h"
 Ship::Ship(){
 	addComponent<IPhysicsComponent>();
-	physics = getComponent<IPhysicsComponent>();
 }
 
 void Ship::update(float deltaTime){
