@@ -14,9 +14,6 @@ public:
 	void setVolume(float x, float y, float z);
 	value getVolume();
 
-	void setMass(float m);
-	float getMass();
-
 	void setColor(float r, float g, float b, float a);
 	color getColor();
 
@@ -43,7 +40,6 @@ private:
 	value position;
 	value volume;
 	value velocity;
-	float mass;
 
 	color stColor;
 	void setValue(float x, float y, float z, value& v);
@@ -54,4 +50,12 @@ private:
 };
 template <typename T>
 Object* addObject(const value& pos, const color& c, const value& volume,
-	const value& velocity, float fric, float mass);
+	const value& velocity, int idx = -1) {
+	Object* o = new T();
+	o->setPos(pos.x, pos.y, pos.z);
+	o->setVolume(volume.x, volume.y, volume.z);
+	o->setColor(c.r, c.b, c.g, c.r);
+	o->setVelocity(velocity.x, velocity.y, velocity.z);
+	o->setIdx(idx);
+	return o;
+}

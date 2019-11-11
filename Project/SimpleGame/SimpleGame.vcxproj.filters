@@ -71,9 +71,6 @@
     <ClInclude Include="PhysicsComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="testObject.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="ship.h">
       <Filter>Object</Filter>
     </ClInclude>
@@ -108,9 +105,6 @@
     </ClCompile>
     <ClCompile Include="PhysicsComponent.cpp">
       <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="testObject.cpp">
-      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="ship.cpp">
       <Filter>Object</Filter>

@@ -30,14 +30,6 @@ value Object::getVolume(){
 	return volume;
 }
 
-void Object::setMass(float m){
-	mass = m;
-}
-
-float Object::getMass(){
-	return mass;
-}
-
 color Object::getColor(){
 	return stColor;
 }
@@ -69,17 +61,6 @@ void Object::setValue(float x, float y, float z, value & v) {
 	v.z = z;
 }
 
-template <typename T>
-Object* addObject(const value& pos, const color& c, const value& volume,
-	const value& velocity, float fric, float mass) {
-	Object* o = new T();
-	o->setPos(pos.x, pos.y, pos.z);
-	o->setVolume(volume.x , volume.y, volume.z);
-	o->setColor(c.r, c.b, c.g, c.r);
-	o->setVelocity(velocity.x, velocity.y, velocity.z);
-	o->setMass(mass);
-	return o;
-}
 void delObject(Object* o) {
 	delete o;
 }

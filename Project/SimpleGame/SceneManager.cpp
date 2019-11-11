@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "SceneManager.h"
 #include "Dependencies\freeglut.h"
-#include "structure.h"
 #include "Scene.h"
 
 static SceneManager* inst = NULL;

@@ -3,19 +3,15 @@
 #include "structure.h"
 #include "Define.h"
 #include "Object.h"
-#include "testObject.h"
 #include "Renderer.h"
+#include "ship.h"
 
 void MenuScene::init(){
 	renderer = new Renderer(500, 500);
 	if (!renderer->IsInitialized())
 		return;
-	lists.push_back(new testObject());
-	lists.back()->setPos(0, 0, 0);
-	lists.back()->setVolume(100, 100, 0);
-	lists.back()->setMass(0.5f);
-	lists.back()->setVelocity(0.0f, 0.0f, 0.0f);
-	lists.back()->setIdx(renderer->GenPngTexture("texture/title.png"));
+	lists.push_back(addObject<Ship>(value{ 0.0f,0.0f,0.0f }, color{ 1.0f,1.0f,1.0f,1.0f },
+		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, renderer->GenPngTexture("texture/title.png")));
 }
 
 void MenuScene::update(float dt){

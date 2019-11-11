@@ -77,5 +77,5 @@ void SpecialKeyUpInput(int key, int x, int y) {
 	}
 }
 void MouseInput(int button, int state, int x, int y) {
-	//
+	
 }
