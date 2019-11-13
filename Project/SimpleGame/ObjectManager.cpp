@@ -78,6 +78,12 @@ void ObjectManager::updateCollision(){
 int ObjectManager::generate(const char * s){
 	return renderer->GenPngTexture(const_cast<char*>(s));
 }
+template <typename T>
+void pointerSwap(T& t1, T& t2) {
+	Object* tmp = *t1;
+	*t1 = *t2;
+	*t2 = tmp;
+}
 void ObjectManager::garbageCollection() {
 
 	for (auto it = collisionObjects.begin(); it != collisionObjects.end();) {
@@ -88,8 +94,10 @@ void ObjectManager::garbageCollection() {
 	}
 	int count = 1;
 	for (auto it = objects.begin(); it != objects.end(); ++it) {
+		if ((*it) == nullptr)
+			break;
 		if ((*it)->getDelete()) {
-			std::swap(it, objects.end() - count);
+			pointerSwap(it, objects.end() - count);
 			delete objects[objects.size() - count];
 			objects[objects.size() - count] = nullptr;
 			++count;
