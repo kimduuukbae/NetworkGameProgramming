@@ -54,12 +54,16 @@ int Object::getIdx(){
 	return pngIdx;
 }
 
+void Object::setDelete(){
+	deleteIt = true;
+}
+
+bool Object::getDelete(){
+	return deleteIt;
+}
+
 void Object::setValue(float x, float y, float z, value & v) {
 	v.x = x;
 	v.y = y;
 	v.z = z;
-}
-
-void delObject(Object* o) {
-	delete o;
 }

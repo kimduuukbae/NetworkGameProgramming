@@ -157,6 +157,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionComponent.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="Input.h" />
@@ -173,10 +175,12 @@
     <ClInclude Include="structure.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LoadPng.cpp" />
     <ClCompile Include="menuScene.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SceneManager.cpp" />

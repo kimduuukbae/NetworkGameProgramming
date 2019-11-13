@@ -3,9 +3,9 @@
 #include "Dependencies\freeglut.h"
 #include "Scene.h"
 
-static SceneManager* inst = NULL;
+static SceneManager* inst = nullptr;
 SceneManager* SceneManager::instance(){
-	if (inst == NULL) 
+	if (inst == nullptr)
 		inst = new SceneManager();
 	
 	return inst;

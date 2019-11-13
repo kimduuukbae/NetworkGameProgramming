@@ -1,7 +1,6 @@
 #pragma once
 #include "Scene.h"
-#include <list>
-
+class ObjectManager;
 class MenuScene : public Scene {
 public:
 	void init() override;
@@ -10,6 +9,6 @@ public:
 	void destroy() override;
 
 private:
-	std::list<Object*> lists;
 	Renderer* renderer;
+	ObjectManager* o;
 };
