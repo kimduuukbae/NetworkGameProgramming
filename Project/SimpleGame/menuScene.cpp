@@ -23,11 +23,13 @@ void MenuScene::update(float dt){
 	o->update(dt);
 	garbagetime += dt;
 	//	0번째 오브젝트와 충돌된 모든 애들을 가져옴
-	auto& list = o->getCollisionObjectList(o->getObject(0));
-	for (auto& i : list) {
-		int type = i->getType();	// 이렇게 타입을 꺼낼 수 있음
-		if (type == E_ITEM)
-			std::cout << "충돌된놈은 아이템타입임" << std::endl;
+	auto list = o->getCollisionObjectList(o->getObject(0));
+	if (list != nullptr) {
+		for (auto& i : *list) {
+			int type = i->getType();	// 이렇게 타입을 꺼낼 수 있음
+			if (type == E_ITEM)
+				std::cout << "충돌된놈은 아이템타입임" << std::endl;
+		}
 	}
 	if (garbagetime > 5.0f) {
 		o->garbageCollection();

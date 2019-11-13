@@ -30,7 +30,7 @@ public:
 		return o->getIdx();
 	}
 	/* o 라는 오브젝트와 충돌된 모든 오브젝트를 list 형태로 반환합니다.*/
-	const std::list<Object*>& getCollisionObjectList(Object* o) const;
+	const std::list<Object*>* getCollisionObjectList(Object* o) const;
 private:
 	std::vector<Object*> objects;
 	std::list<Object*> collisionObjects;

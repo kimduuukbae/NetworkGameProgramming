@@ -2,8 +2,8 @@
 #include "ObjectManager.h"
 #include "CollisionComponent.h"
 #include "Renderer.h"
+
 static ObjectManager* inst = nullptr;
-using namespace std;
 ObjectManager* ObjectManager::instance() {
 	if (inst == nullptr)
 		inst = new ObjectManager;
@@ -49,9 +49,10 @@ Object* ObjectManager::getObject(int idx){
 	return objects[idx];
 }
 
-const std::list<Object*>& ObjectManager::getCollisionObjectList(Object * o) const {
+const std::list<Object*>* ObjectManager::getCollisionObjectList(Object * o) const {
 	if (auto comp = o->getComponent<ICollisionComponent>(); comp != nullptr)
-		return comp->getCollisionObject();
+		return &comp->getCollisionObject();
+	return nullptr;
 }
 
 void ObjectManager::pushCollisionObject(Object* o){
@@ -59,9 +60,8 @@ void ObjectManager::pushCollisionObject(Object* o){
 		collisionObjects.push_back(o);
 }
 void ObjectManager::updateCollision(){
-	for (auto& i : collisionObjects)
-		i->getComponent<ICollisionComponent>()->clear();
 	for (auto it1 = collisionObjects.begin(); it1 != collisionObjects.end(); ++it1) {
+		(*it1)->getComponent<ICollisionComponent>()->clear();
 		if ((*it1)->getDelete())
 			continue;
 		for (auto it2 = collisionObjects.begin(); it2 != collisionObjects.end(); ++it2) {
@@ -72,7 +72,6 @@ void ObjectManager::updateCollision(){
 				(*it2)->getComponent<ICollisionComponent>()->getCollisionBox(), comp->getCollisionBox())) {
 				comp->pushCollision(*it2);
 			}
-
 		}
 	}
 }
