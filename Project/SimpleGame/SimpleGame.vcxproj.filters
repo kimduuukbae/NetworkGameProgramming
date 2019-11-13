@@ -74,6 +74,12 @@
     <ClInclude Include="ship.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Reef.h">
+      <Filter>Object</Filter>
+    </ClInclude>
     <ClInclude Include="CollisionComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
@@ -116,6 +122,12 @@
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="ship.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Reef.cpp">
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="CollisionComponent.cpp">

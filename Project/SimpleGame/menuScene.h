@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include <vector>
+
 class ObjectManager;
 class Object;
 class MenuScene : public Scene {
@@ -13,6 +14,7 @@ public:
 private:
 	Renderer* renderer;
 	ObjectManager* o;
+
 	std::vector<Object*> v;
 	float garbagetime;
 };
