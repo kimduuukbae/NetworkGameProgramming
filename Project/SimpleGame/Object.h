@@ -21,10 +21,12 @@ public:
 	value getVelocity();
 
 	virtual void update(float deltaTime);
+
 	void setIdx(int idx);
-
 	int getIdx();
-
+	
+	void setDelete();
+	bool getDelete();
 	template <typename T>
 	T* getComponent() {
 		for (auto& i : components)
@@ -46,16 +48,5 @@ private:
 
 	int pngIdx;
 	std::vector<IComponent*> components;
-	
+	bool deleteIt;
 };
-template <typename T>
-Object* addObject(const value& pos, const color& c, const value& volume,
-	const value& velocity, int idx = -1) {
-	Object* o = new T();
-	o->setPos(pos.x, pos.y, pos.z);
-	o->setVolume(volume.x, volume.y, volume.z);
-	o->setColor(c.r, c.b, c.g, c.r);
-	o->setVelocity(velocity.x, velocity.y, velocity.z);
-	o->setIdx(idx);
-	return o;
-}
