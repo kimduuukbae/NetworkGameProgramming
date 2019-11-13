@@ -88,3 +88,19 @@ float Vector3D::length(){
 value ptom(value& v) {		 // pixel to meter 
 	return value{ v.x * 100, v.y * 100, v.z * 100 };
 }
+
+bool AABBCollision(const box & lhs, const box & rhs){
+	if (lhs.left < rhs.right &&
+		lhs.right > rhs.left &&
+		lhs.bottom < rhs.top &&
+		lhs.top > rhs.bottom)
+		return true;
+	return false;
+}
+
+box::box(value pos, value volume){
+	left = pos.x - volume.x / 2;
+	right = pos.x + volume.x / 2;
+	top = pos.y + volume.y / 2;
+	bottom = pos.y - volume.y / 2;
+}

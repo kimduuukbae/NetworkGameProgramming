@@ -46,12 +46,20 @@ void Object::update(float deltaTime){
 		i->process(this);
 }
 
-void Object::setIdx(int idx){
+void Object::setPngIdx(int idx){
 	pngIdx = idx;
 }
 
-int Object::getIdx(){
+int Object::getPngIdx(){
 	return pngIdx;
+}
+
+void Object::setIdx(int idx){
+	objectIdx = idx;
+}
+
+int Object::getIdx(){
+	return objectIdx;
 }
 
 void Object::setDelete(){
@@ -60,6 +68,14 @@ void Object::setDelete(){
 
 bool Object::getDelete(){
 	return deleteIt;
+}
+
+void Object::setType(E_TYPE e){
+	myType = e;
+}
+
+E_TYPE Object::getType(){
+	return myType;
 }
 
 void Object::setValue(float x, float y, float z, value & v) {

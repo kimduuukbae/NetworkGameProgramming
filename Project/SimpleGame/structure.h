@@ -10,7 +10,11 @@ struct value {
 	bool operator<(float scalar);
 	float x, y, z;
 };
-
+struct box {
+	float left, right, top, bottom;
+	box(value pos, value volume);
+	box() = default;
+};
 struct color {
 	color();
 	color(float r1, float g1, float b1, float a1);
@@ -42,3 +46,5 @@ private:
 };
 
 value ptom(value& v);
+
+bool AABBCollision(const box& lhs, const box& rhs);

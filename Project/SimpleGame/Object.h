@@ -3,10 +3,15 @@
 #include <vector>
 #include <typeinfo>
 class IComponent;
-
+enum E_TYPE {
+	E_ITEM,
+	E_SHIP,
+	E_BULLET,
+};
 class Object {
 public:
 	Object() = default;
+	Object(Object&& o) = default;
 	virtual ~Object();
 	void setPos(float x, float y, float z);
 	value getPos();
@@ -22,11 +27,17 @@ public:
 
 	virtual void update(float deltaTime);
 
+	void setPngIdx(int idx);
+	int getPngIdx();
+
 	void setIdx(int idx);
 	int getIdx();
 	
 	void setDelete();
 	bool getDelete();
+
+	void setType(E_TYPE e);
+	E_TYPE getType();
 	template <typename T>
 	T* getComponent() {
 		for (auto& i : components)
@@ -47,6 +58,8 @@ private:
 	void setValue(float x, float y, float z, value& v);
 
 	int pngIdx;
+	int objectIdx;
 	std::vector<IComponent*> components;
 	bool deleteIt;
+	E_TYPE myType;
 };

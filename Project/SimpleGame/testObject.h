@@ -1,10 +1,12 @@
 #pragma once
+#pragma once
 #include "Object.h"
 class ICollisionComponent;
-class Ship : public Object {
+
+class test : public Object {
 public:
-	Ship();
-	~Ship() = default;
+	test();
+	~test() = default;
 	void update(float deltaTime) override;
 
 private:
