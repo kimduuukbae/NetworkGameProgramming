@@ -27,6 +27,12 @@
     <Filter Include="Component">
       <UniqueIdentifier>{80f2bf6c-b640-4db4-9968-f623ef5e1335}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Item">
+      <UniqueIdentifier>{bc9180ee-957f-413f-a0d9-645ad8b73563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Reef">
+      <UniqueIdentifier>{05c4d5d8-3b67-46ad-8e06-6f14079316f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -74,12 +80,6 @@
     <ClInclude Include="ship.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Reef.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
@@ -88,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="testObject.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Reef.h">
+      <Filter>Object\Reef</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -124,12 +130,6 @@
     <ClCompile Include="ship.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Reef.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
@@ -138,6 +138,12 @@
     </ClCompile>
     <ClCompile Include="testObject.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Reef.cpp">
+      <Filter>Object\Reef</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
