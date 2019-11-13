@@ -1,5 +1,7 @@
 #pragma once
 #include "Scene.h"
+#include <vector>
+#include "Object.h"
 class ObjectManager;
 class MenuScene : public Scene {
 public:
@@ -11,4 +13,5 @@ public:
 private:
 	Renderer* renderer;
 	ObjectManager* o;
+	std::vector<Object*>* v;
 };
