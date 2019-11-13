@@ -8,6 +8,7 @@ public:
 	bool isKeyDown(int key);
 	bool isKeyUp(int key);
 	bool isKeyOverlap(int key);
+	bool isMouseDown();
 	void setDeltaTime(float t);
 	float getDeltaTime();
 private:

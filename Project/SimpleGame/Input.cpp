@@ -3,6 +3,7 @@
 #include "Dependencies\freeglut.h"
 static Input* inst = nullptr;
 bool keyFlag[256];
+bool mouseFlag;
 Input * Input::instance(){
 	if (inst == nullptr)
 		inst = new Input();
@@ -36,6 +37,10 @@ void Input::setDeltaTime(float t){
 
 float Input::getDeltaTime(){
 	return deltaTime;
+}
+
+bool Input::isMouseDown() {
+	return mouseFlag;
 }
 
 void KeyDownInput(unsigned char key, int x, int y) {
@@ -77,5 +82,7 @@ void SpecialKeyUpInput(int key, int x, int y) {
 	}
 }
 void MouseInput(int button, int state, int x, int y) {
-	
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		mouseFlag = true;
+	}
 }

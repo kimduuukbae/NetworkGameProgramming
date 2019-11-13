@@ -83,6 +83,9 @@
     <ClInclude Include="testObject.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -125,6 +128,9 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="testObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="bullet.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
