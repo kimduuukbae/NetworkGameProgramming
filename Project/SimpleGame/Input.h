@@ -11,6 +11,7 @@ public:
 	bool isMouseDown();
 	void setDeltaTime(float t);
 	float getDeltaTime();
+	float mx, my;
 private:
 	float deltaTime;
 };

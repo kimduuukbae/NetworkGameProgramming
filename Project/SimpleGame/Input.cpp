@@ -82,7 +82,11 @@ void SpecialKeyUpInput(int key, int x, int y) {
 	}
 }
 void MouseInput(int button, int state, int x, int y) {
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && mouseFlag == false) {
 		mouseFlag = true;
+		D_INPUT->mx = (float)x;
+		D_INPUT->my = (float)y;
 	}
+	else
+		mouseFlag = false;
 }
