@@ -34,8 +34,16 @@ Vector3D& Vector3D::normalize(){
 	return *this;
 }
 
+float Vector3D::size(){
+	return fabsf(v.x) + fabsf(v.y) + fabsf(v.z);
+}
+
 Vector3D Vector3D::operator-(const Vector3D & rhs){
 	return Vector3D{ rhs.v.x - v.x, rhs.v.y - v.y, rhs.v.z - v.z };
+}
+
+Vector3D Vector3D::operator-(){
+	return Vector3D{ -v.x, -v.y, -v.z };
 }
 
 Vector3D & Vector3D::operator=(const Vector3D & rhs){

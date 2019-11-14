@@ -48,11 +48,7 @@ int main(int argc, char **argv)
 
 	glutDisplayFunc(Idle);
 	glutIdleFunc(Idle);
-	glutKeyboardFunc(KeyDownInput);
-	glutKeyboardUpFunc(KeyUpInput);
 	glutMouseFunc(MouseInput);
-	glutSpecialFunc(SpecialKeyDownInput);
-	glutSpecialUpFunc(SpecialKeyUpInput);
 	elapsedTime = glutGet(GLUT_ELAPSED_TIME);
 	glutTimerFunc(16, RenderScene, 16);
 	//atexit() GLUT 는 OS 에게 resource free 를 맡기기 때문에, memory leak 이 존재함. atexit를 통해 해제 함수를 다 호출해줌

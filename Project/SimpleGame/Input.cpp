@@ -19,11 +19,20 @@ Input::~Input(){
 }
 
 bool Input::isKeyDown(int key){
-	return keyFlag[key];
+	if (GetAsyncKeyState(key) & 0x8000) {
+		if (!keyFlag[key])
+			return keyFlag[key] = true;
+	}
+	return false;
 }
 
 bool Input::isKeyUp(int key){
-	return !keyFlag[key];
+	if (GetAsyncKeyState(key) & 0x8000)
+		keyFlag[key] = true;
+	else
+		if (keyFlag[key])
+			return !(keyFlag[key] = false);
+	return false;
 }
 
 bool Input::isKeyOverlap(int key){
@@ -36,45 +45,6 @@ void Input::setDeltaTime(float t){
 
 float Input::getDeltaTime(){
 	return deltaTime;
-}
-
-void KeyDownInput(unsigned char key, int x, int y) {
-	keyFlag[key] = true;
-}
-void KeyUpInput(unsigned char key, int x, int y) {
-	keyFlag[key] = false;
-}
-void SpecialKeyDownInput(int key, int x, int y) {
-	switch (key) {
-	case GLUT_KEY_LEFT:
-		keyFlag[VK_LEFT] = true;
-		break;
-	case GLUT_KEY_RIGHT:
-		keyFlag[VK_RIGHT] = true;
-		break;
-	case GLUT_KEY_UP:
-		keyFlag[VK_UP] = true;
-		break;
-	case GLUT_KEY_DOWN:
-		keyFlag[VK_DOWN] = true;
-		break;
-}
-}
-void SpecialKeyUpInput(int key, int x, int y) {
-	switch (key) {
-	case GLUT_KEY_LEFT:
-		keyFlag[VK_LEFT] = false;
-		break;
-	case GLUT_KEY_RIGHT:
-		keyFlag[VK_RIGHT] = false;
-		break;
-	case GLUT_KEY_UP:
-		keyFlag[VK_UP] = false;
-		break;
-	case GLUT_KEY_DOWN:
-		keyFlag[VK_DOWN] = false;
-		break;
-	}
 }
 void MouseInput(int button, int state, int x, int y) {
 	

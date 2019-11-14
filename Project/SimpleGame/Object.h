@@ -23,7 +23,12 @@ public:
 	color getColor();
 
 	void setVelocity(float x, float y, float z);
+	void setVelocity(const Vector3D& v);
 	value getVelocity();
+
+	void addVelocityX(float x);
+	void addVelocityY(float y);
+	void addVelocityZ(float z);
 
 	virtual void update(float deltaTime);
 

@@ -27,8 +27,10 @@ public:
 	Vector3D(float x, float y, float z);
 	Vector3D(value tv);
 	Vector3D& normalize();
+	float size();
 
 	Vector3D operator-(const Vector3D& rhs);
+	Vector3D operator-();
 	Vector3D& operator=(const Vector3D& rhs);
 	Vector3D operator+(const Vector3D& rhs);
 	Vector3D& operator+=(const Vector3D& rhs);
