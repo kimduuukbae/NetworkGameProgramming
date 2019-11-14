@@ -6,6 +6,7 @@
 #include "ObjectManager.h"
 #include "CollisionComponent.h"
 #include <iostream>
+
 void MenuScene::init(){
 	o = D_OBJECT;
 
@@ -20,7 +21,7 @@ void MenuScene::init(){
 	o->addObject<test>(value{ 0.0f,-200.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/title.png");
 	v = o->getObjects();
-	garbagetime = 0.0f;
+
 	v[0]->setType(E_SHIP);
 	v[1]->setType(E_ITEM);
 	v[2]->setType(E_ITEM);
@@ -30,7 +31,6 @@ void MenuScene::init(){
 
 void MenuScene::update(float dt){
 	o->update(dt);
-	garbagetime += dt;
 	//	0번째 오브젝트와 충돌된 모든 애들을 가져옴
 	auto list = o->getCollisionObjectList(o->getObject(0));
 	if (list != nullptr) {
@@ -39,10 +39,6 @@ void MenuScene::update(float dt){
 			if (type == E_ITEM)
 				std::cout << "충돌된놈은 아이템타입임" << std::endl;
 		}
-	}
-	if (garbagetime > 5.0f) {
-		o->garbageCollection();
-		garbagetime = 0.0f;
 	}
 }
 

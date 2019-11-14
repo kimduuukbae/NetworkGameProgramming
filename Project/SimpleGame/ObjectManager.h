@@ -15,6 +15,7 @@ public:
 	std::vector<Object*>& getObjects();
 	Object* getObject(int idx);
 	void garbageCollection();
+	void setGarbageTime(float time);
 	template <typename T>
 	int addObject(const value& pos, const color& c, const value& volume,
 		const value& velocity, const char* s) {
@@ -38,5 +39,8 @@ private:
 	void updateCollision();
 	int generate(const char* s);
 	Renderer* renderer;
+
+	float garbageTime;
+	float garbageTimePlan;
 };
 

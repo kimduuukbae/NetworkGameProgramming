@@ -17,8 +17,6 @@
 
 #define MAX_TEXTURES 1000
 
-using namespace std;
-
 class Renderer
 {
 public:

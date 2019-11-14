@@ -16,5 +16,4 @@ private:
 	ObjectManager* o;
 
 	std::vector<Object*> v;
-	float garbagetime;
 };

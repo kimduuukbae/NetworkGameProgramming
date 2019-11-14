@@ -2,7 +2,6 @@
 #include "ObjectManager.h"
 #include "CollisionComponent.h"
 #include "Renderer.h"
-
 static ObjectManager* inst = nullptr;
 ObjectManager* ObjectManager::instance() {
 	if (inst == nullptr)
@@ -12,6 +11,8 @@ ObjectManager* ObjectManager::instance() {
 }
 ObjectManager::ObjectManager() {
 	renderer = new Renderer(1024, 1024);
+	garbageTime = 0.0f;
+	garbageTimePlan = 15.0f;
 }
 ObjectManager::~ObjectManager() {
 	delete this;
@@ -21,6 +22,7 @@ void ObjectManager::destroy(){
 	for (auto& i : objects)
 		delete i;
 	objects.clear();
+	collisionObjects.clear();
 }
 
 void ObjectManager::draw(){
@@ -39,6 +41,11 @@ void ObjectManager::update(float dt){
 	for (auto& i : objects)
 		i->update(dt);
 	updateCollision();
+	garbageTime += dt;
+	if (garbageTime > garbageTimePlan) {
+		garbageTime = 0.0f;
+		garbageCollection();
+	}
 }
 
 std::vector<Object*>& ObjectManager::getObjects(){
@@ -93,6 +100,7 @@ void ObjectManager::garbageCollection() {
 			++it;
 	}
 	int count = 1;
+
 	for (auto it = objects.begin(); it != objects.end(); ++it) {
 		if ((*it) == nullptr)
 			break;
@@ -107,4 +115,8 @@ void ObjectManager::garbageCollection() {
 		auto it = objects.end() - (count-1);
 		objects.erase(it, objects.end());
 	}
+}
+
+void ObjectManager::setGarbageTime(float time) {
+	garbageTimePlan = time;
 }

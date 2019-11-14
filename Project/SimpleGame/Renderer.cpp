@@ -96,7 +96,7 @@ int Renderer::GenPngTexture(char * filePath, GLuint sampling)
 	unsigned error = lodepng::decode(image, width, height, filePath);
 	if (error != 0)
 	{
-		cout << "PNG Image Loading Failed : " << filePath << endl;
+		std::cout << "PNG Image Loading Failed : " << filePath << std::endl;
 		assert(0);
 	}
 
@@ -105,7 +105,7 @@ int Renderer::GenPngTexture(char * filePath, GLuint sampling)
 
 	if (temp < 0)
 	{
-		cout << "PNG Texture Creation Failed : " << filePath << endl;
+		std::cout << "PNG Texture Creation Failed : " << filePath << std::endl;
 		assert(0);
 	}
 
@@ -125,7 +125,7 @@ int Renderer::GenBmpTexture(char * filePath, GLuint sampling)
 
 	if (rawImage == NULL)
 	{
-		cout << "BMP Image Loading Failed : " << filePath << endl;
+		std::cout << "BMP Image Loading Failed : " << filePath << std::endl;
 		assert(0);
 	}
 
@@ -134,7 +134,7 @@ int Renderer::GenBmpTexture(char * filePath, GLuint sampling)
 
 	if (temp < 0)
 	{
-		cout << "BMP Texture Creation Failed : " << filePath << endl;
+		std::cout << "BMP Texture Creation Failed : " << filePath << std::endl;
 		assert(0);
 	}
 
@@ -152,7 +152,7 @@ bool Renderer::DeleteTexture(int idx, bool printLog)
 	{
 		if (printLog)
 		{
-			cout << "Error : Texture index is negative " << idx << endl;
+			std::cout << "Error : Texture index is negative " << idx << std::endl;
 		}
 		return false;
 	}
@@ -160,7 +160,7 @@ bool Renderer::DeleteTexture(int idx, bool printLog)
 	{
 		if (printLog)
 		{
-			cout << "Error : Texture " << idx << " already deleted. " << endl;
+			std::cout << "Error : Texture " << idx << " already deleted. " << std::endl;
 		}
 		return false;
 	}
