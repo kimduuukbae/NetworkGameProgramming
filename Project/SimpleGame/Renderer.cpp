@@ -56,7 +56,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 		-(float)windowSizeX/2.f, (float)windowSizeX/2.f, 
 		-(float)windowSizeY/2.f, (float)windowSizeY/2.f,
 		0.0001f, 10000.f);
-	m_m4PersProj = glm::perspectiveRH(45.f, 1.f, 1.f, 1000.f);
+	m_m4PersProj = glm::perspectiveRH(1.f, 1.f, 1.f, 1000.f);
 
 	//Initialize projection-view matrix
 	m_m4ProjView = m_m4OrthoProj * m_m4View; //use ortho at this time

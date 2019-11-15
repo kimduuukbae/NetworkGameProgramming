@@ -17,11 +17,15 @@ public:
 	void increaseSpeed();
 	void changePushType(E_PUSHTYPE e);
 	void manageHp(int damage);
+	void setMaxSpeed();
+	void setShipIdx(int idx);
+	int getShipIdx();
 private:
 	ICollisionComponent* collision;
 	float gearTime;
 	float maxSpeed;
 	int hp;
+	int shipIdx;
 	E_PUSHTYPE pushType;
 	Vector3D direction;
 };

@@ -10,7 +10,7 @@ ObjectManager* ObjectManager::instance() {
 	return inst;
 }
 ObjectManager::ObjectManager() {
-	renderer = new Renderer(1024, 1024);
+	renderer = new Renderer(1600, 900);
 	garbageTime = 0.0f;
 	garbageTimePlan = 15.0f;
 }

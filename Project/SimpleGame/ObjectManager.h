@@ -31,7 +31,7 @@ public:
 		o->setColor(c.r, c.g, c.b, c.a);
 		o->setVelocity(velocity.x, velocity.y, velocity.z);
 		o->setPngIdx(generate(s));
-		o->setIdx(objects.size() - 1);
+		o->setIdx(objects.size());
 		objects.push_back(o);
 		pushCollisionObject(o);
 		return o->getIdx();

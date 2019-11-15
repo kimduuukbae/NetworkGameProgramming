@@ -4,6 +4,7 @@
 #include "CollisionComponent.h"
 #include "Item.h"
 #include "Reef.h"
+#include "bullet.h"
 Ship::Ship(){
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();
@@ -26,16 +27,20 @@ void Ship::update(float deltaTime){
 			tmp->applyEffect(this);
 		}
 		else if (i->getType() == E_BULLET) {
-			// ...
+			auto tmp = getObjectCast<Bullet>(i);
+			if (tmp->getShipIdx() != shipIdx) {
+				i->setDelete();
+				this->setDelete();
+			}
 		}
 		else if (i->getType() == E_REEF) {
-			// ...
+			auto tmp = getObjectCast<Reef>(i);
+			tmp->collideReef(this);
 		}
 		// 충돌 체크는 이와같이 사용하시면 됩니다.
 		// getObjectCast<T> 는 Object.h에 만들어 두었으며
 		// 어떤 Object* 를 자신의 진짜 Derived class 로 변경시켜줍니다!
 		// 예 : object* -> Item
-		i->setDelete();
 	}
 	
 	if (pushType == E_PUSH) {
@@ -60,7 +65,7 @@ void Ship::decreaseSpeed(){
 }
 
 void Ship::increaseSpeed(){
-	if (gearTime > 0.3f) {
+	if (gearTime > 0.0001f) {
 		Vector3D velocity = getVelocity();
 		velocity += direction;
 		setVelocity(velocity);
@@ -75,4 +80,16 @@ void Ship::changePushType(E_PUSHTYPE e){
 
 void Ship::manageHp(int damage){
 	hp += damage;
+}
+
+void Ship::setMaxSpeed(){
+	maxSpeed = 20.0f;
+}
+
+void Ship::setShipIdx(int idx){
+	shipIdx = idx;
+}
+
+int Ship::getShipIdx(){
+	return shipIdx;
 }

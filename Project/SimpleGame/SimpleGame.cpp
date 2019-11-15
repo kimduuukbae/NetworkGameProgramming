@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(1024, 1024);
+	glutInitWindowSize(1600, 900);
 	glutCreateWindow("Game Software Engineering KPU");
 	
 	glewInit();

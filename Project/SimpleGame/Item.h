@@ -7,6 +7,13 @@ class Item : public Object
 public:
 	Item();
 	~Item() = default;
-	void applyEffect(Ship* ship);
+	virtual void applyEffect(Ship* ship) = 0;
 };
 
+
+class SpeedItem : public Item {
+public:
+	SpeedItem() = default;
+	~SpeedItem() = default;
+	void applyEffect(Ship* ship) override;
+};
