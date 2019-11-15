@@ -13,7 +13,7 @@ void MenuScene::init(){
 		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/title.png");
 	o->addObject<test>(value{ 200.0f,200.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/title.png");*/
-	o->addObject<Bullet>(value{ 300.0f,300.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+	o->addObject<Bullet>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/title.png");
 	v = o->getObjects();
 	garbagetime = 0.0f;

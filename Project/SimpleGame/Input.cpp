@@ -87,6 +87,6 @@ void MouseInput(int button, int state, int x, int y) {
 		D_INPUT->mx = (float)x;
 		D_INPUT->my = (float)y;
 	}
-	else
+	else if (state == GLUT_UP)
 		mouseFlag = false;
 }
