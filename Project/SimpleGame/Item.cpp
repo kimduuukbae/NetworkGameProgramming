@@ -11,5 +11,15 @@ Item::Item()
 }
 
 void SpeedItem::applyEffect(Ship * ship){
-	ship->setMaxSpeed();
+	ship->setMaxSpeed(ship->getMaxSpeed() + 5.f);
+}
+
+void DamageItem::applyEffect(Ship* ship)
+{
+	ship->setDamage(ship->getDamage() + 5);
+}
+
+void HealItem::applyEffect(Ship* ship)
+{
+	ship->manageHp(-20);
 }

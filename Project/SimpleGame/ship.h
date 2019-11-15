@@ -17,7 +17,10 @@ public:
 	void increaseSpeed();
 	void changePushType(E_PUSHTYPE e);
 	void manageHp(int damage);
-	void setMaxSpeed();
+	void setMaxSpeed(float speed);
+	float getMaxSpeed();
+	void setDamage(int damage);
+	int getDamage();
 	void setShipIdx(int idx);
 	int getShipIdx();
 private:
@@ -25,6 +28,7 @@ private:
 	float gearTime;
 	float maxSpeed;
 	int hp;
+	int damage;
 	int shipIdx;
 	E_PUSHTYPE pushType;
 	Vector3D direction;
