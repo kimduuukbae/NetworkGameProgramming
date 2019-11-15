@@ -2,28 +2,77 @@
 #include "ship.h"
 #include "PhysicsComponent.h"
 #include "CollisionComponent.h"
-#include "Input.h"
+#include "Item.h"
+#include "Reef.h"
 Ship::Ship(){
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();
 	collision = getComponent<ICollisionComponent>();
+	maxSpeed = 7.0f;
+	hp = 100;
+	pushType = E_NONE;
+	direction = Vector3D(0.0f, 1.0f, 0.0f);
 }
 
 void Ship::update(float deltaTime){
 	Object::update(deltaTime);
-	float fx = 0.0f, fy = 0.0f, fz = 0.0f;
-	if (D_INPUT->isKeyDown(VK_LEFT))
-		fx -= 50.0f;
-	if (D_INPUT->isKeyDown(VK_RIGHT))
-		fx += 50.0f;
-	if (D_INPUT->isKeyDown(VK_UP))
-		fy += 50.0f;
-	if (D_INPUT->isKeyDown(VK_DOWN))
-		fy -= 50.0f;
-	setVelocity(fx, fy, fz);
-	if (collision->getCollisionObject().size() != 0) {
-		collision->getCollisionObject().back()->setDelete();
-		// setDelete 함수아시죠? 얘를 지워줄꺼면 setDelete 함수 호출해주면 자동으로 지워집니다.
-		// 이것도 menuScene과 똑같이 충돌된 오브젝트를 꺼내오는 용도입니다.
+	for (auto& i : collision->getCollisionObject()) {
+		// collision->getCollisionObject() 는 현재 내가 충돌한 녀석들을
+		// std::list<Object*> 형식으로 뱉어냅니다.
+		// 그러므로 size 가 0일때는 이 루프는 돌지도 않겠죠? 충돌한 녀석이 있을때만
+		// 이 range for loop 가 작동합니다
+		if (i->getType() == E_ITEM) {
+			auto tmp = getObjectCast<Item>(i);
+			tmp->applyEffect(this);
+		}
+		else if (i->getType() == E_BULLET) {
+			// ...
+		}
+		else if (i->getType() == E_REEF) {
+			// ...
+		}
+		// 충돌 체크는 이와같이 사용하시면 됩니다.
+		// getObjectCast<T> 는 Object.h에 만들어 두었으며
+		// 어떤 Object* 를 자신의 진짜 Derived class 로 변경시켜줍니다!
+		// 예 : object* -> Item
+		i->setDelete();
 	}
+	
+	if (pushType == E_PUSH) {
+		gearTime += deltaTime;
+		increaseSpeed();
+	}
+	else if (pushType == E_RELEASED) {
+		gearTime += deltaTime;
+		decreaseSpeed();
+	}
+}
+
+void Ship::decreaseSpeed(){
+	if (gearTime > 0.3f) {
+		Vector3D velocity = getVelocity();
+		velocity += -direction;
+		setVelocity(velocity);
+		gearTime = 0.0f;
+		if (velocity.size() < 0.1f)
+			pushType = E_NONE;
+	}
+}
+
+void Ship::increaseSpeed(){
+	if (gearTime > 0.3f) {
+		Vector3D velocity = getVelocity();
+		velocity += direction;
+		setVelocity(velocity);
+		gearTime = 0.0f;
+	}
+	
+}
+
+void Ship::changePushType(E_PUSHTYPE e){
+	pushType = e;
+}
+
+void Ship::manageHp(int damage){
+	hp += damage;
 }

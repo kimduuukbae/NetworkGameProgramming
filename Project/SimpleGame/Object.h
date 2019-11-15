@@ -7,6 +7,7 @@ enum E_TYPE {
 	E_ITEM,
 	E_SHIP,
 	E_BULLET,
+	E_REEF
 };
 class Object {
 public:
@@ -23,7 +24,12 @@ public:
 	color getColor();
 
 	void setVelocity(float x, float y, float z);
+	void setVelocity(const Vector3D& v);
 	value getVelocity();
+
+	void addVelocityX(float x);
+	void addVelocityY(float y);
+	void addVelocityZ(float z);
 
 	virtual void update(float deltaTime);
 
@@ -48,6 +54,10 @@ public:
 	template <typename T>
 	void addComponent() {
 		components.push_back(new T());
+	}
+	template <typename T>
+	T* getObjectCast(Object* o) {
+		return dynamic_cast<T*>(o);
 	}
 private:
 	value position;

@@ -20,11 +20,20 @@ Input::~Input(){
 }
 
 bool Input::isKeyDown(int key){
-	return keyFlag[key];
+	if (GetAsyncKeyState(key) & 0x8000) {
+		if (!keyFlag[key])
+			return keyFlag[key] = true;
+	}
+	return false;
 }
 
 bool Input::isKeyUp(int key){
-	return !keyFlag[key];
+	if (GetAsyncKeyState(key) & 0x8000)
+		keyFlag[key] = true;
+	else
+		if (keyFlag[key])
+			return !(keyFlag[key] = false);
+	return false;
 }
 
 bool Input::isKeyOverlap(int key){

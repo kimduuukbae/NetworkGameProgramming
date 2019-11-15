@@ -27,6 +27,12 @@
     <Filter Include="Component">
       <UniqueIdentifier>{80f2bf6c-b640-4db4-9968-f623ef5e1335}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Item">
+      <UniqueIdentifier>{bc9180ee-957f-413f-a0d9-645ad8b73563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Reef">
+      <UniqueIdentifier>{05c4d5d8-3b67-46ad-8e06-6f14079316f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -83,8 +89,16 @@
     <ClInclude Include="testObject.h">
       <Filter>Object</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="bullet.h">
       <Filter>Object</Filter>
+=======
+    <ClInclude Include="Item.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Reef.h">
+      <Filter>Object\Reef</Filter>
+>>>>>>> master
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -130,8 +144,16 @@
     <ClCompile Include="testObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="bullet.cpp">
       <Filter>Object</Filter>
+=======
+    <ClCompile Include="Item.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Reef.cpp">
+      <Filter>Object\Reef</Filter>
+>>>>>>> master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -7,37 +7,38 @@
 #include "ObjectManager.h"
 #include "CollisionComponent.h"
 #include <iostream>
+#include "Input.h"
+
 void MenuScene::init(){
 	o = D_OBJECT;
-	/*o->addObject<Ship>(value{ 0.0f,0.0f,0.0f }, color{ 1.0f,1.0f,1.0f,1.0f },
+
+	o->addObject<Ship>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/title.png");
-	o->addObject<test>(value{ 200.0f,200.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
-		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/title.png");*/
-	o->addObject<Bullet>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+	o->addObject<test>(value{ 200.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/title.png");
+	o->addObject<test>(value{ -200.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/title.png");
+	o->addObject<test>(value{ 0.0f,200.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/title.png");
+	o->addObject<test>(value{ 0.0f,-200.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/title.png");
 	v = o->getObjects();
-	garbagetime = 0.0f;
+
 	v[0]->setType(E_SHIP);
-	/*v[1]->setType(E_ITEM);	
-	v[2]->setType(E_BULLET);*/
-	// 첫번째로 만들어진놈은 ship 타입, 두번째는 item타입임!
+	v[1]->setType(E_ITEM);
+	v[2]->setType(E_ITEM);
+	v[3]->setType(E_ITEM);
+	v[4]->setType(E_ITEM);
 }
 
 void MenuScene::update(float dt){
 	o->update(dt);
-	garbagetime += dt;
-	//	0번째 오브젝트와 충돌된 모든 애들을 가져옴
-	auto list = o->getCollisionObjectList(o->getObject(0));
-	if (list != nullptr) {
-		for (auto& i : *list) {
-			int type = i->getType();	// 이렇게 타입을 꺼낼 수 있음
-			if (type == E_ITEM)
-				std::cout << "충돌된놈은 아이템타입임" << std::endl;
-		}
-	}
-	if (garbagetime > 5.0f) {
-		o->garbageCollection();
-		garbagetime = 0.0f;
+	if (auto ship = o->getObject<Ship>(0); ship != nullptr) {
+		if (D_INPUT->isKeyDown(VK_UP)) 
+			ship->changePushType(E_PUSH);
+		
+		if (D_INPUT->isKeyUp(VK_UP)) 
+			ship->changePushType(E_RELEASED);
 	}
 }
 
@@ -46,5 +47,5 @@ void MenuScene::draw(){
 }
 
 void MenuScene::destroy(){
-	
+	o->destroy();
 }
