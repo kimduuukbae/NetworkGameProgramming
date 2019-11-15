@@ -7,6 +7,7 @@ Ship::Ship(){
 	addComponent<ICollisionComponent>();
 	collision = getComponent<ICollisionComponent>();
 	maxSpeed = 7.0f;
+	hp = 100;
 	pushType = E_NONE;
 	direction = Vector3D(0.0f, 1.0f, 0.0f);
 }
@@ -48,4 +49,9 @@ void Ship::increaseSpeed(){
 
 void Ship::changePushType(E_PUSHTYPE e){
 	pushType = e;
+}
+
+void Ship::manageHp(int damage)
+{
+	hp -= damage;
 }

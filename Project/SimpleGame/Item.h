@@ -1,6 +1,5 @@
 #pragma once
-#include "Object.h"
-
+#include "ship.h"
 
 class Item : public Object
 {
@@ -8,6 +7,6 @@ class Item : public Object
 public:
 	Item();
 	~Item() = default;
-	void applyEffect(Object* obj);
+	void applyEffect(Ship* ship);
 };
 

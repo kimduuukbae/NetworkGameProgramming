@@ -1,6 +1,7 @@
 #pragma once
 #include <variant>
 #include <tuple>
+#include <queue>
 #include "packetDataStructure.h"
 
 class Event {
@@ -12,4 +13,5 @@ private:
 	std::variant<simplePacket, shootPacket> var;
 };
 
-
+std::queue<Event> eventQueue;
+std::queue<Event> sendQueue;

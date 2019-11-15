@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #include "packetDataStructure.h"
+#include "Event.h"
 
 #define SERVERPORT 9000
 #define BUFSIZE 1024
@@ -61,23 +62,33 @@ DWORD WINAPI recvData(LPVOID arg)
 {
 	SOCKET client_sock = (SOCKET)arg;
 	int retval;
-	SOCKADDR_IN clientaddr;
-	int addrlen;
 
 	while (1) {
 		packetHead head;
 		int headSize = sizeof(head);
-		int retval = recvn(client_sock, (char*)& head, headSize, 0);	// head 가 올때까지 기다림
+		int retval = recvn(client_sock, (char*)&head, headSize, 0);	// head 가 올때까지 기다림
 		switch (head.packetType) {
+		case E_PACKET_SPEED:
+			break;
 		case E_PACKET_DEGREE: // 만약 각도 변경 요청일경우
 			simplePacket pack;
-			retval = recvn(client_sock, (char*)& pack, sizeof(pack), 0);
+			retval = recvn(client_sock, (char*)&pack, sizeof(pack), 0);
 			eventQueue.push(pack);
 			break;
+		case E_PACKET_SHOOT:
+			break;
+		case E_PACKET_HIT:
+			break;
+		case E_PACKET_DIE:
+			break;
 		}
-
-
+	}
 	return 0;
+}
+
+void updateObject()
+{
+
 }
 
 DWORD WINAPI updataThread(LPVOID arg)
@@ -97,9 +108,8 @@ DWORD WINAPI updataThread(LPVOID arg)
 			eventQueue.pop();	// eventQueue에서는 이미 처리끝냈으므로 파괴
 		}
 		updateObject();	// 모든 오브젝트들에 대한 이동, 충돌 처리
-// 만약 event Packet 에 대한 처리를 끝냈고, 오브젝트에 대한 업데이트를
-		다 끝냈는데  보내야할 데이터가 있다면 sendQueue에 밀어넣음
-			sendQueue.push(Event());
+		// 만약 event Packet 에 대한 처리를 끝냈고, 오브젝트에 대한 업데이트를 다 끝냈는데  보내야할 데이터가 있다면 sendQueue에 밀어넣음
+		//sendQueue.push(Event());
 	}
 
 
@@ -108,19 +118,41 @@ DWORD WINAPI updataThread(LPVOID arg)
 
 DWORD WINAPI sendData(LPVOID arg)
 {
+	SOCKET client_sock[3];
+	for (int i = 0; i < 3; i++) {
+		client_sock[i] = *((SOCKET*)arg + i);
+	}	
+	int retval;
+
 	if (!sendQueue.empty()) {
 		auto e = sendQueue.front();
 		auto [e1, e2] = e.getPacket();
-		if (e1 != nullptr)
+		if (e1 != nullptr) {
 			// simplePacketEvent 라면 이곳에서 처리
-		else
+			
+		}
+		else {
 			// shootPacketEvent 라면 이곳에서 처리
-			sendQueue.pop();
-
+		}
+		sendQueue.pop();
 	}
-	
-
 	return 0;
+}
+
+void makeThread(SOCKET sockets[3]) 
+{
+	HANDLE hThread;
+
+	for (int i = 0; i < 3; i++) {
+		// 스레드 생성
+		hThread = CreateThread(NULL, 0, recvData, (LPVOID)(sockets[i]), 0, NULL);
+		if (hThread == NULL) { closesocket(sockets[i]); }
+		else { CloseHandle(hThread); }
+	}
+	hThread = CreateThread(NULL, 0, updataThread, (LPVOID)0, 0, NULL);
+	CloseHandle(hThread);
+	hThread = CreateThread(NULL, 0, sendData, (LPVOID)sockets, 0, NULL);
+	CloseHandle(hThread);
 }
 
 int main(int argc, char* argv[])
@@ -155,8 +187,6 @@ int main(int argc, char* argv[])
 	SOCKADDR_IN clientaddr;
 	int addrlen;
 
-	HANDLE hThread;
-
 	while (1) {
 		// accept()
 		addrlen = sizeof(clientaddr);
@@ -172,12 +202,7 @@ int main(int argc, char* argv[])
 				inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));
 		}
 	}
-	for (int i = 0; i < 3; i++) {
-		// 스레드 생성
-		hThread = CreateThread(NULL, 0, recvData, (LPVOID)client_sock[i], 0, NULL);
-		if (hThread == NULL) { closesocket(client_sock[i]); }
-		else { CloseHandle(hThread); }
-	}
+	makeThread(client_sock);
 
 	// closesocket()
 	closesocket(listen_sock);
