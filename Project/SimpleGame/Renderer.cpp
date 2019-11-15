@@ -63,7 +63,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	//m_m4ProjView = m_m4PersProj * m_m4View;
 
 	//Initialize model transform matrix :; used for rotating quad normal to parallel to camera direction
-	m_m4Model = glm::rotate(glm::mat4(1.0f), glm::radians(45.f), glm::vec3(1.f, 0.f, 0.f));
+	m_m4Model = glm::rotate(glm::mat4(1.0f), glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f));
 
 	m_Initialized = true;
 }

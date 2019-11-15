@@ -1,167 +1,144 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="소스 파일\Shaders">
-      <UniqueIdentifier>{aa86e47f-445f-4440-9a76-173363b46c4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager">
-      <UniqueIdentifier>{1933eb0a-dc11-45b1-9f45-d4b56358c5c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{a439f676-0122-4768-9eb8-df72053ab5d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager\Scene">
-      <UniqueIdentifier>{7222e6f7-f6ba-4432-ad6e-40c931427ebc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{eca92b64-2cdd-4f00-ba0d-006cd5a01cde}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component">
-      <UniqueIdentifier>{80f2bf6c-b640-4db4-9968-f623ef5e1335}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Item">
-      <UniqueIdentifier>{bc9180ee-957f-413f-a0d9-645ad8b73563}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Reef">
-      <UniqueIdentifier>{05c4d5d8-3b67-46ad-8e06-6f14079316f1}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="bullet.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadPng.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleGame.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="menuScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ship.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Reef.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="structure.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Define.h" />
+    <ClInclude Include="bullet.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadPng.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="menuScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ship.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Reef.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Manager\SceneVirtual</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="structure.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\SolidRect.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\SolidRect.vs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Define.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="structure.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Manager\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="menuScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadPng.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="IComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="ship.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="testObject.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="bullet.h">
-      <Filter>Object</Filter>
-=======
-    <ClInclude Include="Item.h">
-      <Filter>Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Reef.h">
-      <Filter>Object\Reef</Filter>
->>>>>>> master
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleGame.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="structure.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="menuScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadPng.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="ship.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="testObject.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="bullet.cpp">
-      <Filter>Object</Filter>
-=======
-    <ClCompile Include="Item.cpp">
-      <Filter>Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Reef.cpp">
-      <Filter>Object\Reef</Filter>
->>>>>>> master
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Shaders\SolidRect.fs">
-      <Filter>소스 파일\Shaders</Filter>
-    </None>
-    <None Include="Shaders\SolidRect.vs">
-      <Filter>소스 파일\Shaders</Filter>
-    </None>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{9e4b955e-3f9e-4c7f-a8b1-15338628ef2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{b9d3a252-61d2-4053-854c-92bb12c3a4f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{af5d30ab-a119-4525-86e6-4d68d24a0651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{0d723258-9283-4be9-87e1-7fc799073db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{2b278da4-2ac2-40da-80d3-7f2cad87b6d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{30cbd80d-ba1b-4071-b321-cad08394e0aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\SceneVirtual">
+      <UniqueIdentifier>{e2cd0760-3ad6-4604-ac61-2f5806f1a654}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
