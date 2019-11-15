@@ -17,7 +17,10 @@ Ship::Ship(){
 void Ship::update(float deltaTime){
 	Object::update(deltaTime);
 	for (auto& i : collision->getCollisionObject()) {
-
+		// collision->getCollisionObject() 는 현재 내가 충돌한 녀석들을
+		// std::list<Object*> 형식으로 뱉어냅니다.
+		// 그러므로 size 가 0일때는 이 루프는 돌지도 않겠죠? 충돌한 녀석이 있을때만
+		// 이 range for loop 가 작동합니다
 		if (i->getType() == E_ITEM) {
 			auto tmp = getObjectCast<Item>(i);
 			tmp->applyEffect(this);
@@ -28,6 +31,11 @@ void Ship::update(float deltaTime){
 		else if (i->getType() == E_REEF) {
 			// ...
 		}
+		// 충돌 체크는 이와같이 사용하시면 됩니다.
+		// getObjectCast<T> 는 Object.h에 만들어 두었으며
+		// 어떤 Object* 를 자신의 진짜 Derived class 로 변경시켜줍니다!
+		// 예 : object* -> Item
+		i->setDelete();
 	}
 	
 	if (pushType == E_PUSH) {
@@ -41,7 +49,7 @@ void Ship::update(float deltaTime){
 }
 
 void Ship::decreaseSpeed(){
-	if (gearTime > 1.0f) {
+	if (gearTime > 0.3f) {
 		Vector3D velocity = getVelocity();
 		velocity += -direction;
 		setVelocity(velocity);
@@ -52,7 +60,7 @@ void Ship::decreaseSpeed(){
 }
 
 void Ship::increaseSpeed(){
-	if (gearTime > 1.0f) {
+	if (gearTime > 0.3f) {
 		Vector3D velocity = getVelocity();
 		velocity += direction;
 		setVelocity(velocity);
@@ -65,7 +73,6 @@ void Ship::changePushType(E_PUSHTYPE e){
 	pushType = e;
 }
 
-void Ship::manageHp(int damage)
-{
-	hp -= damage;
+void Ship::manageHp(int damage){
+	hp += damage;
 }

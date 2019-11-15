@@ -15,7 +15,7 @@ void Item::applyEffect(Ship* ship)
 {
 	switch (effect) {
 	case 1:	// 배의 체력 증가
-		ship->manageHp(-20);
+		ship->manageHp(20);
 		break;
 	case 2:	// 배의 속도 증가
 	{
