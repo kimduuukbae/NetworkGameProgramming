@@ -2,6 +2,8 @@
 #include "ship.h"
 #include "PhysicsComponent.h"
 #include "CollisionComponent.h"
+#include "Item.h"
+#include "Reef.h"
 Ship::Ship(){
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();
@@ -14,8 +16,20 @@ Ship::Ship(){
 
 void Ship::update(float deltaTime){
 	Object::update(deltaTime);
-	if (collision->getCollisionObject().size() != 0) 
-		collision->getCollisionObject().back()->setDelete();
+	for (auto& i : collision->getCollisionObject()) {
+
+		if (i->getType() == E_ITEM) {
+			auto tmp = getObjectCast<Item>(i);
+			tmp->applyEffect(this);
+		}
+		else if (i->getType() == E_BULLET) {
+			// ...
+		}
+		else if (i->getType() == E_REEF) {
+			// ...
+		}
+	}
+	
 	if (pushType == E_PUSH) {
 		gearTime += deltaTime;
 		increaseSpeed();

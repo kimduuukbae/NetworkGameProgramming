@@ -7,6 +7,7 @@ enum E_TYPE {
 	E_ITEM,
 	E_SHIP,
 	E_BULLET,
+	E_REEF
 };
 class Object {
 public:
@@ -53,6 +54,10 @@ public:
 	template <typename T>
 	void addComponent() {
 		components.push_back(new T());
+	}
+	template <typename T>
+	T* getObjectCast(Object* o) {
+		return dynamic_cast<T*>(o);
 	}
 private:
 	value position;
