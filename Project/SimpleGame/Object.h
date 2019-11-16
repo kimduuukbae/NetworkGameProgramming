@@ -7,7 +7,8 @@ enum E_TYPE {
 	E_ITEM,
 	E_SHIP,
 	E_BULLET,
-	E_REEF
+	E_REEF,
+	E_WIND
 };
 class Object {
 public:

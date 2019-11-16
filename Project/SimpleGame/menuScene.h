@@ -16,4 +16,9 @@ private:
 	ObjectManager* o;
 
 	std::vector<Object*> v;
+
+	float windChangeCoolTime;
+	float itemCreationCoolTime;
+	float defaultWindCoolTime = 30.f;
+	float defaultItemCoolTime = 20.f;
 };

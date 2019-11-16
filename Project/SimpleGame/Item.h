@@ -3,9 +3,11 @@
 
 class Item : public Object
 {
+	ICollisionComponent* collision;
 public:
 	Item();
 	~Item() = default;
+	void update(float deltaTime) override;
 	virtual void applyEffect(Ship* ship) = 0;
 };
 

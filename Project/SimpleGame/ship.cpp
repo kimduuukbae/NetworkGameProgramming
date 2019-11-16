@@ -5,6 +5,7 @@
 #include "Item.h"
 #include "Reef.h"
 #include "bullet.h"
+#include "Wind.h"
 Ship::Ship(){
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();
@@ -37,6 +38,10 @@ void Ship::update(float deltaTime){
 		else if (i->getType() == E_REEF) {
 			auto tmp = getObjectCast<Reef>(i);
 			tmp->collideReef(this);
+		}
+		else if (i->getType() == E_WIND) {
+			auto tmp = getObjectCast<Wind>(i);
+			tmp->collideWind(this);
 		}
 		// 충돌 체크는 이와같이 사용하시면 됩니다.
 		// getObjectCast<T> 는 Object.h에 만들어 두었으며

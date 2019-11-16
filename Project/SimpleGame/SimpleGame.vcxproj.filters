@@ -49,6 +49,9 @@
     <ClCompile Include="Object.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Wind.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h" />
@@ -104,6 +107,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Wind.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
