@@ -57,7 +57,7 @@ public:
 		components.push_back(new T());
 	}
 	template <typename T>
-	T* getObjectCast(Object* o) {
+	static T* getObjectCast(Object* o) {
 		return dynamic_cast<T*>(o);
 	}
 private:
@@ -74,3 +74,5 @@ private:
 	bool deleteIt;
 	E_TYPE myType;
 };
+
+#define OBJECTCAST(a) Object::getObjectCast<T>(a)

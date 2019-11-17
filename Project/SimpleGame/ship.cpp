@@ -18,7 +18,14 @@ Ship::Ship(){
 }
 
 void Ship::update(float deltaTime){
-	Object::update(deltaTime);
+	if (pushType == E_PUSH) {
+		gearTime += deltaTime;
+		increaseSpeed();
+	}
+	else if (pushType == E_RELEASED) {
+		gearTime += deltaTime;
+		decreaseSpeed();
+	}
 	for (auto& i : collision->getCollisionObject()) {
 		// collision->getCollisionObject() 는 현재 내가 충돌한 녀석들을
 		// std::list<Object*> 형식으로 뱉어냅니다.
@@ -49,14 +56,8 @@ void Ship::update(float deltaTime){
 		// 예 : object* -> Item
 	}
 	
-	if (pushType == E_PUSH) {
-		gearTime += deltaTime;
-		increaseSpeed();
-	}
-	else if (pushType == E_RELEASED) {
-		gearTime += deltaTime;
-		decreaseSpeed();
-	}
+
+	Object::update(deltaTime);
 }
 
 void Ship::decreaseSpeed(){

@@ -9,6 +9,7 @@
 #include "Item.h"
 #include "Reef.h"
 #include "Wind.h"
+#include <limits>
 
 void MenuScene::init(){
 	o = D_OBJECT;
@@ -23,12 +24,12 @@ void MenuScene::init(){
 		value{ 80.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/speed.png");
 
 	o->addObject<Wind>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,1.0f },
-		value{ 1600.0f,900.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/speed.png");
+		value{ 100,100,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/speed.png");
 
 	v = o->getObjects();
 
 	v[0]->setType(E_SHIP);
-	v[0]->getObjectCast<Ship>(v[0])->setShipIdx(0);
+	Object::getObjectCast<Ship>(v[0])->setShipIdx(0);
 	v[1]->setType(E_REEF);
 	v[2]->setType(E_WIND);
 }
@@ -52,7 +53,7 @@ void MenuScene::update(float dt){
 		}
 	}
 	windChangeCoolTime -= dt;
-	if (windChangeCoolTime < 0.0000000001f) {
+	if (windChangeCoolTime < std::numeric_limits<float>::epsilon()) {
 		v = o->getObjects();
 		for (auto& obj : v) {
 			if (obj->getType() == E_WIND) {
@@ -63,10 +64,10 @@ void MenuScene::update(float dt){
 		}
 	}
 	itemCreationCoolTime -= dt;
-	if (itemCreationCoolTime < 0.0000000001f) {
+	if (itemCreationCoolTime < std::numeric_limits<float>::epsilon()) {
 		// ·£´ýÇÑ À§Ä¡¿¡ ¾ÆÀÌÅÛÀ» ÄðÅ¸ÀÓ¸¶´Ù »ý¼º ·£´ý ÁÂÇ¥´Â ±¸Çö ¾ÈµÊ
-		o->addObject<Item>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
-			value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
+		//o->addObject<Item>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+			//value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 	}
 }
 
