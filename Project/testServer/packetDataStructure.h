@@ -18,10 +18,11 @@ struct shootPacket {	// 발사 이벤트의 패킷용
 };
 #pragma pack()
 
-enum packetType : int {
-	E_PACKET_SPEED = 1,	// 누군가의 속도 변경
+enum packetType : char {
+	E_PACKET_SPEED = 0,	// 누군가의 속도 변경
 	E_PACKET_DEGREE,	// 누군가의 이동 각도 변경
 	E_PACKET_SHOOT, // 누군가의 발사 요청
 	E_PACKET_HIT,	// 누군가의 피격
 	E_PACKET_DIE,	// 누군가의 사망
+	E_PACKET_SENID	// 처음 유저들에게 ID 를 보내기용 패킷
 };
