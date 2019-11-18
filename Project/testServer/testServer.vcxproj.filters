@@ -26,6 +26,9 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>Event</Filter>
     </ClCompile>
+    <ClCompile Include="ServerDevice.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="packetDataStructure.h">
@@ -38,6 +41,9 @@
       <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerDevice.h">
       <Filter>Event</Filter>
     </ClInclude>
   </ItemGroup>
