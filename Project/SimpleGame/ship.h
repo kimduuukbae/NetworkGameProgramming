@@ -39,6 +39,7 @@ private:
 	int shipIdx;
 	int bulletCount;
 	float degree;
+	float rad;
 	E_PUSHTYPE pushType;
 	Vector3D direction;
 };
