@@ -396,10 +396,10 @@ void Renderer::DrawTextureRect(
 	glUniform3f(uScale, sizeX, sizeY, sizeZ);
 	glUniform4f(uColor, r, g, b, a);
 	glUniform1i(uTexture, 0);
-
+	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
-
+	
 	int attribPosition = glGetAttribLocation(shader, "a_Position");
 	glEnableVertexAttribArray(attribPosition);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBORect);

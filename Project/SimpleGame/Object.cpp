@@ -38,9 +38,9 @@ void Object::setVelocity(float x, float y, float z){
 }
 
 void Object::setVelocity(const Vector3D & v){
-	velocity.x += v.getX();
-	velocity.y += v.getY();
-	velocity.z += v.getZ();
+	velocity.x = v.getX();
+	velocity.y = v.getY();
+	velocity.z = v.getZ();
 }
 
 value Object::getVelocity() {

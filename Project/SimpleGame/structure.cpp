@@ -56,7 +56,7 @@ Vector3D Vector3D::operator+(const Vector3D & rhs){
 }
 
 Vector3D & Vector3D::operator+=(const Vector3D & rhs){
-	v = rhs.v;
+	v = v + rhs.v;
 	return *this;
 }
 
@@ -85,6 +85,22 @@ float Vector3D::getZ() const {
 	return v.z;
 }
 
+void Vector3D::setX(float x){
+	v.x = x;
+}
+
+void Vector3D::setY(float y){
+	v.y = y;
+}
+
+void Vector3D::setZ(float z){
+	v.z = z;
+}
+
+void Vector3D::setValue(value val){
+	v = val;
+}
+
 value Vector3D::getValue() const {
 	return v;
 }
@@ -105,6 +121,33 @@ bool AABBCollision(const box & lhs, const box & rhs){
 		return true;
 	return false;
 }
+
+void lookAt(Vector3D & dest, Vector3D & target) {
+	Vector3D transform = target - dest;
+	auto radian = std::atan2(transform.getX(), transform.getY());
+	
+	updateRotation(dest, radian);
+}
+
+void updateRotation(Vector3D & v, float rad){
+	float halfX = degreeToRad(v.getX() / 2.f);
+	float halfY = degreeToRad(v.getY() / 2.f);
+
+	float coshalfX = std::cosf(halfX), sinhalfX = std::sinf(halfX);
+	float coshalfY = std::cosf(halfY), sinhalfY = std::sinf(halfY);
+
+	
+}
+
+float radToDegree(float rad){
+	return rad * 180 / 3.141592f;
+}
+
+float degreeToRad(float degree){
+
+	return degree * 3.141592f / 180;
+}
+
 
 box::box(value pos, value volume){
 	left = pos.x - volume.x / 2;

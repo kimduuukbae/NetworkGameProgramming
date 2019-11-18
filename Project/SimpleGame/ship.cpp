@@ -6,15 +6,19 @@
 #include "Reef.h"
 #include "bullet.h"
 #include "Wind.h"
+#include <iostream>
+#include <cmath>
+using namespace std;
 Ship::Ship(){
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();
 	collision = getComponent<ICollisionComponent>();
-	maxSpeed = 7.0f;
+	maxSpeed = 1.0f;
 	hp = 100;
 	damage = 10;
 	pushType = E_NONE;
-	direction = Vector3D(0.0f, 1.0f, 0.0f);
+	direction = Vector3D(1.0f, 0.0f, 0.0f);
+	degree = 0.0f;
 }
 
 void Ship::update(float deltaTime){
@@ -44,7 +48,7 @@ void Ship::update(float deltaTime){
 		}
 		else if (i->getType() == E_REEF) {
 			auto tmp = getObjectCast<Reef>(i);
-			tmp->collideReef(this);
+			//tmp->collideReef(this);
 		}
 		else if (i->getType() == E_WIND) {
 			auto tmp = getObjectCast<Wind>(i);
@@ -55,30 +59,49 @@ void Ship::update(float deltaTime){
 		// 어떤 Object* 를 자신의 진짜 Derived class 로 변경시켜줍니다!
 		// 예 : object* -> Item
 	}
-	
-
 	Object::update(deltaTime);
 }
 
 void Ship::decreaseSpeed(){
-	if (gearTime > 0.3f) {
+	if (gearTime > 0.1f) {
 		Vector3D velocity = getVelocity();
 		velocity += -direction;
-		setVelocity(velocity);
 		gearTime = 0.0f;
-		if (velocity.size() < 0.1f)
+		velocity.setX(velocity.getX() > 0.0f ? velocity.getX() : 0.0f);
+		velocity.setY(velocity.getY() > 0.0f ? velocity.getY() : 0.0f);
+		if (velocity.size() < 0.1f) {
 			pushType = E_NONE;
+			velocity.setX(0.0f);
+			velocity.setY(0.0f);
+		}
+		setVelocity(velocity);
 	}
 }
 
 void Ship::increaseSpeed(){
-	if (gearTime > 0.0001f) {
+	if (gearTime > 0.2f) {
 		Vector3D velocity = getVelocity();
 		velocity += direction;
 		setVelocity(velocity);
 		gearTime = 0.0f;
+		cout << getVelocity().x << endl;
 	}
 	
+}
+
+void Ship::leftRotation(){
+	degree -= 0.01f;
+	if (degree < -6.28f || degree > 6.25f)
+		degree = 0.0f;
+	float x = direction.getX();
+	float y = direction.getY();
+	x = std::cos(degree);
+	y = std::sin(degree);
+	direction = Vector3D{ x,y,0.0f };
+}
+
+void Ship::rightRotation(){
+
 }
 
 void Ship::changePushType(E_PUSHTYPE e){

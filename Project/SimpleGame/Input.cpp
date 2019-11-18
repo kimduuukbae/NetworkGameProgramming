@@ -37,7 +37,7 @@ bool Input::isKeyUp(int key){
 }
 
 bool Input::isKeyOverlap(int key){
-	return keyFlag[key];
+	return (GetAsyncKeyState(key) & 0x8000);
 }
 
 void Input::setDeltaTime(float t){

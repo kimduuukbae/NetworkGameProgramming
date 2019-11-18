@@ -40,6 +40,12 @@ public:
 	float getX() const;
 	float getY() const;
 	float getZ() const;
+
+	void setX(float x);
+	void setY(float y);
+	void setZ(float z);
+
+	void setValue(value val);
 	value getValue() const;
 	float distance(const Vector3D& rhs);
 private:
@@ -50,3 +56,13 @@ private:
 value ptom(value& v);
 
 bool AABBCollision(const box& lhs, const box& rhs);
+void lookAt(Vector3D& dest, Vector3D& target);
+void updateRotation(Vector3D& v, float rad);
+float radToDegree(float rad);
+float degreeToRad(float degree);
+
+
+template <typename T>
+constexpr const T clamp(const T& low, const T& cent, const T& high) {
+	return (cent < low) ? low : (cent > high) ? high : cent;
+}

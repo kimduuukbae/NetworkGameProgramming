@@ -74,5 +74,3 @@ private:
 	bool deleteIt;
 	E_TYPE myType;
 };
-
-#define OBJECTCAST(a) Object::getObjectCast<T>(a)

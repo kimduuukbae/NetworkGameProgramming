@@ -7,7 +7,6 @@ uniform vec3 u_Scale;
 
 uniform mat4 u_ProjView;
 uniform mat4 u_RotToCam;
-
 void main()
 {
 	vec4 newPosition;

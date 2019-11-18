@@ -43,6 +43,12 @@ void MenuScene::update(float dt){
 		if (D_INPUT->isKeyUp(VK_UP)) 
 			ship->changePushType(E_RELEASED);
 
+		if (D_INPUT->isKeyOverlap(VK_LEFT))
+			ship->leftRotation();
+
+		if (D_INPUT->isKeyOverlap(VK_RIGHT))
+			ship->rightRotation();
+		
 		if (D_INPUT->isMouseDown()) {
 			int idx = o->addObject<Bullet>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 				value{ 20.0f,20.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/bullet.png");

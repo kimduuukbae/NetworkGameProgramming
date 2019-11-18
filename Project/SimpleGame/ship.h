@@ -15,6 +15,10 @@ public:
 	void update(float deltaTime) override;
 	void decreaseSpeed();
 	void increaseSpeed();
+
+	void leftRotation();
+	void rightRotation();
+
 	void changePushType(E_PUSHTYPE e);
 	void manageHp(int damage);
 	void setMaxSpeed(float speed);
@@ -30,6 +34,7 @@ private:
 	int hp;
 	int damage;
 	int shipIdx;
+	float degree;
 	E_PUSHTYPE pushType;
 	Vector3D direction;
 };
