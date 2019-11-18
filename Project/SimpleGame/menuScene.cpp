@@ -9,6 +9,7 @@
 #include "Item.h"
 #include "Reef.h"
 #include "Wind.h"
+#include <cmath>
 #include <limits>
 
 void MenuScene::init(){
@@ -23,7 +24,7 @@ void MenuScene::init(){
 	o->addObject<Reef>(value{ 0.0f,200.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 80.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/speed.png");
 
-	o->addObject<Wind>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,1.0f },
+	o->addObject<Wind>(value{ -800.0f,-350.0f,0.0f }, color{ 0.0f,0.0f,0.0f,1.0f },
 		value{ 100,100,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/speed.png");
 
 	v = o->getObjects();
@@ -36,6 +37,7 @@ void MenuScene::init(){
 
 void MenuScene::update(float dt){
 	o->update(dt);
+	shootDelay += dt;
 	if (auto ship = o->getObject<Ship>(0); ship != nullptr) {
 		if (D_INPUT->isKeyDown(VK_UP)) 
 			ship->changePushType(E_PUSH);
@@ -49,13 +51,21 @@ void MenuScene::update(float dt){
 		if (D_INPUT->isKeyOverlap(VK_RIGHT))
 			ship->rightRotation();
 		
-		if (D_INPUT->isMouseDown()) {
+		count = ship->getbulletCooltime();
+
+		if (D_INPUT->isMouseDown() && shootDelay > 1.f && ship->getbulletCooltime() > 0) {
+			ship->setbulletCooltime(--count);
 			int idx = o->addObject<Bullet>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 				value{ 20.0f,20.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/bullet.png");
-			
+
 			auto t = o->getObject<Bullet>(idx);
 			t->setShipIdx(0);
 			t->setType(E_BULLET);
+			t->process(o->getObject<Ship>(0), dt);
+			if (false)
+				t->setDelete();
+
+			shootDelay = 0.0f;
 		}
 	}
 	windChangeCoolTime -= dt;

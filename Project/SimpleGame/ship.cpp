@@ -16,6 +16,7 @@ Ship::Ship(){
 	maxSpeed = 1.0f;
 	hp = 100;
 	damage = 10;
+	bulletCount = 3;
 	pushType = E_NONE;
 	direction = Vector3D(1.0f, 0.0f, 0.0f);
 	degree = 0.0f;
@@ -58,6 +59,15 @@ void Ship::update(float deltaTime){
 		// getObjectCast<T> 는 Object.h에 만들어 두었으며
 		// 어떤 Object* 를 자신의 진짜 Derived class 로 변경시켜줍니다!
 		// 예 : object* -> Item
+	}
+	
+
+	if (bulletCount < 3) {
+		coolTime += deltaTime;;
+		if (coolTime > 5.f) {
+			bulletCount++;
+			coolTime = 0.0f;
+		}
 	}
 	Object::update(deltaTime);
 }
@@ -139,4 +149,14 @@ void Ship::setShipIdx(int idx){
 
 int Ship::getShipIdx(){
 	return shipIdx;
+}
+
+void Ship::setbulletCooltime(int count)
+{
+	bulletCount = count;
+}
+
+int Ship::getbulletCooltime()
+{
+	return bulletCount;
 }

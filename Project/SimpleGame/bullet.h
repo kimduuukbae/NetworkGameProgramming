@@ -6,11 +6,16 @@ public:
 	Bullet();
 	~Bullet() = default;
 	void update(float deltaTime) override;
+	void process(Object* o, float dt);
 	void setShipIdx(int idx);
 	int getShipIdx();
+	void setvTime(float time);
+	int getvTime();
 
 private:
 	int shipIdx;
+	float vTime;
+	float fTime = 0.0f;
 	ICollisionComponent* collision;
 };
 

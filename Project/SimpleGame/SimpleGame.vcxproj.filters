@@ -120,6 +120,7 @@
     <None Include="Shaders\SolidRect.vs">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

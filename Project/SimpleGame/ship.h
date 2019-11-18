@@ -27,13 +27,17 @@ public:
 	int getDamage();
 	void setShipIdx(int idx);
 	int getShipIdx();
+	void setbulletCooltime(int count);
+	int getbulletCooltime();
 private:
 	ICollisionComponent* collision;
 	float gearTime;
+	float coolTime;
 	float maxSpeed;
 	int hp;
 	int damage;
 	int shipIdx;
+	int bulletCount;
 	float degree;
 	E_PUSHTYPE pushType;
 	Vector3D direction;
