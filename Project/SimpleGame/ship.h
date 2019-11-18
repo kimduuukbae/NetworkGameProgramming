@@ -34,7 +34,7 @@ private:
 	int hp;
 	int damage;
 	int shipIdx;
-	float degree;
+	float rad;
 	E_PUSHTYPE pushType;
 	Vector3D direction;
 };

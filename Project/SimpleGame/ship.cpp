@@ -18,7 +18,7 @@ Ship::Ship(){
 	damage = 10;
 	pushType = E_NONE;
 	direction = Vector3D(1.0f, 0.0f, 0.0f);
-	degree = 0.0f;
+	rad = 0.0f;
 }
 
 void Ship::update(float deltaTime){
@@ -65,14 +65,20 @@ void Ship::update(float deltaTime){
 void Ship::decreaseSpeed(){
 	if (gearTime > 0.1f) {
 		Vector3D velocity = getVelocity();
-		velocity += -direction;
-		gearTime = 0.0f;
-		velocity.setX(velocity.getX() > 0.0f ? velocity.getX() : 0.0f);
-		velocity.setY(velocity.getY() > 0.0f ? velocity.getY() : 0.0f);
+
 		if (velocity.size() < 0.1f) {
 			pushType = E_NONE;
 			velocity.setX(0.0f);
 			velocity.setY(0.0f);
+		}
+		else {
+			Vector3D v = velocity;
+			v.normalize();
+			gearTime = 0.0f;
+			velocity += -v;
+			auto[x, y, z] = velocity.getValue();
+			velocity.setX((x > 1.0f) ? x : (x < -1.0f) ? x : 0.0f);
+			velocity.setY((y > 1.0f) ? y : (y < -1.0f) ? y : 0.0f);
 		}
 		setVelocity(velocity);
 	}
@@ -84,24 +90,30 @@ void Ship::increaseSpeed(){
 		velocity += direction;
 		setVelocity(velocity);
 		gearTime = 0.0f;
-		cout << getVelocity().x << endl;
 	}
 	
 }
 
 void Ship::leftRotation(){
-	degree -= 0.01f;
-	if (degree < -6.28f || degree > 6.25f)
-		degree = 0.0f;
+	rad -= 0.01f;
+	if (rad < -12.56f || rad > 12.56f)
+		rad = 0.0f;
 	float x = direction.getX();
 	float y = direction.getY();
-	x = std::cos(degree);
-	y = std::sin(degree);
+	x = std::cos(rad);
+	y = std::sin(rad);
 	direction = Vector3D{ x,y,0.0f };
 }
 
 void Ship::rightRotation(){
-
+	rad += 0.01f;
+	if (rad < -12.56f || rad > 12.56f)
+		rad = 0.0f;
+	float x = direction.getX();
+	float y = direction.getY();
+	x = std::cos(rad);
+	y = std::sin(rad);
+	direction = Vector3D{ x,y,0.0f };
 }
 
 void Ship::changePushType(E_PUSHTYPE e){
