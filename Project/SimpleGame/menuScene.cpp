@@ -65,6 +65,7 @@ void MenuScene::update(float dt){
 			if (obj->getType() == E_WIND) {
 				auto wind = obj->getObjectCast<Wind>(obj);
 				wind->setWind(Vector3D(0.f, 0.f, 0.f));
+				windChangeCoolTime = defaultWindCoolTime;
 				break;
 			}
 		}
@@ -74,6 +75,7 @@ void MenuScene::update(float dt){
 		// ·£´ýÇÑ À§Ä¡¿¡ ¾ÆÀÌÅÛÀ» ÄðÅ¸ÀÓ¸¶´Ù »ý¼º ·£´ý ÁÂÇ¥´Â ±¸Çö ¾ÈµÊ
 		//o->addObject<Item>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 			//value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
+		itemCreationCoolTime = defaultItemCoolTime;
 	}
 }
 
