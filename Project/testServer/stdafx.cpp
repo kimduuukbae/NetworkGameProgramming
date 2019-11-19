@@ -1,6 +1,5 @@
 #include "stdafx.h"
-#include <WinSock2.h>
-#include <iostream>
+//#include <iostream>
 void err_quit(char* msg)
 {
 	LPVOID lpMsgBuf;
@@ -26,7 +25,7 @@ void err_display(char* msg)
  	LocalFree(lpMsgBuf);
 }
 
-int recvn(unsigned int s, char* buf, int len, int flags)
+int recvn(SOCKET s, char* buf, int len, int flags)
 {
 	int received;
 	char* ptr = buf;

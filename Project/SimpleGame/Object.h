@@ -43,6 +43,9 @@ public:
 	void setDelete();
 	bool getDelete();
 
+	void setDegree(float f);
+	float getDegree();
+
 	void setType(E_TYPE e);
 	E_TYPE getType();
 	template <typename T>
@@ -72,5 +75,6 @@ private:
 	int objectIdx;
 	std::vector<IComponent*> components;
 	bool deleteIt;
+	float degree;
 	E_TYPE myType;
 };

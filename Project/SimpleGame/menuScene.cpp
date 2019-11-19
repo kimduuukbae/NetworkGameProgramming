@@ -4,15 +4,31 @@
 #include "ship.h"
 #include "bullet.h"
 #include "ObjectManager.h"
-#include "CollisionComponent.h"
 #include "Input.h"
 #include "Item.h"
 #include "Reef.h"
 #include "Wind.h"
-#include <cmath>
 #include <limits>
+#include <WinSock2.h>
+#pragma comment(lib, "ws2_32")
+#pragma warning(disable:4996)
+
 
 void MenuScene::init(){
+	WSADATA wsa;
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
+		return;
+
+	auto s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	
+	SOCKADDR_IN serverAddr;
+
+	serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	serverAddr.sin_port = htons(9000);
+	serverAddr.sin_family = AF_INET;
+
+	connect(s, (SOCKADDR*)&serverAddr, sizeof(serverAddr));
+	
 	o = D_OBJECT;
 
 	windChangeCoolTime = defaultWindCoolTime;

@@ -23,7 +23,7 @@ void ServerDevice::initialize(){
 	int retval = bind(listenSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr));
 	if (retval == SOCKET_ERROR) err_quit("bind()");
 
-	retval = listen(listenSocket, 3);
+	retval = listen(listenSocket, SOMAXCONN);
 	if (retval == SOCKET_ERROR) err_quit("listen()");
 
 	std::cout << "Initialized" << std::endl;
@@ -51,6 +51,7 @@ void ServerDevice::recvData(SOCKET s){
 		packetHead head;
 		int headSize = sizeof(head);
 		int retval = recvn(s, (char*)&head, headSize, 0);	// head 가 올때까지 기다림
+		std::cout << "recvData()" << std::endl;
 		switch (head.packetType) {
 		case E_PACKET_SPEED:
 			break;
@@ -72,6 +73,7 @@ void ServerDevice::recvData(SOCKET s){
 void ServerDevice::updateThread(){
 	while (1) {
 		if (!eventManager.eventQSize()) {
+			std::cout << "updateThread" << std::endl;
 			auto e = eventManager.popEventQueue();
 			auto[simPacket, shtPacket] = e.getPacket();	// 패킷을 열어봄
 			if (simPacket != nullptr) {
@@ -93,6 +95,7 @@ void ServerDevice::updateThread(){
 void ServerDevice::sendData(){
 	while (1) {
 		if (!eventManager.sendQSize()) {
+			std::cout << "sendData()" << std::endl;
 			auto e = eventManager.popSendQueue();
 			auto[simPacket, shtPacket] = e.getPacket();
 			if (simPacket != nullptr) {
@@ -114,4 +117,5 @@ void ServerDevice::makeThread(){
 		std::thread{ &ServerDevice::recvData,this,clientSocket[i] }.detach();
 	std::thread{ &ServerDevice::updateThread,this }.detach();
 	std::thread{ &ServerDevice::sendData,this }.detach();
+	std::cout << "make thread" << std::endl;
 }

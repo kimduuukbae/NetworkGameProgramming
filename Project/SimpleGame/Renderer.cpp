@@ -63,7 +63,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	//m_m4ProjView = m_m4PersProj * m_m4View;
 
 	//Initialize model transform matrix :; used for rotating quad normal to parallel to camera direction
-	m_m4Model = glm::rotate(glm::mat4(1.0f), glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f));
+	//m_m4Model = glm::rotate(glm::mat4(1.0f), glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f));
 
 	m_Initialized = true;
 }
@@ -370,7 +370,7 @@ void Renderer::DrawTextureRect(
 	float x, float y, float z,
 	float sizeX, float sizeY, float sizeZ,
 	float r, float g, float b, float a,
-	int textureID)
+	int textureID, float degree)
 {
 	//Program select
 	GLuint shader = m_TextureRectShader;
@@ -389,9 +389,9 @@ void Renderer::DrawTextureRect(
 	GLuint uScale = glGetUniformLocation(shader, "u_Scale");
 	GLuint uColor = glGetUniformLocation(shader, "u_Color");
 	GLuint uTexture = glGetUniformLocation(shader, "u_Texture");
-
+	glm::mat4 m = glm::rotate(m_m4Model, glm::radians(degree), glm::vec3(0.f, 0.f, 1.f));
 	glUniformMatrix4fv(uProjView, 1, GL_FALSE, &m_m4ProjView[0][0]);
-	glUniformMatrix4fv(uRotToCam, 1, GL_FALSE, &m_m4Model[0][0]);
+	glUniformMatrix4fv(uRotToCam, 1, GL_FALSE, &m[0][0]);
 	glUniform3f(uTrans, x, y, z);
 	glUniform3f(uScale, sizeX, sizeY, sizeZ);
 	glUniform4f(uColor, r, g, b, a);

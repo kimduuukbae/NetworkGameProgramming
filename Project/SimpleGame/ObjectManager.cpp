@@ -32,7 +32,7 @@ void ObjectManager::draw(){
 			auto[sx, sy, sz] = i->getVolume();
 			auto[r, g, b, a] = i->getColor();
 			renderer->DrawTextureRect(x, y, z, sx, -sy, sz, r, g, b, a,
-				i->getPngIdx());
+				i->getPngIdx(),i->getDegree());
 		}
 	}
 }

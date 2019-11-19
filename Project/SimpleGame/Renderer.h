@@ -39,7 +39,7 @@ public:
 		float x, float y, float z,
 		float sizeX, float sizeY, float sizeZ,
 		float r, float g, float b, float a,
-		int textureID);
+		int textureID, float degree);
 
 	int GenPngTexture(char * filePath, GLuint sampling = GL_NEAREST);
 	int GenBmpTexture(char * filePath, GLuint sampling = GL_NEAREST);

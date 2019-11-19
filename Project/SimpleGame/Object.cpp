@@ -90,6 +90,14 @@ bool Object::getDelete(){
 	return deleteIt;
 }
 
+void Object::setDegree(float f){
+	degree = f;
+}
+
+float Object::getDegree(){
+	return degree;
+}
+
 void Object::setType(E_TYPE e){
 	myType = e;
 }

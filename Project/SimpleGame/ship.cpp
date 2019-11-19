@@ -101,21 +101,9 @@ void Ship::increaseSpeed(){
 		setVelocity(velocity);
 		gearTime = 0.0f;
 	}
-	
 }
 
 void Ship::leftRotation(){
-	rad -= 0.01f;
-	if (rad < -12.56f || rad > 12.56f)
-		rad = 0.0f;
-	float x = direction.getX();
-	float y = direction.getY();
-	x = std::cos(rad);
-	y = std::sin(rad);
-	direction = Vector3D{ x,y,0.0f };
-}
-
-void Ship::rightRotation(){
 	rad += 0.01f;
 	if (rad < -12.56f || rad > 12.56f)
 		rad = 0.0f;
@@ -124,6 +112,19 @@ void Ship::rightRotation(){
 	x = std::cos(rad);
 	y = std::sin(rad);
 	direction = Vector3D{ x,y,0.0f };
+	setDegree(getDegree() + radToDegree(0.01f));
+}
+
+void Ship::rightRotation(){
+	rad -= 0.01f;
+	if (rad < -12.56f || rad > 12.56f)
+		rad = 0.0f;
+	float x = direction.getX();
+	float y = direction.getY();
+	x = std::cos(rad);
+	y = std::sin(rad);
+	direction = Vector3D{ x,y,0.0f };
+	setDegree(getDegree() - radToDegree(0.01f));
 }
 
 void Ship::changePushType(E_PUSHTYPE e){
