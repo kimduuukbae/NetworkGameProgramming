@@ -9,32 +9,18 @@
 #include "Reef.h"
 #include "Wind.h"
 #include <limits>
-#include <WinSock2.h>
-#pragma comment(lib, "ws2_32")
-#pragma warning(disable:4996)
 
 
-void MenuScene::init(){
-	WSADATA wsa;
-	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
-		return;
-
-	auto s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	
-	SOCKADDR_IN serverAddr;
-
-	serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	serverAddr.sin_port = htons(9000);
-	serverAddr.sin_family = AF_INET;
-
-	connect(s, (SOCKADDR*)&serverAddr, sizeof(serverAddr));
-	
+void MenuScene::init(){	
 	o = D_OBJECT;
-
 	windChangeCoolTime = defaultWindCoolTime;
 	itemCreationCoolTime = defaultItemCoolTime;
 
 	o->addObject<Ship>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
+	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
+	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 
 	o->addObject<Reef>(value{ 0.0f,200.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
@@ -46,9 +32,13 @@ void MenuScene::init(){
 	v = o->getObjects();
 
 	v[0]->setType(E_SHIP);
-	Object::getObjectCast<Ship>(v[0])->setShipIdx(0);
-	v[1]->setType(E_REEF);
-	v[2]->setType(E_WIND);
+	v[1]->setType(E_SHIP);
+	v[2]->setType(E_SHIP);
+
+	v[3]->setType(E_REEF);
+	v[4]->setType(E_WIND);
+
+	serverDevice.initialize();
 }
 
 void MenuScene::update(float dt){

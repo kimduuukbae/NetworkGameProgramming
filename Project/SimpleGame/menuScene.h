@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include <vector>
-
+#include "ServerDevice.h"
 class ObjectManager;
 class Object;
 class MenuScene : public Scene {
@@ -14,9 +14,9 @@ public:
 private:
 	Renderer* renderer;
 	ObjectManager* o;
-
+	
 	std::vector<Object*> v;
-
+	ServerDevice serverDevice;
 	float windChangeCoolTime;
 	float itemCreationCoolTime;
 	float defaultWindCoolTime = 30.f;

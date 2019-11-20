@@ -97,12 +97,32 @@ void ServerDevice::sendData(){
 			auto e = eventManager.popSendQueue();
 			auto[simPacket, shtPacket] = e.getPacket();
 			if (simPacket != nullptr) {
-				for (int i = 0; i < 3; ++i)
-					send(clientSocket[i], (char*)&simPacket, sizeof(simPacket), 0);
+				packetHead head;
+				setPacketHead(head, e);
+				if (e.getTarget() == E_EVERYONE) {
+					for (int i = 0; i < 3; ++i) {
+						send(clientSocket[i], (char*)&head, sizeof(head), 0);
+						send(clientSocket[i], (char*)&simPacket, sizeof(simPacket), 0);
+					}
+				}
+				else {
+					send(clientSocket[head.id], (char*)&head, sizeof(head), 0);
+					send(clientSocket[head.id], (char*)&simPacket, sizeof(simPacket), 0);
+				}
 			}
 			else {
-				for (int i = 0; i < 3; ++i)
-					send(clientSocket[i], (char*)&shtPacket, sizeof(shtPacket), 0);
+				packetHead head;
+				setPacketHead(head, e);
+				if (e.getTarget() == E_EVERYONE) {
+					for (int i = 0; i < 3; ++i) {
+						send(clientSocket[i], (char*)&head, sizeof(head), 0);
+						send(clientSocket[i], (char*)&shtPacket, sizeof(shtPacket), 0);
+					}
+				}
+				else {
+					send(clientSocket[head.id], (char*)&head, sizeof(head), 0);
+					send(clientSocket[head.id], (char*)&shtPacket, sizeof(shtPacket), 0);
+				}
 			}
 		}
 		else
@@ -111,9 +131,24 @@ void ServerDevice::sendData(){
 }
 
 void ServerDevice::makeThread(){
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; i++) {
 		std::thread{ &ServerDevice::recvData,this,clientSocket[i] }.detach();
+		simplePacket s{ i, 0, E_PACKET_SENID };
+		eventManager.pushEvent(Event{ s, E_ONE }, E_SEND);
+		//맨처음 각 클라이언트들에게 자신의 ID를 보내줌
+	}
 	std::thread{ &ServerDevice::updateThread,this }.detach();
 	std::thread{ &ServerDevice::sendData,this }.detach();
-	std::cout << "make thread" << std::endl;
+}
+
+void ServerDevice::setPacketHead(packetHead & h, Event& e){
+	auto[simPacket, shtPacket] = e.getPacket();
+	if (simPacket != nullptr) {
+		h.id = simPacket->id;
+		h.packetType = simPacket->packetType;
+	}
+	else {
+		h.id = shtPacket->id;
+		h.packetType = E_PACKET_SHOOT;
+	}
 }

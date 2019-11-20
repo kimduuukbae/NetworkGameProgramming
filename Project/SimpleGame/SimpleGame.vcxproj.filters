@@ -52,6 +52,9 @@
     <ClCompile Include="Wind.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="ServerDevice.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h" />
@@ -112,6 +115,12 @@
     <ClInclude Include="Wind.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="ServerDevice.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="packetStructure.h">
+      <Filter>Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\SolidRect.fs">
@@ -145,6 +154,9 @@
     </Filter>
     <Filter Include="Manager\SceneVirtual">
       <UniqueIdentifier>{e2cd0760-3ad6-4604-ac61-2f5806f1a654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{236f77f8-ed7c-46a6-a436-a9cc5d1ec88c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

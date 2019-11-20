@@ -28,6 +28,7 @@ private:
 	void updateThread();
 	void sendData();
 	void makeThread();
+	void setPacketHead(packetHead& h, Event& e);
 };
 typedef ServerDevice device;
 
