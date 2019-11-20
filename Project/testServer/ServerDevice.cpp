@@ -34,7 +34,7 @@ void ServerDevice::acceptClient(){
 
 	while (sockNum != 3) { 
 		int addrlen = sizeof(clientAddr);
-		auto c = accept(listenSocket, (SOCKADDR*)&clientAddr, &addrlen);
+		clientSocket[sockNum] = accept(listenSocket, (SOCKADDR*)&clientAddr, &addrlen);
 		if (clientSocket[sockNum] == INVALID_SOCKET) err_quit("accept()");
 		++sockNum;
 		std::cout << "클라이언트 접속 : IP = " << inet_ntoa(clientAddr.sin_addr) <<
@@ -72,8 +72,7 @@ void ServerDevice::recvData(SOCKET s){
 
 void ServerDevice::updateThread(){
 	while (1) {
-		if (!eventManager.eventQSize()) {
-			std::cout << "updateThread" << std::endl;
+		if (eventManager.eventQSize()) {
 			auto e = eventManager.popEventQueue();
 			auto[simPacket, shtPacket] = e.getPacket();	// 패킷을 열어봄
 			if (simPacket != nullptr) {
@@ -94,8 +93,7 @@ void ServerDevice::updateThread(){
 
 void ServerDevice::sendData(){
 	while (1) {
-		if (!eventManager.sendQSize()) {
-			std::cout << "sendData()" << std::endl;
+		if (eventManager.sendQSize()) {
 			auto e = eventManager.popSendQueue();
 			auto[simPacket, shtPacket] = e.getPacket();
 			if (simPacket != nullptr) {
