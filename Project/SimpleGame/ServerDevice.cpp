@@ -37,11 +37,9 @@ void ServerDevice::recvData(){
 		objects = ObjectManager::instance();
 	while (1) {
 		packetHead h;
-
 		int retval = recvn(connectSocket, (char*)&h, sizeof(h), 0);
 		if (retval == SOCKET_ERROR)
 			return;
-		cout << (int)h.id << "  " << (int)h.packetType << endl;
 		switch (h.packetType) {
 		case E_PACKET_SPEED:
 			break;
@@ -55,16 +53,16 @@ void ServerDevice::recvData(){
 			break;
 		case E_PACKET_SENID: {
 			simplePacket sim = recvSimplePacket();
-			//myObject = objects->getObject<Ship>(h.id);
+			myObject = objects->getObject<Ship>(h.id);
 			break;
 		}
 		case E_PACKET_OTSET: {
-			simplePacket sim = recvSimplePacket();
-			////if (sim.id == myObject->getShipIdx())
-			//	//break;
-			//auto o = objects->getObject<Ship>(sim.id);
-			//o->setShipIdx(sim.id);
-			//o->setPos(700, 400, 0);
+			posPacket pos = recvposPacket();
+			cout << sizeof(pos) << endl;
+			cout << (int)pos.id << "는" << (int)pos.posX << " , " << (int)pos.posY << "에 만들어짐" << endl;
+			auto o = objects->getObject<Ship>(pos.id);
+			o->setShipIdx(pos.id);
+			o->setPos(pos.posX, pos.posY, 0);
 			break;
 		}
 		}
@@ -98,6 +96,12 @@ simplePacket ServerDevice::recvSimplePacket(){
 
 shootPacket ServerDevice::recvshootPacket(){
 	shootPacket s;
+	recvn(connectSocket, (char*)&s, sizeof(s), 0);
+	return s;
+}
+
+posPacket ServerDevice::recvposPacket(){
+	posPacket s;
 	recvn(connectSocket, (char*)&s, sizeof(s), 0);
 	return s;
 }

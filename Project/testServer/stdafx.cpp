@@ -1,6 +1,6 @@
 #include "stdafx.h"
 //#include <iostream>
-void err_quit(char* msg)
+void err_quit(const char* msg)
 {
 	LPVOID lpMsgBuf;
 	FormatMessage(
@@ -13,7 +13,7 @@ void err_quit(char* msg)
 	exit(1);
 }
 
-void err_display(char* msg)
+void err_display(const char* msg)
 {
 	LPVOID lpMsgBuf;
 	FormatMessage(
@@ -42,4 +42,12 @@ int recvn(SOCKET s, char* buf, int len, int flags)
 	}
 
 	return (len - left);
+}
+
+int wordToInt(WORD high, WORD lower){
+	return (high << 8) + lower;
+}
+
+std::tuple<WORD, WORD> intToWord(int value){
+	return std::tuple<WORD, WORD>((value >> 8), (BYTE)value);
 }

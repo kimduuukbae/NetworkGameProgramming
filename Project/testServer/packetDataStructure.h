@@ -1,5 +1,5 @@
 #pragma once
-#pragma pack(1)
+#pragma pack(push,1)
 struct packetHead { 	// 모든 주고받는 패킷들의 헤더 
 	char id;			// 클라이언트 ID
 	char packetType;         // 패킷의 타입
@@ -13,10 +13,18 @@ struct simplePacket {	// 간단한 처리의 패킷용
 
 struct shootPacket {	// 발사 이벤트의 패킷용
 	char id;			// 클라이언트 ID
-	int pos;			// 발사하는 클라이언트의 좌표
-	int targetPos;		// 발사 예정인 좌표
+	short mposX;
+	short mPosY;
+	short tarPosX;
+	short tarPosY;
 };
-#pragma pack()
+
+struct posPacket {		// 클라이언트들의 좌표를 정의할때
+	char id;			// 클라이언트 ID
+	short posX;			// 클라이언트 xy
+	short posY;
+};
+#pragma pack(pop)
 
 enum packetType : char {
 	E_PACKET_SPEED = 0,	// 누군가의 속도 변경

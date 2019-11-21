@@ -3,7 +3,8 @@
 #include "ServerDevice.h"
 #include "stdafx.h"
 #include "packetDataStructure.h"
-
+#include <mutex>
+std::mutex m;
 ServerDevice::ServerDevice(){
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		err_quit("Startup");
@@ -74,9 +75,12 @@ void ServerDevice::updateThread(){
 	while (1) {
 		if (eventManager.eventQSize()) {
 			auto e = eventManager.popEventQueue();
-			auto[simPacket, shtPacket] = e.getPacket();	// 패킷을 열어봄
+			auto[simPacket, shtPacket, psPacket] = e.getPacket();	// 패킷을 열어봄
 			if (simPacket != nullptr) {
 
+
+			}
+			else if(shtPacket != nullptr){
 
 			}
 			else {
@@ -94,34 +98,48 @@ void ServerDevice::updateThread(){
 void ServerDevice::sendData(){
 	while (1) {
 		if (eventManager.sendQSize()) {
+			m.lock();
 			auto e = eventManager.popSendQueue();
-			auto[simPacket, shtPacket] = e.getPacket();
+			m.unlock();
+			auto[simPacket, shtPacket, psPacket] = e.getPacket();
+			packetHead head;
+			setPacketHead(head, e);
+			std::cout << "헤드 보낼게요 " << (int)head.id << "   " << (int)head.packetType << std::endl;
 			if (simPacket != nullptr) {
-				packetHead head;
-				setPacketHead(head, e);
 				if (e.getTarget() == E_EVERYONE) {
 					for (int i = 0; i < 3; ++i) {
 						send(clientSocket[i], (char*)&head, sizeof(head), 0);
-						send(clientSocket[i], (char*)&simPacket, sizeof(simPacket), 0);
+						send(clientSocket[i], (char*)&simPacket, sizeof(*simPacket), 0);
 					}
 				}
 				else {
 					send(clientSocket[head.id], (char*)&head, sizeof(head), 0);
-					send(clientSocket[head.id], (char*)&simPacket, sizeof(simPacket), 0);
+					send(clientSocket[head.id], (char*)&simPacket, sizeof(*simPacket), 0);
+				}
+			}
+			else if (shtPacket != nullptr){
+				if (e.getTarget() == E_EVERYONE) {
+					for (int i = 0; i < 3; ++i) {
+						send(clientSocket[i], (char*)&head, sizeof(head), 0);
+						send(clientSocket[i], (char*)&shtPacket, sizeof(*shtPacket), 0);
+					}
+				}
+				else {
+					send(clientSocket[head.id], (char*)&head, sizeof(head), 0);
+					send(clientSocket[head.id], (char*)&shtPacket, sizeof(*shtPacket), 0);
 				}
 			}
 			else {
-				packetHead head;
-				setPacketHead(head, e);
 				if (e.getTarget() == E_EVERYONE) {
 					for (int i = 0; i < 3; ++i) {
+						std::cout << "보냈음" << (int)psPacket->id << "   " << psPacket->posX << "   " << psPacket->posY << std::endl;
 						send(clientSocket[i], (char*)&head, sizeof(head), 0);
-						send(clientSocket[i], (char*)&shtPacket, sizeof(shtPacket), 0);
+						send(clientSocket[i], (char*)&psPacket->id, sizeof(posPacket), 0);
 					}
 				}
 				else {
 					send(clientSocket[head.id], (char*)&head, sizeof(head), 0);
-					send(clientSocket[head.id], (char*)&shtPacket, sizeof(shtPacket), 0);
+					send(clientSocket[head.id], (char*)&psPacket->id, sizeof(posPacket), 0);
 				}
 			}
 		}
@@ -135,20 +153,31 @@ void ServerDevice::makeThread(){
 		std::thread{ &ServerDevice::recvData,this,clientSocket[i] }.detach();
 		simplePacket s{ i, 0, E_PACKET_SENID };
 		eventManager.pushEvent(Event{ s, E_ONE }, E_SEND);
-		//맨처음 각 클라이언트들에게 자신의 ID를 보내줌
 	}
+	posPacket p1{ 0, -400,-200 };
+	posPacket p2{ 1, -400,300 };
+	posPacket p3{ 2, 400,-100 };
+
+	eventManager.pushEvent(p1, E_SEND);
+	eventManager.pushEvent(p2, E_SEND);
+	eventManager.pushEvent(p3, E_SEND);
+
 	std::thread{ &ServerDevice::updateThread,this }.detach();
 	std::thread{ &ServerDevice::sendData,this }.detach();
 }
 
 void ServerDevice::setPacketHead(packetHead & h, Event& e){
-	auto[simPacket, shtPacket] = e.getPacket();
+	auto[simPacket, shtPacket, posPacket] = e.getPacket();
 	if (simPacket != nullptr) {
 		h.id = simPacket->id;
 		h.packetType = simPacket->packetType;
 	}
-	else {
+	else if(shtPacket != nullptr){
 		h.id = shtPacket->id;
 		h.packetType = E_PACKET_SHOOT;
+	}
+	else {
+		h.id = posPacket->id;
+		h.packetType = E_PACKET_OTSET;
 	}
 }
