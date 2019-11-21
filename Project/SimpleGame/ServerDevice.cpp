@@ -66,12 +66,16 @@ void ServerDevice::recvData(){
 		if (retval == SOCKET_ERROR)
 			return;
 		switch (h.packetType) {
-		case E_PACKET_SPEED:
+		case E_PACKET_SPEED: {
+			simplePacket sim = recvSimplePacket();
+			objects->getObject<Ship>(sim.id)->addSpeed(sim.value);
 			break;
-		case E_PACKET_DEGREE:
+		}
+		case E_PACKET_DEGREE: {
 			simplePacket sim = recvSimplePacket();
 			objects->getObject<Ship>(sim.id)->rotation(sim.value);
 			break;
+		}
 		case E_PACKET_SHOOT:
 			break;
 		case E_PACKET_HIT:

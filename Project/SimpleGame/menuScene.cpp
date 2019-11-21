@@ -45,8 +45,8 @@ void MenuScene::update(float dt){
 	o->update(dt);
 	shootDelay += dt;
 	if (auto ship = o->getObject<Ship>(serverDevice.getId()); ship != nullptr) {
-		if (D_INPUT->isKeyDown(VK_UP)) 
-			ship->changePushType(E_PUSH);
+		if (D_INPUT->isKeyDown(VK_UP))
+			serverDevice.sendData(simplePacket{ (char)serverDevice.getId(), 1.0f, E_PACKET_SPEED });
 		
 		if (D_INPUT->isKeyUp(VK_UP)) 
 			ship->changePushType(E_RELEASED);

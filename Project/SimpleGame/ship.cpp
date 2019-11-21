@@ -115,6 +115,10 @@ void Ship::rotation(float f){
 	setDegree(getDegree() + radToDegree(f));
 }
 
+void Ship::addSpeed(float f){
+	setVelocity(Vector3D(0.0f, getVelocity().y + f, 0.0f));
+}
+
 void Ship::changePushType(E_PUSHTYPE e){
 	pushType = e;
 }

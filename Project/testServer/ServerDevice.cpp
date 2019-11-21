@@ -53,14 +53,20 @@ void ServerDevice::recvData(SOCKET s){
 		int headSize = sizeof(head);
 		int retval = recvn(s, (char*)&head, headSize, 0);	// head 가 올때까지 기다림
 		switch (head.packetType) {
-		case E_PACKET_SPEED:
-			break;
-		case E_PACKET_DEGREE: // 만약 각도 변경 요청일경우
+		case E_PACKET_SPEED: {
 			simplePacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
 			eventManager.pushEvent(pack, E_EVENT);
 			eventManager.pushEvent(pack, E_SEND);
 			break;
+		}
+		case E_PACKET_DEGREE: { // 만약 각도 변경 요청일경우
+			simplePacket pack;
+			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
+			eventManager.pushEvent(pack, E_EVENT);
+			eventManager.pushEvent(pack, E_SEND);
+			break;
+		}
 		case E_PACKET_SHOOT:
 			break;
 		case E_PACKET_HIT:
