@@ -3,9 +3,9 @@
 #include <thread>
 #include "ObjectManager.h"
 #include "ship.h"
-#include <iostream>
+//#include <iostream>
+//using namespace std;
 ObjectManager* objects = nullptr;
-using namespace std;
 ServerDevice::ServerDevice(){
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		return;
@@ -26,15 +26,40 @@ void ServerDevice::initialize(){
 	makeThread();
 }
 
+void ServerDevice::sendData(const std::variant<simplePacket, shootPacket, posPacket>& packet){
+	packetHead h;
+	int packetType = setHeadPacket(packet, h);	
+	send(connectSocket, (char*)&h, sizeof(h), 0);
+	if (packetType == 0) {
+		simplePacket pack = std::get<0>(packet);
+		send(connectSocket, (char*)&pack, sizeof(pack), 0);
+	}
+	else if(packetType == 1) {
+		shootPacket pack = std::get<1>(packet);
+		send(connectSocket, (char*)&pack, sizeof(pack), 0);
+	}
+	else if (packetType == 2) {
+		posPacket pack = std::get<2>(packet);
+		send(connectSocket, (char*)&pack, sizeof(pack), 0);
+	}
+	else {
+		//error!!!!
+	}
+}
+
+int ServerDevice::getId(){
+	return myId;
+}
+
 void ServerDevice::makeThread(){
 	std::thread{ &ServerDevice::recvData, this }.detach();
 }
 
 void ServerDevice::recvData(){
 
-	Ship* myObject = nullptr;
-	if (objects == nullptr)
-		objects = ObjectManager::instance();
+	if (objects == nullptr) 
+		objects = ObjectManager::instance(); // lazy initialize
+	
 	while (1) {
 		packetHead h;
 		int retval = recvn(connectSocket, (char*)&h, sizeof(h), 0);
@@ -44,6 +69,8 @@ void ServerDevice::recvData(){
 		case E_PACKET_SPEED:
 			break;
 		case E_PACKET_DEGREE:
+			simplePacket sim = recvSimplePacket();
+			objects->getObject<Ship>(sim.id)->rotation(sim.value);
 			break;
 		case E_PACKET_SHOOT:
 			break;
@@ -53,13 +80,11 @@ void ServerDevice::recvData(){
 			break;
 		case E_PACKET_SENID: {
 			simplePacket sim = recvSimplePacket();
-			myObject = objects->getObject<Ship>(h.id);
+			myId = h.id;
 			break;
 		}
 		case E_PACKET_OTSET: {
 			posPacket pos = recvposPacket();
-			cout << sizeof(pos) << endl;
-			cout << (int)pos.id << "는" << (int)pos.posX << " , " << (int)pos.posY << "에 만들어짐" << endl;
 			auto o = objects->getObject<Ship>(pos.id);
 			o->setShipIdx(pos.id);
 			o->setPos(pos.posX, pos.posY, 0);
@@ -104,4 +129,24 @@ posPacket ServerDevice::recvposPacket(){
 	posPacket s;
 	recvn(connectSocket, (char*)&s, sizeof(s), 0);
 	return s;
+}
+
+int ServerDevice::setHeadPacket(const std::variant<simplePacket, shootPacket, posPacket>& packet, packetHead& h){
+	int count = -1;
+	if (auto pack = std::get_if<0>(&packet); pack != nullptr) {
+		h.id = pack->id;
+		h.packetType = pack->packetType;
+		count = 0;
+	}
+	else if (auto pack = std::get_if<1>(&packet); pack != nullptr) {
+		h.id = pack->id;
+		h.packetType = E_PACKET_SHOOT;
+		count = 1;
+	}
+	else if (auto pack = std::get_if<2>(&packet); pack != nullptr) {
+		h.id = pack->id;
+		h.packetType = E_PACKET_OTSET;
+		count = 2;
+	}
+	return count;	//RVO..?
 }

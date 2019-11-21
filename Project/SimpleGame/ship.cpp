@@ -103,8 +103,8 @@ void Ship::increaseSpeed(){
 	}
 }
 
-void Ship::leftRotation(){
-	rad += 0.01f;
+void Ship::rotation(float f){
+	rad += f;
 	if (rad < -12.56f || rad > 12.56f)
 		rad = 0.0f;
 	float x = direction.getX();
@@ -112,19 +112,7 @@ void Ship::leftRotation(){
 	x = std::cos(rad);
 	y = std::sin(rad);
 	direction = Vector3D{ x,y,0.0f };
-	setDegree(getDegree() + radToDegree(0.01f));
-}
-
-void Ship::rightRotation(){
-	rad -= 0.01f;
-	if (rad < -12.56f || rad > 12.56f)
-		rad = 0.0f;
-	float x = direction.getX();
-	float y = direction.getY();
-	x = std::cos(rad);
-	y = std::sin(rad);
-	direction = Vector3D{ x,y,0.0f };
-	setDegree(getDegree() - radToDegree(0.01f));
+	setDegree(getDegree() + radToDegree(f));
 }
 
 void Ship::changePushType(E_PUSHTYPE e){
@@ -141,18 +129,15 @@ void Ship::setMaxSpeed(float speed){
 	maxSpeed = speed;
 }
 
-float Ship::getMaxSpeed()
-{
+float Ship::getMaxSpeed(){
 	return maxSpeed;
 }
 
-void Ship::setDamage(int damage)
-{
+void Ship::setDamage(int damage){
 	this->damage = damage;
 }
 
-int Ship::getDamage()
-{
+int Ship::getDamage(){
 	return damage;
 }
 
@@ -164,12 +149,10 @@ int Ship::getShipIdx(){
 	return shipIdx;
 }
 
-void Ship::setbulletCooltime(int count)
-{
+void Ship::setbulletCooltime(int count){
 	bulletCount = count;
 }
 
-int Ship::getbulletCooltime()
-{
+int Ship::getbulletCooltime(){
 	return bulletCount;
 }

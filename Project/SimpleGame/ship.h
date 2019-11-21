@@ -16,8 +16,7 @@ public:
 	void decreaseSpeed();
 	void increaseSpeed();
 
-	void leftRotation();
-	void rightRotation();
+	void rotation(float f);
 
 	void changePushType(E_PUSHTYPE e);
 	void manageHp(int damage);

@@ -44,18 +44,19 @@ void MenuScene::init(){
 void MenuScene::update(float dt){
 	o->update(dt);
 	shootDelay += dt;
-	if (auto ship = o->getObject<Ship>(0); ship != nullptr) {
+	if (auto ship = o->getObject<Ship>(serverDevice.getId()); ship != nullptr) {
 		if (D_INPUT->isKeyDown(VK_UP)) 
 			ship->changePushType(E_PUSH);
 		
 		if (D_INPUT->isKeyUp(VK_UP)) 
 			ship->changePushType(E_RELEASED);
 
-		if (D_INPUT->isKeyOverlap(VK_LEFT))
-			ship->leftRotation();
+		if (D_INPUT->isKeyOverlap(VK_LEFT)) 
+			serverDevice.sendData(simplePacket{ (char)serverDevice.getId(), 0.01f, E_PACKET_DEGREE });
+		
 
 		if (D_INPUT->isKeyOverlap(VK_RIGHT))
-			ship->rightRotation();
+			serverDevice.sendData(simplePacket{ (char)serverDevice.getId(), -0.01f, E_PACKET_DEGREE });
 		
 		count = ship->getbulletCooltime();
 

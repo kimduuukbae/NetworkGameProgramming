@@ -35,3 +35,7 @@ enum packetType : char {
 	E_PACKET_SENID,	// 처음 유저들에게 ID 를 보내기용 패킷
 	E_PACKET_OTSET // 다른 유저들을 세팅하기위한 패킷
 };
+/*
+	주의
+	어떤 패킷을 보낼땐, 미리 패킷을 만들고, 전송해야합니다.
+*/

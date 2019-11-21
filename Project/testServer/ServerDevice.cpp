@@ -52,7 +52,6 @@ void ServerDevice::recvData(SOCKET s){
 		packetHead head;
 		int headSize = sizeof(head);
 		int retval = recvn(s, (char*)&head, headSize, 0);	// head 가 올때까지 기다림
-		std::cout << "recvData()" << std::endl;
 		switch (head.packetType) {
 		case E_PACKET_SPEED:
 			break;
@@ -60,6 +59,7 @@ void ServerDevice::recvData(SOCKET s){
 			simplePacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
 			eventManager.pushEvent(pack, E_EVENT);
+			eventManager.pushEvent(pack, E_SEND);
 			break;
 		case E_PACKET_SHOOT:
 			break;
@@ -104,35 +104,34 @@ void ServerDevice::sendData(){
 			auto[simPacket, shtPacket, psPacket] = e.getPacket();
 			packetHead head;
 			setPacketHead(head, e);
-			std::cout << "헤드 보낼게요 " << (int)head.id << "   " << (int)head.packetType << std::endl;
 			if (simPacket != nullptr) {
 				if (e.getTarget() == E_EVERYONE) {
 					for (int i = 0; i < 3; ++i) {
+						//std::cout << (int)simPacket->id << "라고 하는데용?" << std::endl;
 						send(clientSocket[i], (char*)&head, sizeof(head), 0);
-						send(clientSocket[i], (char*)&simPacket, sizeof(*simPacket), 0);
+						send(clientSocket[i], (char*)&simPacket->id, sizeof(simplePacket), 0);
 					}
 				}
 				else {
 					send(clientSocket[head.id], (char*)&head, sizeof(head), 0);
-					send(clientSocket[head.id], (char*)&simPacket, sizeof(*simPacket), 0);
+					send(clientSocket[head.id], (char*)&simPacket->id, sizeof(simplePacket), 0);
 				}
 			}
 			else if (shtPacket != nullptr){
 				if (e.getTarget() == E_EVERYONE) {
 					for (int i = 0; i < 3; ++i) {
 						send(clientSocket[i], (char*)&head, sizeof(head), 0);
-						send(clientSocket[i], (char*)&shtPacket, sizeof(*shtPacket), 0);
+						send(clientSocket[i], (char*)&shtPacket->id, sizeof(shootPacket), 0);
 					}
 				}
 				else {
 					send(clientSocket[head.id], (char*)&head, sizeof(head), 0);
-					send(clientSocket[head.id], (char*)&shtPacket, sizeof(*shtPacket), 0);
+					send(clientSocket[head.id], (char*)&shtPacket->id, sizeof(shootPacket), 0);
 				}
 			}
 			else {
 				if (e.getTarget() == E_EVERYONE) {
 					for (int i = 0; i < 3; ++i) {
-						std::cout << "보냈음" << (int)psPacket->id << "   " << psPacket->posX << "   " << psPacket->posY << std::endl;
 						send(clientSocket[i], (char*)&head, sizeof(head), 0);
 						send(clientSocket[i], (char*)&psPacket->id, sizeof(posPacket), 0);
 					}
