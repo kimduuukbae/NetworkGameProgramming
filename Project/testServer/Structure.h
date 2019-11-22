@@ -21,7 +21,7 @@ struct color {
 	float r, g, b, a;
 };
 
-class Vector3D {	
+class Vector3D {
 public:
 	Vector3D() = default;
 	Vector3D(float x, float y, float z);

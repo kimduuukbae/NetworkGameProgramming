@@ -12,6 +12,9 @@
     <Filter Include="Event">
       <UniqueIdentifier>{a426674a-2194-46d6-a0a2-2d594ad451b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{776a8d06-3a50-4d98-b8d6-546fc620116b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="server.cpp">
@@ -29,6 +32,15 @@
     <ClCompile Include="ServerDevice.cpp">
       <Filter>Event</Filter>
     </ClCompile>
+    <ClCompile Include="structure.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="packetDataStructure.h">
@@ -45,6 +57,15 @@
     </ClInclude>
     <ClInclude Include="ServerDevice.h">
       <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Structure.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

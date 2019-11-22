@@ -127,16 +127,22 @@
   <ItemGroup>
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="ServerDevice.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="structure.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="packetDataStructure.h" />
     <ClInclude Include="ServerDevice.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Structure.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

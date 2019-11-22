@@ -83,7 +83,11 @@ void ServerDevice::updateThread(){
 			auto e = eventManager.popEventQueue();
 			auto[simPacket, shtPacket, psPacket] = e.getPacket();	// 패킷을 열어봄
 			if (simPacket != nullptr) {
+				switch (simPacket->packetType) {
+				case E_PACKET_DEGREE:
 
+					break;
+				}
 
 			}
 			else if(shtPacket != nullptr){
