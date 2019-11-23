@@ -121,23 +121,6 @@ bool AABBCollision(const box & lhs, const box & rhs) {
 	return false;
 }
 
-void lookAt(Vector3D & dest, Vector3D & target) {
-	Vector3D transform = target - dest;
-	auto radian = std::atan2(transform.getX(), transform.getY());
-
-	updateRotation(dest, radian);
-}
-
-void updateRotation(Vector3D & v, float rad) {
-	float halfX = degreeToRad(v.getX() / 2.f);
-	float halfY = degreeToRad(v.getY() / 2.f);
-
-	float coshalfX = std::cosf(halfX), sinhalfX = std::sinf(halfX);
-	float coshalfY = std::cosf(halfY), sinhalfY = std::sinf(halfY);
-
-
-}
-
 float radToDegree(float rad) {
 	return rad * 180 / 3.141592f;
 }

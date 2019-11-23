@@ -10,3 +10,7 @@ void ObjectManager::update(){
 			i.move();
 	}
 }
+
+Object & ObjectManager::findObject(int idx){
+	return objects[idx];
+}

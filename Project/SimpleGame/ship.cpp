@@ -116,7 +116,9 @@ void Ship::rotation(float f){
 }
 
 void Ship::addSpeed(float f){
-	setVelocity(Vector3D(0.0f, getVelocity().y + f, 0.0f));
+	Vector3D velocity = getVelocity();
+	velocity += direction;
+	setVelocity(velocity);
 }
 
 void Ship::changePushType(E_PUSHTYPE e){

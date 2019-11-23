@@ -83,9 +83,16 @@ void ServerDevice::updateThread(){
 			auto e = eventManager.popEventQueue();
 			auto[simPacket, shtPacket, psPacket] = e.getPacket();	// 패킷을 열어봄
 			if (simPacket != nullptr) {
+				Object& o = objectManager.findObject(simPacket->id);
 				switch (simPacket->packetType) {
 				case E_PACKET_DEGREE:
-
+					o.rotation(simPacket->value);
+					break;
+				case E_PACKET_SPEED:
+					if (simPacket->value > 0.0f)
+						o.increaseSpeed();
+					else
+						o.decreaseSpeed();
 					break;
 				}
 
@@ -97,11 +104,7 @@ void ServerDevice::updateThread(){
 
 			}
 		}
-		else
-			Sleep(1);	// 다른 스레드에게 시간넘겨줌
-		//updateObject();	 모든 오브젝트들에 대한 이동, 충돌 처리
-		// 만약 event Packet 에 대한 처리를 끝냈고, 오브젝트에 대한 업데이트를 다 끝냈는데  보내야할 데이터가 있다면 sendQueue에 밀어넣음
-		//sendQueue.push(Event());
+		objectManager.update();
 	}
 }
 
@@ -117,7 +120,6 @@ void ServerDevice::sendData(){
 			if (simPacket != nullptr) {
 				if (e.getTarget() == E_EVERYONE) {
 					for (int i = 0; i < 3; ++i) {
-						//std::cout << (int)simPacket->id << "라고 하는데용?" << std::endl;
 						send(clientSocket[i], (char*)&head, sizeof(head), 0);
 						send(clientSocket[i], (char*)&simPacket->id, sizeof(simplePacket), 0);
 					}
@@ -173,6 +175,13 @@ void ServerDevice::makeThread(){
 
 	std::thread{ &ServerDevice::updateThread,this }.detach();
 	std::thread{ &ServerDevice::sendData,this }.detach();
+
+	objectManager.addObject(value{ -400.0f, -200.0f, 0.0f }, value{ 0.0f,1.0f,0.0f },
+		E_SHIP);
+	objectManager.addObject(value{ -400.0f, 300.0f, 0.0f }, value{ 0.0f,1.0f,0.0f },
+		E_SHIP);
+	objectManager.addObject(value{ 400.0f, -100.0f, 0.0f }, value{ 0.0f,1.0f,0.0f },
+		E_SHIP);
 }
 
 void ServerDevice::setPacketHead(packetHead & h, Event& e){

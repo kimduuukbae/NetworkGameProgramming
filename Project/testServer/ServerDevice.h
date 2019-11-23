@@ -1,6 +1,7 @@
 #pragma once
 #include <WinSock2.h>
 #include "EventManager.h"
+#include "ObjectManager.h"
 #pragma warning(disable:4996)
 #pragma comment(lib, "ws2_32")
 
@@ -23,7 +24,7 @@ private:
 	WSADATA wsa;
 
 	EventManager eventManager;
-
+	ObjectManager objectManager;
 	void recvData(SOCKET s);
 	void updateThread();
 	void sendData();
