@@ -15,31 +15,19 @@ Bullet::Bullet() {
 void Bullet::update(float deltaTime) {
 	Object::update(deltaTime);
 	fTime += deltaTime;
-	//vTime += fTime;
 	if (vTime < fTime)
 		setDelete();
 }
 
-void Bullet::process(Object* o, float dt) {
-
-	if (D_INPUT->isMouseDown()) {
-		value v = o->getPos();
-
-		fx = D_INPUT->mx - 800;
-		fy = D_INPUT->my - 450;
-
-		vTime = sqrtf((fx - v.x) * (fx - v.x) + (fy - v.y) * (fy - v.y)) / 300.f;
-
-
-		printf("%f", vTime);
+void Bullet::process(short mx, short my, short sPosX, short sPosY) {
+		vTime = sqrtf((mx - sPosX) * (mx - sPosX) + (my - sPosY) * (my - sPosY)) / 300.f;
 
 		if (vTime < fTime) {
 			setVelocity(0.0f, 0.0f, 0.0f);
 		}
 		else
-			setVelocity((fx - v.x) / vTime, (fy - v.y) / -vTime, 0.0f);
-		setPos(v.x, v.y, 0.0f);
-	}
+			setVelocity((mx - sPosX) / vTime, (my - sPosY) / -vTime, 0.0f);
+		setPos(sPosX, sPosY, 0.0f);
 }
 
 void Bullet::setShipIdx(int idx){

@@ -60,17 +60,14 @@ void MenuScene::update(float dt){
 		
 		count = ship->getbulletCooltime();
 
-		if (D_INPUT->isMouseDown() && shootDelay > 1.f && ship->getbulletCooltime() > 0) {
+		if (D_INPUT->isMouseDown() && shootDelay > 0.3f && ship->getbulletCooltime() > 0) {
 			ship->setbulletCooltime(--count);
-			int idx = o->addObject<Bullet>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
-				value{ 20.0f,20.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/bullet.png");
-
-			auto t = o->getObject<Bullet>(idx);
-			t->setShipIdx(0);
-			t->setType(E_BULLET);
-			t->process(o->getObject<Ship>(0), dt);
-
 			shootDelay = 0.0f;
+
+			value v = ship->getPos();
+
+			serverDevice.sendData(shootPacket{ (char)serverDevice.getId(), D_INPUT->mx, D_INPUT->my, (short)v.x, (short)v.y });
+			printf("%d %d %f %f\n", (short)v.x, (short)v.y, v.x, v.y);
 		}
 	}
 	windChangeCoolTime -= dt;

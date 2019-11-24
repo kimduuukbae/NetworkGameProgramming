@@ -16,7 +16,7 @@ Ship::Ship(){
 	maxSpeed = 1.0f;
 	hp = 100;
 	damage = 10;
-	bulletCount = 3;
+	bulletCount = 10;
 	pushType = E_NONE;
 	direction = Vector3D(1.0f, 0.0f, 0.0f);
 	rad = 0.0f;
@@ -62,9 +62,9 @@ void Ship::update(float deltaTime){
 	}
 	
 
-	if (bulletCount < 3) {
+	if (bulletCount < 10) {
 		coolTime += deltaTime;;
-		if (coolTime > 5.f) {
+		if (coolTime > 1.f) {
 			bulletCount++;
 			coolTime = 0.0f;
 		}

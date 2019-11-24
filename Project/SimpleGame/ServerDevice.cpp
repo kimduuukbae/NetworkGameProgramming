@@ -3,6 +3,7 @@
 #include <thread>
 #include "ObjectManager.h"
 #include "ship.h"
+#include "bullet.h"
 //#include <iostream>
 //using namespace std;
 ObjectManager* objects = nullptr;
@@ -18,7 +19,7 @@ ServerDevice::~ServerDevice(){
 void ServerDevice::initialize(){
 	connectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	serverAddr.sin_addr.s_addr = inet_addr("112.148.177.25");
 	serverAddr.sin_port = htons(9000);
 	serverAddr.sin_family = AF_INET;
 
@@ -57,7 +58,7 @@ void ServerDevice::makeThread(){
 
 void ServerDevice::recvData(){
 
-	if (objects == nullptr) 
+	if (objects == nullptr)
 		objects = ObjectManager::instance(); // lazy initialize
 	
 	while (1) {
@@ -76,8 +77,16 @@ void ServerDevice::recvData(){
 			objects->getObject<Ship>(sim.id)->rotation(sim.value);
 			break;
 		}
-		case E_PACKET_SHOOT:
+		case E_PACKET_SHOOT: {
+			shootPacket sht = recvshootPacket();
+			int idx = objects->addObject<Bullet>(value{ (float)sht.tarPosX,(float)sht.tarPosY,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+				value{ 20.0f,20.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/bullet.png");
+			auto t = objects->getObject<Bullet>(idx);
+			t->setShipIdx(sht.id);
+			t->setType(E_BULLET);
+			t->process(sht.mposX, sht.mPosY, sht.tarPosX, sht.tarPosY);
 			break;
+		}
 		case E_PACKET_HIT:
 			break;
 		case E_PACKET_DIE:
@@ -95,7 +104,6 @@ void ServerDevice::recvData(){
 			break;
 		}
 		}
-
 	}
 }
 

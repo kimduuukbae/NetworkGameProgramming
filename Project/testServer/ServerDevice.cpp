@@ -68,7 +68,13 @@ void ServerDevice::recvData(SOCKET s){
 			break;
 		}
 		case E_PACKET_SHOOT:
+		{
+			shootPacket pack;
+			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
+			eventManager.pushEvent(pack, E_EVENT);
+			eventManager.pushEvent(pack, E_SEND);
 			break;
+		}
 		case E_PACKET_HIT:
 			break;
 		case E_PACKET_DIE:
@@ -98,7 +104,7 @@ void ServerDevice::updateThread(){
 
 			}
 			else if(shtPacket != nullptr){
-
+				objectManager.addObject(value((float)shtPacket->tarPosX, (float)shtPacket->tarPosY, 0.f), value((float)shtPacket->mposX, (float)shtPacket->mPosY, 0.f), E_BULLET);
 			}
 			else {
 

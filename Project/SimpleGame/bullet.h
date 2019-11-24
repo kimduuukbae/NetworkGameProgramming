@@ -6,7 +6,7 @@ public:
 	Bullet();
 	~Bullet() = default;
 	void update(float deltaTime) override;
-	void process(Object* o, float dt);
+	void process(short mx, short my, short sPosX, short sPosY);
 	void setShipIdx(int idx);
 	int getShipIdx();
 	void setvTime(float time);
