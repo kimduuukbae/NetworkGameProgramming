@@ -56,14 +56,14 @@ void ServerDevice::recvData(SOCKET s){
 		case E_PACKET_SPEED: {
 			simplePacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
-			eventManager.pushEvent(pack, E_EVENT);
+			//eventManager.pushEvent(pack, E_EVENT);
 			eventManager.pushEvent(pack, E_SEND);
 			break;
 		}
 		case E_PACKET_DEGREE: { // 만약 각도 변경 요청일경우
 			simplePacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
-			eventManager.pushEvent(pack, E_EVENT);
+			//eventManager.pushEvent(pack, E_EVENT);
 			eventManager.pushEvent(pack, E_SEND);
 			break;
 		}
@@ -71,7 +71,7 @@ void ServerDevice::recvData(SOCKET s){
 		{
 			shootPacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
-			eventManager.pushEvent(pack, E_EVENT);
+			//eventManager.pushEvent(pack, E_EVENT);
 			eventManager.pushEvent(pack, E_SEND);
 			break;
 		}
@@ -182,12 +182,12 @@ void ServerDevice::makeThread(){
 	std::thread{ &ServerDevice::updateThread,this }.detach();
 	std::thread{ &ServerDevice::sendData,this }.detach();
 
-	objectManager.addObject(value{ -400.0f, -200.0f, 0.0f }, value{ 0.0f,1.0f,0.0f },
+	/*objectManager.addObject(value{ -400.0f, -200.0f, 0.0f }, value{ 0.0f,1.0f,0.0f },
 		E_SHIP);
 	objectManager.addObject(value{ -400.0f, 300.0f, 0.0f }, value{ 0.0f,1.0f,0.0f },
 		E_SHIP);
 	objectManager.addObject(value{ 400.0f, -100.0f, 0.0f }, value{ 0.0f,1.0f,0.0f },
-		E_SHIP);
+		E_SHIP);*/
 }
 
 void ServerDevice::setPacketHead(packetHead & h, Event& e){
