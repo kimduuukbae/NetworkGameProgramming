@@ -42,7 +42,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	CreateVertexBufferObjects();
 
 	//Initialize camera settings
-	m_v3Camera_Position = glm::vec3(0.f, -1000.f, 1000.f);
+	m_v3Camera_Position = glm::vec3(0.f, 0.f, 1000.f);
 	m_v3Camera_Lookat = glm::vec3(0.f, 0.f, 0.f);
 	m_v3Camera_Up = glm::vec3(0.f, 1.f, 0.f);
 	m_m4View = glm::lookAt(

@@ -66,7 +66,7 @@ void MenuScene::update(float dt){
 
 			value v = ship->getPos();
 
-			serverDevice.sendData(shootPacket{ (char)serverDevice.getId(), D_INPUT->mx, D_INPUT->my, (short)v.x, (short)v.y });
+			serverDevice.sendData(shootPacket{ (char)serverDevice.getId(), (short)D_INPUT->mx, (short)D_INPUT->my, (short)v.x, (short)v.y });
 			printf("%d %d %f %f\n", (short)v.x, (short)v.y, v.x, v.y);
 		}
 	}

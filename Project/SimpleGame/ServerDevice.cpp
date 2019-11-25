@@ -19,7 +19,7 @@ ServerDevice::~ServerDevice(){
 void ServerDevice::initialize(){
 	connectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	serverAddr.sin_addr.s_addr = inet_addr("112.148.177.25");
+	serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 	serverAddr.sin_port = htons(9000);
 	serverAddr.sin_family = AF_INET;
 
