@@ -20,13 +20,9 @@ void Bullet::update(float deltaTime) {
 }
 
 void Bullet::process(short mx, short my, short sPosX, short sPosY) {
-	short fx = mx - 800;
-	short fy = my - 450;
+	vTime = sqrtf(pow(mx - sPosX, 2) + pow(my - sPosY, 2)) / 300.f;
 
-	vTime = sqrtf(pow(fx - sPosX, 2) + pow(fy - sPosY, 2)) / 300.f;
-
-	setVelocity((fx - sPosX) / vTime, (fy - sPosY) / vTime, 0.0f);
-	printf("%d %d", fx, fy);
+	setVelocity((mx - sPosX) / vTime, (my - sPosY) / vTime, 0.0f);
 }
 
 void Bullet::setShipIdx(int idx){

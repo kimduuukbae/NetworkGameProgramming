@@ -93,8 +93,8 @@ void SpecialKeyUpInput(int key, int x, int y) {
 void MouseInput(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && mouseFlag == false) {
 		mouseFlag = true;
-		D_INPUT->mx = x;
-		D_INPUT->my = y;
+		D_INPUT->mx = x - 800;
+		D_INPUT->my = -y + 450;
 	}
 	else if (state == GLUT_UP)
 		mouseFlag = false;
