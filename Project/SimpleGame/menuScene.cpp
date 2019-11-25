@@ -58,6 +58,9 @@ void MenuScene::update(float dt){
 		if (D_INPUT->isKeyOverlap(VK_RIGHT))
 			serverDevice.sendData(simplePacket{ (char)serverDevice.getId(), -0.01f, E_PACKET_DEGREE });
 		
+		if (ship->getPushType() == E_RELEASED)
+			serverDevice.sendData(simplePacket{ (char)serverDevice.getId(), -1.0f, E_PACKET_SPEED });
+
 		count = ship->getbulletCooltime();
 
 		if (D_INPUT->isMouseDown() && shootDelay > 0.3f && ship->getbulletCooltime() > 0) {

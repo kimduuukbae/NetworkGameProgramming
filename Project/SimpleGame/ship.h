@@ -13,12 +13,11 @@ public:
 	Ship();
 	~Ship() = default;
 	void update(float deltaTime) override;
-	void decreaseSpeed();
-	void increaseSpeed();
 
 	void rotation(float f);
 	void addSpeed(float f);
 	void changePushType(E_PUSHTYPE e);
+	E_PUSHTYPE getPushType();
 	void manageHp(int damage);
 	void setMaxSpeed(float speed);
 	float getMaxSpeed();
