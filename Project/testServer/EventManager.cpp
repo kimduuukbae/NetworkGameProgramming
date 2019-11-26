@@ -22,13 +22,17 @@ size_t EventManager::sendQSize(){
 }
 
 Event EventManager::popEventQueue(){
+	m2.lock();
 	auto t = eventQueue.front();
 	eventQueue.pop_front();
+	m2.unlock();
 	return t;
 }
 
 Event EventManager::popSendQueue(){
+	m2.lock();
 	auto t = sendQueue.front();
 	sendQueue.pop_front();
+	m2.unlock();
 	return t;
 }
