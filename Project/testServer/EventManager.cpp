@@ -1,6 +1,9 @@
 #include "EventManager.h"
 #include <mutex>
 std::mutex m2;
+EventManager::EventManager(){
+	
+}
 void EventManager::pushEvent(const Event & e, E_PUSH_TYPE eventType){
 	m2.lock();
 	if (eventType == E_EVENT)

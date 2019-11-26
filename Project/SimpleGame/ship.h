@@ -14,6 +14,9 @@ public:
 	~Ship() = default;
 	void update(float deltaTime) override;
 
+	void increasedSpeed();
+	void decreasedSpeed();
+
 	void rotation(float f);
 	void addSpeed(float f);
 	void changePushType(E_PUSHTYPE e);

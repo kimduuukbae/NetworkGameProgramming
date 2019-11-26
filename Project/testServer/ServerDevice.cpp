@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "packetDataStructure.h"
 #include <mutex>
+#include <iostream>
 std::mutex m;
 ServerDevice::ServerDevice(){
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -117,6 +118,7 @@ void ServerDevice::updateThread(){
 void ServerDevice::sendData(){
 	while (1) {
 		if (eventManager.sendQSize()) {
+			std::cout << "보낼 데이터 갯수 !!" << eventManager.sendQSize() << std::endl;
 			m.lock();
 			auto e = eventManager.popSendQueue();
 			m.unlock();

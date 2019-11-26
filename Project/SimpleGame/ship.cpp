@@ -18,11 +18,22 @@ Ship::Ship(){
 	damage = 10;
 	bulletCount = 10;
 	pushType = E_NONE;
+	gearTime = 0.0f;
 	direction = Vector3D(1.0f, 0.0f, 0.0f);
 	rad = 0.0f;
 }
 
 void Ship::update(float deltaTime){
+	if (pushType != E_NONE) {
+		gearTime += deltaTime;
+		if (gearTime > 1.0f) {
+			if (pushType == E_PUSH)
+				increasedSpeed();
+			else
+				decreasedSpeed();
+			gearTime = 0.0f;
+		}
+	}
 	if (bulletCount < 10) {
 		coolTime += deltaTime;;
 		if (coolTime > 1.f) {
@@ -31,6 +42,32 @@ void Ship::update(float deltaTime){
 		}
 	}
 	Object::update(deltaTime);
+}
+
+void Ship::increasedSpeed(){
+	Vector3D velocity = getVelocity();
+	velocity += direction;
+	setVelocity(velocity);
+	cout << "속도 증가 중" << velocity.getX() << "   " << velocity.getY() << endl;
+}
+
+void Ship::decreasedSpeed(){
+	Vector3D velocity = getVelocity();
+	if (velocity.size() < 0.1f) {
+		pushType = E_NONE;
+		velocity.setX(0.0f);
+		velocity.setY(0.0f);
+	}
+	else {
+		Vector3D v = velocity;
+		v.normalize();
+		velocity += -v;
+		auto[x, y, z] = velocity.getValue();
+		velocity.setX((x > 1.0f) ? x : (x < -1.0f) ? x : 0.0f);
+		velocity.setY((y > 1.0f) ? y : (y < -1.0f) ? y : 0.0f);
+		setVelocity(velocity);
+		cout << "속도 감소 중" << velocity.getX() << "   " << velocity.getY() << endl;
+	}
 }
 
 void Ship::rotation(float f){
@@ -46,27 +83,10 @@ void Ship::rotation(float f){
 }
 
 void Ship::addSpeed(float f){
-	Vector3D velocity = getVelocity();
-	if (f > 0.0f) {
-		velocity += direction;
-		setVelocity(velocity);
-	}
-	else {
-		if (velocity.size() < 0.1f) {
-			pushType = E_NONE;
-			velocity.setX(0.0f);
-			velocity.setY(0.0f);
-		}
-		else {
-			Vector3D v = velocity;
-			v.normalize();
-			velocity += -v;
-			auto[x, y, z] = velocity.getValue();
-			velocity.setX((x > 1.0f) ? x : (x < -1.0f) ? x : 0.0f);
-			velocity.setY((y > 1.0f) ? y : (y < -1.0f) ? y : 0.0f);
-			setVelocity(velocity);
-		}
-	}
+	if (f > 0.0f) 
+		pushType = E_PUSH;
+	else 
+		pushType = E_RELEASED;
 }
 
 
