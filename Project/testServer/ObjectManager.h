@@ -4,8 +4,9 @@
 
 class ObjectManager {
 public:
+	ObjectManager() = default;
 	void addObject(value pos, value dir,E_OBJECT_TYPE e);
-	void update();
+	void update(double deltaTime);
 	Object& findObject(int idx);
 private:
 	std::vector<Object> objects;

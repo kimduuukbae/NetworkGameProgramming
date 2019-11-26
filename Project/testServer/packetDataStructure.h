@@ -24,6 +24,12 @@ struct posPacket {		// 클라이언트들의 좌표를 정의할때
 	short posX;			// 클라이언트 xy
 	short posY;
 };
+
+struct allPacket{		// 몇초에 한번씩 서버의 모든 정보를 클라이언트들에게 보냄 (동기화용)
+	char id;			// 클라이언트의 ID
+	float x;
+	float y;			// 클라이언트의 x,y 좌표
+};
 #pragma pack(pop)
 
 enum packetType : char {
@@ -33,5 +39,6 @@ enum packetType : char {
 	E_PACKET_HIT,	// 누군가의 피격
 	E_PACKET_DIE,	// 누군가의 사망
 	E_PACKET_SENID,	// 처음 유저들에게 ID 를 보내기용 패킷
-	E_PACKET_OTSET	// 다른 유저들을 세팅하기위한 패킷
+	E_PACKET_OTSET,	// 다른 유저들을 세팅하기위한 패킷
+	E_PACKET_SYNC	// 동기화를 위한 패킷
 };

@@ -7,9 +7,9 @@ EventManager::EventManager(){
 void EventManager::pushEvent(const Event & e, E_PUSH_TYPE eventType){
 	m2.lock();
 	if (eventType == E_EVENT)
-		eventQueue.push(e);
+		eventQueue.push_back(e);
 	else
-		sendQueue.push(e);
+		sendQueue.push_back(e);
 	m2.unlock();
 }
 
@@ -23,12 +23,12 @@ size_t EventManager::sendQSize(){
 
 Event EventManager::popEventQueue(){
 	auto t = eventQueue.front();
-	eventQueue.pop();
+	eventQueue.pop_front();
 	return t;
 }
 
 Event EventManager::popSendQueue(){
 	auto t = sendQueue.front();
-	sendQueue.pop();
+	sendQueue.pop_front();
 	return t;
 }

@@ -11,10 +11,11 @@ public:
 	Event(simplePacket& p, E_TARGET_VALUE t = E_EVERYONE);
 	Event(shootPacket& p, E_TARGET_VALUE t = E_EVERYONE);
 	Event(posPacket& p, E_TARGET_VALUE t = E_EVERYONE);
-	std::tuple<simplePacket*, shootPacket*, posPacket*> getPacket();
+	Event(allPacket& p, E_TARGET_VALUE t = E_EVERYONE);
+	std::tuple<simplePacket*, shootPacket*, posPacket*, allPacket*> getPacket();
 	int getTarget();
 private:
-	std::variant<simplePacket, shootPacket, posPacket> var;
+	std::variant<simplePacket, shootPacket, posPacket, allPacket> var;
 	E_TARGET_VALUE target;
 };
 

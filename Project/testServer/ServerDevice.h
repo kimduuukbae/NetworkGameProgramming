@@ -1,5 +1,6 @@
 #pragma once
 #include <WinSock2.h>
+#include <chrono>
 #include "EventManager.h"
 #include "ObjectManager.h"
 #pragma warning(disable:4996)
@@ -30,6 +31,10 @@ private:
 	void sendData();
 	void makeThread();
 	void setPacketHead(packetHead& h, Event& e);
+
+	float deltaTime;
+	float sendSync;
+	std::chrono::time_point<std::chrono::steady_clock> timePoint;
 };
 typedef ServerDevice device;
 

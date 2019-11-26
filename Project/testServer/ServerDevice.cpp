@@ -1,4 +1,3 @@
-#include <iostream>
 #include <thread>
 #include "ServerDevice.h"
 #include "stdafx.h"
@@ -29,6 +28,7 @@ void ServerDevice::initialize(){
 	if (retval == SOCKET_ERROR) err_quit("listen()");
 
 	std::cout << "Initialized" << std::endl;
+	sendSync = 0.0;
 }
 
 void ServerDevice::acceptClient(){
@@ -49,6 +49,7 @@ void ServerDevice::startServer(){
 }
 
 void ServerDevice::recvData(SOCKET s){
+
 	while (1) {
 		packetHead head;
 		int headSize = sizeof(head);
@@ -57,14 +58,14 @@ void ServerDevice::recvData(SOCKET s){
 		case E_PACKET_SPEED: {
 			simplePacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
-			//eventManager.pushEvent(pack, E_EVENT);
+			eventManager.pushEvent(pack, E_EVENT);
 			eventManager.pushEvent(pack, E_SEND);
 			break;
 		}
 		case E_PACKET_DEGREE: { // 만약 각도 변경 요청일경우
 			simplePacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
-			//eventManager.pushEvent(pack, E_EVENT);
+			eventManager.pushEvent(pack, E_EVENT);
 			eventManager.pushEvent(pack, E_SEND);
 			break;
 		}
@@ -72,7 +73,7 @@ void ServerDevice::recvData(SOCKET s){
 		{
 			shootPacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
-			//eventManager.pushEvent(pack, E_EVENT);
+			eventManager.pushEvent(pack, E_EVENT);
 			eventManager.pushEvent(pack, E_SEND);
 			break;
 		}
@@ -88,7 +89,7 @@ void ServerDevice::updateThread(){
 	while (1) {
 		if (eventManager.eventQSize()) {
 			auto e = eventManager.popEventQueue();
-			auto[simPacket, shtPacket, psPacket] = e.getPacket();	// 패킷을 열어봄
+			auto[simPacket, shtPacket, psPacket,aPacket] = e.getPacket();	// 패킷을 열어봄
 			if (simPacket != nullptr) {
 				Object& o = objectManager.findObject(simPacket->id);
 				switch (simPacket->packetType) {
@@ -96,33 +97,42 @@ void ServerDevice::updateThread(){
 					o.rotation(simPacket->value);
 					break;
 				case E_PACKET_SPEED:
-					if (simPacket->value > 0.0f)
-						o.increaseSpeed();
-					else
-						o.decreaseSpeed();
+					o.addSpeed(simPacket->value);
 					break;
 				}
-
 			}
 			else if(shtPacket != nullptr){
 				objectManager.addObject(value((float)shtPacket->tarPosX, (float)shtPacket->tarPosY, 0.f), value((float)shtPacket->mposX, (float)shtPacket->mPosY, 0.f), E_BULLET);
+			}
+			else if(psPacket != nullptr){
+
 			}
 			else {
 
 			}
 		}
-		objectManager.update();
+		deltaTime = std::chrono::duration<float, std::milli>(std::chrono::high_resolution_clock::now() - timePoint).count() / 100.0;
+		timePoint = std::chrono::high_resolution_clock::now();
+		objectManager.update(deltaTime);
+		sendSync += deltaTime;
+		if (sendSync > 0.3) {
+			sendSync = 0.0;
+			for (int i = 0; i < 3; ++i) {
+				auto[x, y, z] = objectManager.findObject(i).getPos();
+				eventManager.pushEvent(allPacket{ (char)i,x,y }, E_SEND);
+			}
+		}
 	}
 }
 
 void ServerDevice::sendData(){
 	while (1) {
 		if (eventManager.sendQSize()) {
-			std::cout << "보낼 데이터 갯수 !!" << eventManager.sendQSize() << std::endl;
+			//std::cout << "보낼 데이터 갯수 !!" << eventManager.sendQSize() << std::endl;
 			m.lock();
 			auto e = eventManager.popSendQueue();
 			m.unlock();
-			auto[simPacket, shtPacket, psPacket] = e.getPacket();
+			auto[simPacket, shtPacket, psPacket, aPacket] = e.getPacket();
 			packetHead head;
 			setPacketHead(head, e);
 			if (simPacket != nullptr) {
@@ -149,7 +159,7 @@ void ServerDevice::sendData(){
 					send(clientSocket[head.id], (char*)&shtPacket->id, sizeof(shootPacket), 0);
 				}
 			}
-			else {
+			else if (psPacket != nullptr){
 				if (e.getTarget() == E_EVERYONE) {
 					for (int i = 0; i < 3; ++i) {
 						send(clientSocket[i], (char*)&head, sizeof(head), 0);
@@ -159,6 +169,12 @@ void ServerDevice::sendData(){
 				else {
 					send(clientSocket[head.id], (char*)&head, sizeof(head), 0);
 					send(clientSocket[head.id], (char*)&psPacket->id, sizeof(posPacket), 0);
+				}
+			}
+			else {
+				for (int i = 0; i < 3; ++i) {
+					send(clientSocket[i], (char*)&head, sizeof(head), 0);
+					send(clientSocket[i], (char*)&aPacket->id, sizeof(allPacket), 0);
 				}
 			}
 		}
@@ -181,19 +197,21 @@ void ServerDevice::makeThread(){
 	eventManager.pushEvent(p2, E_SEND);
 	eventManager.pushEvent(p3, E_SEND);
 
+	timePoint = std::chrono::high_resolution_clock::now();
 	std::thread{ &ServerDevice::updateThread,this }.detach();
+
 	std::thread{ &ServerDevice::sendData,this }.detach();
 
-	/*objectManager.addObject(value{ -400.0f, -200.0f, 0.0f }, value{ 0.0f,1.0f,0.0f },
+	objectManager.addObject(value{ -400.0f, -200.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
 		E_SHIP);
-	objectManager.addObject(value{ -400.0f, 300.0f, 0.0f }, value{ 0.0f,1.0f,0.0f },
+	objectManager.addObject(value{ -400.0f, 300.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
 		E_SHIP);
-	objectManager.addObject(value{ 400.0f, -100.0f, 0.0f }, value{ 0.0f,1.0f,0.0f },
-		E_SHIP);*/
+	objectManager.addObject(value{ 400.0f, -100.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
+		E_SHIP);
 }
 
 void ServerDevice::setPacketHead(packetHead & h, Event& e){
-	auto[simPacket, shtPacket, posPacket] = e.getPacket();
+	auto[simPacket, shtPacket, posPacket, aPacket] = e.getPacket();
 	if (simPacket != nullptr) {
 		h.id = simPacket->id;
 		h.packetType = simPacket->packetType;
@@ -202,8 +220,12 @@ void ServerDevice::setPacketHead(packetHead & h, Event& e){
 		h.id = shtPacket->id;
 		h.packetType = E_PACKET_SHOOT;
 	}
-	else {
+	else if(posPacket != nullptr){
 		h.id = posPacket->id;
 		h.packetType = E_PACKET_OTSET;
+	}
+	else {
+		h.id = aPacket->id;
+		h.packetType = E_PACKET_SYNC;
 	}
 }

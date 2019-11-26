@@ -10,7 +10,7 @@ public:
 	ServerDevice();
 	~ServerDevice();
 	void initialize();
-	void sendData(const std::variant<simplePacket,shootPacket,posPacket>& packet);
+	void sendData(const std::variant<simplePacket,shootPacket,posPacket, allPacket>& packet);
 	int getId();
 private:
 	WSADATA wsa;
@@ -24,8 +24,9 @@ private:
 	simplePacket recvSimplePacket();
 	shootPacket recvshootPacket();
 	posPacket recvposPacket();
+	allPacket recvallPacket();
 
-	int setHeadPacket(const std::variant<simplePacket, shootPacket, posPacket>& packet, packetHead& h);
+	int setHeadPacket(const std::variant<simplePacket, shootPacket, posPacket, allPacket>& packet, packetHead& h);
 
 	int myId;
 };

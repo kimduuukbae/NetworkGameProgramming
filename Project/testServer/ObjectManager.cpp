@@ -4,10 +4,10 @@ void ObjectManager::addObject(value pos, value dir, E_OBJECT_TYPE e){
 	objects.emplace_back(pos, dir, e);
 }
 
-void ObjectManager::update(){
+void ObjectManager::update(double deltaTime){
 	for (auto& i : objects) {
 		if (i.getType() == E_SHIP)
-			i.move();
+			i.update(deltaTime);
 	}
 }
 

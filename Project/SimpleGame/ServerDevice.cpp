@@ -4,8 +4,8 @@
 #include "ObjectManager.h"
 #include "ship.h"
 #include "bullet.h"
-//#include <iostream>
-//using namespace std;
+#include <iostream>
+using namespace std;
 ObjectManager* objects = nullptr;
 ServerDevice::ServerDevice(){
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -27,7 +27,7 @@ void ServerDevice::initialize(){
 	makeThread();
 }
 
-void ServerDevice::sendData(const std::variant<simplePacket, shootPacket, posPacket>& packet){
+void ServerDevice::sendData(const std::variant<simplePacket, shootPacket, posPacket, allPacket>& packet){
 	packetHead h;
 	int packetType = setHeadPacket(packet, h);	
 	send(connectSocket, (char*)&h, sizeof(h), 0);
@@ -43,8 +43,12 @@ void ServerDevice::sendData(const std::variant<simplePacket, shootPacket, posPac
 		posPacket pack = std::get<2>(packet);
 		send(connectSocket, (char*)&pack, sizeof(pack), 0);
 	}
+	else if (packetType == 3){
+		allPacket pack = std::get<3>(packet);
+		send(connectSocket, (char*)&pack, sizeof(pack), 0);
+	}
 	else {
-		//error!!!!
+		//ERROR...
 	}
 }
 
@@ -103,6 +107,17 @@ void ServerDevice::recvData(){
 			o->setPos(pos.posX, pos.posY, 0);
 			break;
 		}
+		case E_PACKET_SYNC: {
+			allPacket all = recvallPacket();
+
+			auto o = objects->getObject<Ship>(all.id);
+			if (getId() == all.id) {
+				std::cout << "내 좌표 : " << o->getPos().x << "   " << o->getPos().y << std::endl;
+				std::cout << "서버가 보내준 좌표 : " << all.x << "   " << all.y << std::endl;
+			}
+			o->setPos(all.x, all.y, 0.0f);
+			break;
+		}
 		}
 	}
 }
@@ -143,7 +158,13 @@ posPacket ServerDevice::recvposPacket(){
 	return s;
 }
 
-int ServerDevice::setHeadPacket(const std::variant<simplePacket, shootPacket, posPacket>& packet, packetHead& h){
+allPacket ServerDevice::recvallPacket(){
+	allPacket s;
+	recvn(connectSocket, (char*)&s, sizeof(s), 0);
+	return s;
+}
+
+int ServerDevice::setHeadPacket(const std::variant<simplePacket, shootPacket, posPacket, allPacket>& packet, packetHead& h){
 	int count = -1;
 	if (auto pack = std::get_if<0>(&packet); pack != nullptr) {
 		h.id = pack->id;
@@ -159,6 +180,11 @@ int ServerDevice::setHeadPacket(const std::variant<simplePacket, shootPacket, po
 		h.id = pack->id;
 		h.packetType = E_PACKET_OTSET;
 		count = 2;
+	}
+	else if (auto pack = std::get_if<3>(&packet); pack != nullptr) {
+		h.id = pack->id;
+		h.packetType = E_PACKET_SYNC;
+		count = 3;
 	}
 	return count;	//RVO..?
 }

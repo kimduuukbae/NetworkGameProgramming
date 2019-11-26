@@ -48,7 +48,6 @@ void Ship::increasedSpeed(){
 	Vector3D velocity = getVelocity();
 	velocity += direction;
 	setVelocity(velocity);
-	cout << "속도 증가 중" << velocity.getX() << "   " << velocity.getY() << endl;
 }
 
 void Ship::decreasedSpeed(){
@@ -63,8 +62,8 @@ void Ship::decreasedSpeed(){
 		v.normalize();
 		velocity += -v;
 		auto[x, y, z] = velocity.getValue();
-		velocity.setX((x > 1.0f) ? x : (x < -1.0f) ? x : 0.0f);
-		velocity.setY((y > 1.0f) ? y : (y < -1.0f) ? y : 0.0f);
+		velocity.setX((x > 0.9f) ? x : (x < -0.9f) ? x : 0.0f);
+		velocity.setY((y > 0.9f) ? y : (y < -0.9f) ? y : 0.0f);
 		setVelocity(velocity);
 		cout << "속도 감소 중" << velocity.getX() << "   " << velocity.getY() << endl;
 	}

@@ -1,5 +1,5 @@
 #pragma once
-#include <queue>
+#include <deque>
 #include "Event.h"
 enum E_PUSH_TYPE {
 	E_EVENT,
@@ -18,6 +18,6 @@ public:
 	_NODISCARD Event popEventQueue();
 	_NODISCARD Event popSendQueue();
 private:
-	std::queue<Event> eventQueue;
-	std::queue<Event> sendQueue;
+	std::deque<Event> eventQueue;
+	std::deque<Event> sendQueue;
 };
