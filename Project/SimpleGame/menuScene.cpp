@@ -15,28 +15,20 @@ void MenuScene::init(){
 	o = D_OBJECT;
 	windChangeCoolTime = defaultWindCoolTime;
 	itemCreationCoolTime = defaultItemCoolTime;
-
+	o->preGenerateImage("texture/ship.png");
+	o->preGenerateImage("texture/item.png");
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
-
-	o->addObject<Reef>(value{ 0.0f,200.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
-		value{ 80.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/speed.png");
-
-	o->addObject<Wind>(value{ -800.0f,-350.0f,0.0f }, color{ 0.0f,0.0f,0.0f,1.0f },
-		value{ 100,100,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/speed.png");
 
 	v = o->getObjects();
 
 	v[0]->setType(E_SHIP);
 	v[1]->setType(E_SHIP);
 	v[2]->setType(E_SHIP);
-
-	v[3]->setType(E_REEF);
-	v[4]->setType(E_WIND);
 
 	serverDevice.initialize();
 }

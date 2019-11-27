@@ -129,8 +129,8 @@ void ServerDevice::updateThread(){
 			{
 				ItemCreateTime = 5.f;
 				short effect = rand() % 3;
-				short posX = rand() % 1600;
-				short posY = rand() % 900;
+				short posX = rand() % 800;
+				short posY = rand() % 400;
 				eventManager.pushEvent(itemPacket{ effect,posX,posY }, E_SEND);
 			}
 			timePoint = std::chrono::high_resolution_clock::now();

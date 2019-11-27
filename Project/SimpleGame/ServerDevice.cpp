@@ -115,28 +115,27 @@ void ServerDevice::recvData(){
 			allPacket all = recvallPacket();
 			auto o = objects->getObject<Ship>(all.id);
 			auto[x, y, z] = o->getPos();
-			std::cout << "내 좌표 : " << x << "   " << y << std::endl;
-			std::cout << "받은 좌표 : " << all.x << "   " << all.y << std::endl;
 			o->setPos(all.x, all.y, 0.0f);
 			o->setVelocity(all.velx, all.vely, 0.0f);
 			break;
 		}
 		case E_PACKET_ITEM: {
 			itemPacket item = recvItemPacket();
+			std::cout << (float)item.itemPosX << "  " <<  (float)item.itemPosY << std::endl;
 			if (item.effect == 0) {			// 속도 업
-				int idx = objects->addObject<SpeedItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 0.0f,0.0f,0.0f,0.0f },
+				int idx = objects->addObject<SpeedItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
 					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
 				auto o = objects->getObject(idx);
 				o->setType(E_ITEM);
 			}
 			else if (item.effect == 1) {	// 공격력 업
-				int idx = objects->addObject<DamageItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 0.0f,0.0f,0.0f,0.0f },
+				int idx = objects->addObject<DamageItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
 					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
 				auto o = objects->getObject(idx);
 				o->setType(E_ITEM);
 			}
 			else {							// 체력 업
-				int idx = objects->addObject<HealItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 0.0f,0.0f,0.0f,0.0f },
+				int idx = objects->addObject<HealItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
 					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
 				auto o = objects->getObject(idx);
 				o->setType(E_ITEM);

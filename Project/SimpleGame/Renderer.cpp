@@ -88,7 +88,7 @@ void Renderer::CreateVertexBufferObjects()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rect), rect, GL_STATIC_DRAW);
 }
 
-int Renderer::GenPngTexture(char * filePath, GLuint sampling)
+int Renderer::GenPngTexture(const char * filePath, GLuint sampling)
 {
 	//Load Pngs
 	std::vector<unsigned char> image;
