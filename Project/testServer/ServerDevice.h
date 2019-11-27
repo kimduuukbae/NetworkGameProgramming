@@ -32,6 +32,7 @@ private:
 	void makeThread();
 	void setPacketHead(packetHead& h, Event& e);
 
+	float ItemCreateTime = 5.f;
 	float deltaTime;
 	float sendSync;
 	std::chrono::time_point<std::chrono::steady_clock> timePoint;

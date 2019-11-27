@@ -4,6 +4,7 @@
 #include "ObjectManager.h"
 #include "ship.h"
 #include "bullet.h"
+#include "item.h"
 #include <iostream>
 #include <mutex>
 using namespace std;
@@ -120,6 +121,27 @@ void ServerDevice::recvData(){
 			o->setVelocity(all.velx, all.vely, 0.0f);
 			break;
 		}
+		case E_PACKET_ITEM: {
+			itemPacket item = recvItemPacket();
+			if (item.effect == 0) {			// 속도 업
+				int idx = objects->addObject<SpeedItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 0.0f,0.0f,0.0f,0.0f },
+					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
+				auto o = objects->getObject(idx);
+				o->setType(E_ITEM);
+			}
+			else if (item.effect == 1) {	// 공격력 업
+				int idx = objects->addObject<DamageItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 0.0f,0.0f,0.0f,0.0f },
+					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
+				auto o = objects->getObject(idx);
+				o->setType(E_ITEM);
+			}
+			else {							// 체력 업
+				int idx = objects->addObject<HealItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 0.0f,0.0f,0.0f,0.0f },
+					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
+				auto o = objects->getObject(idx);
+				o->setType(E_ITEM);
+			}		
+		}
 		}
 		m.unlock();
 	}
@@ -163,6 +185,13 @@ posPacket ServerDevice::recvposPacket(){
 
 allPacket ServerDevice::recvallPacket(){
 	allPacket s;
+	recvn(connectSocket, (char*)&s, sizeof(s), 0);
+	return s;
+}
+
+itemPacket ServerDevice::recvItemPacket()
+{
+	itemPacket s;
 	recvn(connectSocket, (char*)&s, sizeof(s), 0);
 	return s;
 }

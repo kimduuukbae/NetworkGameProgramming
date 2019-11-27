@@ -13,7 +13,7 @@ public:
 
 class SpeedItem : public Item {
 public:
-	SpeedItem() = default;
+	SpeedItem();
 	~SpeedItem() = default;
 	void applyEffect(Ship* ship) override;
 };
@@ -21,7 +21,7 @@ public:
 class DamageItem : public Item
 {
 public:
-	DamageItem() = default;
+	DamageItem();
 	~DamageItem() = default;
 	void applyEffect(Ship* ship) override;
 };
@@ -29,7 +29,7 @@ public:
 class HealItem : public Item
 {
 public:
-	HealItem() = default;
+	HealItem();
 	~HealItem() = default;
 	void applyEffect(Ship* ship) override;
 };
