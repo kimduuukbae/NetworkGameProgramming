@@ -114,8 +114,11 @@ void ServerDevice::recvData(){
 			allPacket all = recvallPacket();
 			auto o = objects->getObject<Ship>(all.id);
 			auto[x, y, z] = o->getPos();
-			std::cout << "³» ÁÂÇ¥ : " << x << "   " << y << std::endl;
-			std::cout << "¹ÞÀº ÁÂÇ¥ : " << all.x << "   " << all.y << std::endl;
+			if (all.id == getId()) {
+				std::cout << " ³» ¾ÆÀÌµð : " << (int)all.id << std::endl;
+				std::cout << "³» ÁÂÇ¥ : " << x << "   " << y << std::endl;
+				std::cout << "¹ÞÀº ÁÂÇ¥ : " << all.x << "   " << all.y << std::endl;
+			}
 			o->setPos(all.x, all.y, 0.0f);
 			o->setVelocity(all.velx, all.vely, 0.0f);
 			break;

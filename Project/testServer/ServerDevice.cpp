@@ -112,9 +112,10 @@ void ServerDevice::updateThread(){
 			}
 		}
 		deltaTime = std::chrono::duration<float, std::milli>(std::chrono::high_resolution_clock::now() - timePoint).count() / 1000.0;
-		if (deltaTime > 0.016f) {
-			objectManager.update(0.016f);
+		if (deltaTime > 0.0159999f) {
+			objectManager.update(deltaTime);
 			sendSync += deltaTime;
+			std::cout << deltaTime << std::endl;
 			if (sendSync > 0.1) {
 				sendSync = 0.0;
 				for (int i = 0; i < 3; ++i) {
@@ -193,6 +194,7 @@ void ServerDevice::makeThread(){
 		E_SHIP);
 	objectManager.addObject(value{ 400.0f, -100.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
 		E_SHIP);
+	timePoint = std::chrono::high_resolution_clock::now();
 	for (int i = 0; i < 3; i++) {
 		std::thread{ &ServerDevice::recvData,this,clientSocket[i] }.detach();
 		simplePacket s{ i, 0, E_PACKET_SENID };
@@ -206,7 +208,6 @@ void ServerDevice::makeThread(){
 	eventManager.pushEvent(p2, E_SEND);
 	eventManager.pushEvent(p3, E_SEND);
 
-	timePoint = std::chrono::high_resolution_clock::now();
 	std::thread{ &ServerDevice::updateThread,this }.detach();
 
 	std::thread{ &ServerDevice::sendData,this }.detach();

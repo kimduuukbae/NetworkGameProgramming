@@ -1,8 +1,6 @@
 #include "Object.h"
 #include <cmath>
 #include <iostream>
-#include "../SimpleGame/Dependencies/glm/glm.hpp"
-#include "../SimpleGame/Dependencies/glm/gtc/matrix_transform.hpp"
 using namespace std;
 Object::Object(value pos, value dir, E_OBJECT_TYPE e)
 	:
@@ -17,6 +15,7 @@ Object::Object(value pos, value dir, E_OBJECT_TYPE e)
 void Object::update(double deltaTime){
 	position = position + velocity * deltaTime;
 	position.setX(clamp(-700.0f, position.getX(), 700.0f));
+	position.setY(clamp(-400.0f, position.getY(), 400.0f));
 	if (pushType != E_NONE) {
 		gearTime += deltaTime;
 		if (gearTime > 0.2f) {
@@ -24,6 +23,10 @@ void Object::update(double deltaTime){
 				increaseSpeed();
 			else if (pushType == E_RELEASED)
 				decreaseSpeed();
+			Vector3D v = velocity;
+			v.setX(clamp(-10.0f, v.getX(), 10.0f));
+			v.setY(clamp(-10.0f, v.getY(), 10.0f));
+			velocity = v;
 			gearTime = 0.0f;
 		}
 	}

@@ -42,5 +42,7 @@ enum packetType : char {
 	E_PACKET_DIE,	// 누군가의 사망
 	E_PACKET_SENID,	// 처음 유저들에게 ID 를 보내기용 패킷
 	E_PACKET_OTSET,	// 다른 유저들을 세팅하기위한 패킷
-	E_PACKET_SYNC	// 동기화를 위한 패킷
+	E_PACKET_SYNC,	// 동기화를 위한 패킷
+	E_PACKET_ITEM,
+	E_PACKET_WIND
 };

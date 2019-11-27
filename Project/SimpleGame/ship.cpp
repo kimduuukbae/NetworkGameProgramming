@@ -31,6 +31,10 @@ void Ship::update(float deltaTime){
 				increasedSpeed();
 			else
 				decreasedSpeed();
+			Vector3D v = getVelocity();
+			v.setX(clamp(-10.0f, v.getX(), 10.0f));
+			v.setY(clamp(-10.0f, v.getY(), 10.0f));
+			setVelocity(v);
 			gearTime = 0.0f;
 		}
 	}
@@ -42,6 +46,9 @@ void Ship::update(float deltaTime){
 		}
 	}
 	Object::update(deltaTime);
+	Vector3D v = getPos();
+	v.setX(clamp(-700.0f, v.getX(), 700.0f));
+	setPos(v.getX(), v.getY(), v.getZ());
 }
 
 void Ship::increasedSpeed(){
