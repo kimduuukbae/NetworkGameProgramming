@@ -29,6 +29,8 @@ struct allPacket{		// 몇초에 한번씩 서버의 모든 정보를 클라이언트들에게 보냄 (동
 	char id;			// 클라이언트의 ID
 	float x;
 	float y;			// 클라이언트의 x,y 좌표
+	float velx;
+	float vely;			// 클라이언트의 가속도 x y
 };
 #pragma pack(pop)
 

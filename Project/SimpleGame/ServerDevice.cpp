@@ -5,8 +5,10 @@
 #include "ship.h"
 #include "bullet.h"
 #include <iostream>
+#include <mutex>
 using namespace std;
 ObjectManager* objects = nullptr;
+std::mutex m;
 ServerDevice::ServerDevice(){
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		return;
@@ -70,6 +72,7 @@ void ServerDevice::recvData(){
 		int retval = recvn(connectSocket, (char*)&h, sizeof(h), 0);
 		if (retval == SOCKET_ERROR)
 			return;
+		m.lock();
 		switch (h.packetType) {
 		case E_PACKET_SPEED: {
 			simplePacket sim = recvSimplePacket();
@@ -109,16 +112,16 @@ void ServerDevice::recvData(){
 		}
 		case E_PACKET_SYNC: {
 			allPacket all = recvallPacket();
-
 			auto o = objects->getObject<Ship>(all.id);
-			if (getId() == all.id) {
-				std::cout << "³» ÁÂÇ¥ : " << o->getPos().x << "   " << o->getPos().y << std::endl;
-				std::cout << "¼­¹ö°¡ º¸³»ÁØ ÁÂÇ¥ : " << all.x << "   " << all.y << std::endl;
-			}
+			auto[x, y, z] = o->getPos();
+			std::cout << "³» ÁÂÇ¥ : " << x << "   " << y << std::endl;
+			std::cout << "¹ÞÀº ÁÂÇ¥ : " << all.x << "   " << all.y << std::endl;
 			o->setPos(all.x, all.y, 0.0f);
+			o->setVelocity(all.velx, all.vely, 0.0f);
 			break;
 		}
 		}
+		m.unlock();
 	}
 }
 

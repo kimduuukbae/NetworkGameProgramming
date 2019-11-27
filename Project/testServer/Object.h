@@ -21,8 +21,10 @@ public:
 	void decreaseSpeed();
 	void rotation(float r);
 	void addSpeed(float f);
+	
 	E_OBJECT_TYPE getType();
 	value getPos();
+	value getVelocity();
 private:
 	Vector3D position;
 	Vector3D direction;

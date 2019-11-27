@@ -35,6 +35,7 @@ public:
 	Vector3D operator+(const Vector3D& rhs);
 	Vector3D& operator+=(const Vector3D& rhs);
 	Vector3D operator*(float _scalar);
+	Vector3D operator*(const Vector3D& rhs);
 	Vector3D operator/(float _scalar);
 
 	float getX() const;

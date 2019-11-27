@@ -26,7 +26,7 @@ Ship::Ship(){
 void Ship::update(float deltaTime){
 	if (pushType != E_NONE) {
 		gearTime += deltaTime;
-		if (gearTime > 1.0f) {
+		if (gearTime > 0.2f) {
 			if (pushType == E_PUSH)
 				increasedSpeed();
 			else
@@ -64,12 +64,17 @@ void Ship::decreasedSpeed(){
 		auto[x, y, z] = velocity.getValue();
 		velocity.setX((x > 0.9f) ? x : (x < -0.9f) ? x : 0.0f);
 		velocity.setY((y > 0.9f) ? y : (y < -0.9f) ? y : 0.0f);
-		setVelocity(velocity);
-		cout << "속도 감소 중" << velocity.getX() << "   " << velocity.getY() << endl;
 	}
+	setVelocity(velocity);
 }
 
 void Ship::rotation(float f){
+
+	Vector3D v = getVelocity();
+	v.setX((std::cos(f) * v.getX()) - (std::sin(f) * v.getY()));
+	v.setY(std::sin(f) * v.getX() + std::cos(f) * v.getY());
+	setVelocity(v);
+
 	rad += f;
 	if (rad < -12.56f || rad > 12.56f)
 		rad = 0.0f;

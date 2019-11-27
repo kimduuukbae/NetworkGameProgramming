@@ -111,16 +111,19 @@ void ServerDevice::updateThread(){
 
 			}
 		}
-		deltaTime = std::chrono::duration<float, std::milli>(std::chrono::high_resolution_clock::now() - timePoint).count() / 100.0;
-		timePoint = std::chrono::high_resolution_clock::now();
-		objectManager.update(deltaTime);
-		sendSync += deltaTime;
-		if (sendSync > 0.3) {
-			sendSync = 0.0;
-			for (int i = 0; i < 3; ++i) {
-				auto[x, y, z] = objectManager.findObject(i).getPos();
-				eventManager.pushEvent(allPacket{ (char)i,x,y }, E_SEND);
+		deltaTime = std::chrono::duration<float, std::milli>(std::chrono::high_resolution_clock::now() - timePoint).count() / 1000.0;
+		if (deltaTime > 0.016f) {
+			objectManager.update(0.016f);
+			sendSync += deltaTime;
+			if (sendSync > 0.1) {
+				sendSync = 0.0;
+				for (int i = 0; i < 3; ++i) {
+					auto[x, y, z] = objectManager.findObject(i).getPos();
+					auto[vx, vy, vz] = objectManager.findObject(i).getVelocity();
+					eventManager.pushEvent(allPacket{ (char)i,x,y,vx,vy }, E_SEND);
+				}
 			}
+			timePoint = std::chrono::high_resolution_clock::now();
 		}
 	}
 }
@@ -184,6 +187,12 @@ void ServerDevice::sendData(){
 }
 
 void ServerDevice::makeThread(){
+	objectManager.addObject(value{ -400.0f, -200.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
+		E_SHIP);
+	objectManager.addObject(value{ -400.0f, 300.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
+		E_SHIP);
+	objectManager.addObject(value{ 400.0f, -100.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
+		E_SHIP);
 	for (int i = 0; i < 3; i++) {
 		std::thread{ &ServerDevice::recvData,this,clientSocket[i] }.detach();
 		simplePacket s{ i, 0, E_PACKET_SENID };
@@ -201,13 +210,6 @@ void ServerDevice::makeThread(){
 	std::thread{ &ServerDevice::updateThread,this }.detach();
 
 	std::thread{ &ServerDevice::sendData,this }.detach();
-
-	objectManager.addObject(value{ -400.0f, -200.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
-		E_SHIP);
-	objectManager.addObject(value{ -400.0f, 300.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
-		E_SHIP);
-	objectManager.addObject(value{ 400.0f, -100.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
-		E_SHIP);
 }
 
 void ServerDevice::setPacketHead(packetHead & h, Event& e){

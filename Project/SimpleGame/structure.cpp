@@ -63,7 +63,9 @@ Vector3D & Vector3D::operator+=(const Vector3D & rhs){
 Vector3D Vector3D::operator*(float _scalar){
 	return Vector3D{ v * _scalar };
 }
-
+Vector3D Vector3D::operator*(const Vector3D & rhs) {
+	return Vector3D(v.x * rhs.v.x, v.y * rhs.v.y, v.z * rhs.v.z);
+}
 Vector3D Vector3D::operator/(float _scalar){
 	return Vector3D{ v.x / _scalar, v.y / _scalar, v.z / _scalar };
 }
