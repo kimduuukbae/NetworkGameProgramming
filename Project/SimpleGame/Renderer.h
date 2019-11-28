@@ -41,7 +41,7 @@ public:
 		float r, float g, float b, float a,
 		int textureID, float degree);
 
-	int GenPngTexture(char * filePath, GLuint sampling = GL_NEAREST);
+	int GenPngTexture(const char * filePath, GLuint sampling = GL_NEAREST);
 	int GenBmpTexture(char * filePath, GLuint sampling = GL_NEAREST);
 	bool DeleteTexture(int idx, bool printLog = false);
 

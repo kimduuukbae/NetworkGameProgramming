@@ -4,7 +4,8 @@ enum E_OBJECT_TYPE {
 	E_SHIP,
 	E_BULLET,
 	E_ITEM,
-	E_REEF
+	E_REEF,
+	E_WIND
 };
 enum E_SHIP_PUSH_TYPE {
 	E_PUSH,

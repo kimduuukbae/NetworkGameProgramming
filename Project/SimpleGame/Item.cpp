@@ -15,7 +15,7 @@ Item::Item()
 void Item::update(float deltaTime)
 {
 	Object::update(deltaTime);
-	for (auto& i : collision->getCollisionObject()) {
+	/*for (auto& i : collision->getCollisionObject()) {
 		if (i->getType() == E_REEF) {
 			auto tmp = getObjectCast<Reef>(i);
 			tmp->collideReef(this);
@@ -24,16 +24,34 @@ void Item::update(float deltaTime)
 			auto tmp = getObjectCast<Wind>(i);
 			tmp->collideWind(this);
 		}
-	}
+		else {
+
+		}
+	}*/
+}
+
+SpeedItem::SpeedItem()
+{
+	
 }
 
 void SpeedItem::applyEffect(Ship * ship){
 	ship->setMaxSpeed(ship->getMaxSpeed() + 5.f);
 }
 
+DamageItem::DamageItem()
+{
+
+}
+
 void DamageItem::applyEffect(Ship* ship)
 {
 	ship->setDamage(ship->getDamage() + 5);
+}
+
+HealItem::HealItem()
+{
+
 }
 
 void HealItem::applyEffect(Ship* ship)

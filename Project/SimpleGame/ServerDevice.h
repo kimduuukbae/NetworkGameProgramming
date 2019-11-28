@@ -25,6 +25,7 @@ private:
 	shootPacket recvshootPacket();
 	posPacket recvposPacket();
 	allPacket recvallPacket();
+	itemPacket recvItemPacket();
 
 	int setHeadPacket(const std::variant<simplePacket, shootPacket, posPacket, allPacket>& packet, packetHead& h);
 

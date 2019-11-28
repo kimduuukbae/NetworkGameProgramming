@@ -2,6 +2,7 @@
 #include <vector>
 #include <list>
 #include "Object.h"
+#include <unordered_map>
 class Renderer;
 #define D_OBJECT ObjectManager::instance()
 class ObjectManager {
@@ -30,6 +31,7 @@ public:
 		o->setVolume(volume.x, volume.y, volume.z);
 		o->setColor(c.r, c.g, c.b, c.a);
 		o->setVelocity(velocity.x, velocity.y, velocity.z);
+		
 		o->setPngIdx(generate(s));
 		o->setIdx(objects.size());
 		objects.push_back(o);
@@ -38,9 +40,11 @@ public:
 	}
 	void setGarbageTime(float time);
 	void garbageCollection();
+	void preGenerateImage(const char* s);
 private:
 	std::vector<Object*> objects;
 	std::list<Object*> collisionObjects;
+	std::unordered_map<std::string, int> pngDictionary;
 	void pushCollisionObject(Object* o);
 	void updateCollision();
 	int generate(const char* s);

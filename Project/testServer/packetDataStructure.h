@@ -32,6 +32,12 @@ struct allPacket{		// 몇초에 한번씩 서버의 모든 정보를 클라이언트들에게 보냄 (동
 	float velx;
 	float vely;			// 클라이언트의 가속도 x y
 };
+
+struct itemPacket {
+	short effect;
+	short itemPosX;
+	short itemPosY;
+};
 #pragma pack(pop)
 
 enum packetType : char {

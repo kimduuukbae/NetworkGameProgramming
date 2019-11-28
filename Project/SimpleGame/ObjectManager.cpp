@@ -3,6 +3,7 @@
 #include "CollisionComponent.h"
 #include "Renderer.h"
 static ObjectManager* inst = nullptr;
+using namespace std;
 ObjectManager* ObjectManager::instance() {
 	if (inst == nullptr)
 		inst = new ObjectManager;
@@ -83,7 +84,9 @@ void ObjectManager::updateCollision(){
 	}
 }
 int ObjectManager::generate(const char * s){
-	return renderer->GenPngTexture(const_cast<char*>(s));
+	if (pngDictionary[s] == 0)
+		pngDictionary[s] = renderer->GenPngTexture(s) + 1;
+	return pngDictionary[s] - 1;
 }
 template <typename T>
 void pointerSwap(T& t1, T& t2) {
@@ -115,6 +118,10 @@ void ObjectManager::garbageCollection() {
 		auto it = objects.end() - (count-1);
 		objects.erase(it, objects.end());
 	}
+}
+
+void ObjectManager::preGenerateImage(const char * s){
+	generate(s);
 }
 
 void ObjectManager::setGarbageTime(float time) {
