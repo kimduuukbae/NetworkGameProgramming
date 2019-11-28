@@ -139,7 +139,8 @@ void ServerDevice::recvData(){
 					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
 				auto o = objects->getObject(idx);
 				o->setType(E_ITEM);
-			}		
+			}
+			break;
 		}
 		case E_PACKET_WIND: {
 			itemPacket wind = recvItemPacket();
@@ -150,6 +151,7 @@ void ServerDevice::recvData(){
 					o->setVelocity(Vector3D{ (float)wind.itemPosX,(float)wind.itemPosY,0.f });
 				}
 			}
+			break;
 		}
 		}
 		m.unlock();

@@ -156,7 +156,9 @@ void ServerDevice::sendData(){
 			m.unlock();
 			auto[simPacket, shtPacket, psPacket, aPacket, itmPacket] = e.getPacket();
 			packetHead head;
+			
 			setPacketHead(head, e);
+			std::cout << (int)head.id << std::endl;
 			if (simPacket != nullptr) {
 				if (e.getTarget() == E_EVERYONE) {
 					for (int i = 0; i < 3; ++i) {
