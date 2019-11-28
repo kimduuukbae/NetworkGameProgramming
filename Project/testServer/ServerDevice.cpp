@@ -129,8 +129,8 @@ void ServerDevice::updateThread(){
 			{
 				ItemCreateTime = 20.f;
 				short effect = rand() % 3;
-				short posX = rand() % 800;
-				short posY = rand() % 400;
+				short posX = rand() % (775 - (-775) + 1) + (-775);
+				short posY = rand() % (425 - (-425) + 1) + (-425);
 				eventManager.pushEvent(itemPacket{ effect,posX,posY }, E_SEND);
 			}
 			windChangeTime -= deltaTime;
@@ -138,9 +138,9 @@ void ServerDevice::updateThread(){
 			{
 				windChangeTime = 30.f;
 				short wind = -1;
-				short windVelX = rand() % 10;
-				short windVelY = rand() % 10;
-				//eventManager.pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
+				short windVelX = rand() % (10 - (-10) + 1) + (-10);
+				short windVelY = rand() % (10 - (-10) + 1) + (-10);
+				eventManager.pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
 			}
 			timePoint = std::chrono::high_resolution_clock::now();
 		}
