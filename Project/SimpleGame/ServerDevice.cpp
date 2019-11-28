@@ -121,7 +121,7 @@ void ServerDevice::recvData(){
 		}
 		case E_PACKET_ITEM: {
 			itemPacket item = recvItemPacket();
-			std::cout << (float)item.itemPosX << "  " <<  (float)item.itemPosY << std::endl;
+			//std::cout << (float)item.itemPosX << "  " <<  (float)item.itemPosY << std::endl;
 			if (item.effect == 0) {			// ¼Óµµ ¾÷
 				int idx = objects->addObject<SpeedItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
 					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
@@ -140,6 +140,16 @@ void ServerDevice::recvData(){
 				auto o = objects->getObject(idx);
 				o->setType(E_ITEM);
 			}		
+		}
+		case E_PACKET_WIND: {
+			itemPacket wind = recvItemPacket();
+			std::cout << (float)wind.itemPosX << "  " << (float)wind.itemPosY << std::endl;
+			for (Object* o : objects->getObjects()) {
+				if (o->getType() == E_WIND)
+				{
+					o->setVelocity(Vector3D{ (float)wind.itemPosX,(float)wind.itemPosY,0.f });
+				}
+			}
 		}
 		}
 		m.unlock();

@@ -7,13 +7,14 @@ Wind::Wind()
 	addComponent<ICollisionComponent>();
 }
 
-void Wind::setWind(Vector3D w)
+void Wind::update(float deltaTime)
 {
-	wind = w;
+
 }
 
 void Wind::collideWind(Object* obj)
 {
-	Vector3D vel = obj->getVelocity();
-	obj->setVelocity(vel.getX() + wind.getX(), vel.getY() + wind.getY(), vel.getZ() + wind.getZ());
+	value vel = obj->getVelocity();
+	vel = vel + this->getVelocity();
+	obj->setVelocity(Vector3D{ vel });
 }

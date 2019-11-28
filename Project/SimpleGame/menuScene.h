@@ -17,10 +17,6 @@ private:
 	
 	std::vector<Object*> v;
 	ServerDevice serverDevice;
-	float windChangeCoolTime;
-	float itemCreationCoolTime;
-	float defaultWindCoolTime = 30.f;
-	float defaultItemCoolTime = 20.f;
 	float shootDelay = 0.0f;
 	int count;
 };

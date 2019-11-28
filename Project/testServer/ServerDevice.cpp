@@ -115,7 +115,7 @@ void ServerDevice::updateThread(){
 		if (deltaTime > 0.0159999f) {
 			objectManager.update(deltaTime);
 			sendSync += deltaTime;
-			std::cout << deltaTime << std::endl;
+			//std::cout << deltaTime << std::endl;
 			if (sendSync > 0.1) {
 				sendSync = 0.0;
 				for (int i = 0; i < 3; ++i) {
@@ -127,11 +127,20 @@ void ServerDevice::updateThread(){
 			ItemCreateTime -= deltaTime;
 			if (ItemCreateTime < FLT_EPSILON)
 			{
-				ItemCreateTime = 5.f;
+				ItemCreateTime = 20.f;
 				short effect = rand() % 3;
 				short posX = rand() % 800;
 				short posY = rand() % 400;
 				eventManager.pushEvent(itemPacket{ effect,posX,posY }, E_SEND);
+			}
+			windChangeTime -= deltaTime;
+			if (windChangeTime < FLT_EPSILON)
+			{
+				windChangeTime = 30.f;
+				short wind = -1;
+				short windVelX = rand() % 10;
+				short windVelY = rand() % 10;
+				//eventManager.pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
 			}
 			timePoint = std::chrono::high_resolution_clock::now();
 		}
@@ -249,6 +258,9 @@ void ServerDevice::setPacketHead(packetHead & h, Event& e){
 	}
 	else {
 		h.id = -1;
-		h.packetType = E_PACKET_ITEM;
+		if (itmPacket->effect == -1)
+			h.packetType = E_PACKET_WIND;
+		else
+			h.packetType = E_PACKET_ITEM;
 	}
 }

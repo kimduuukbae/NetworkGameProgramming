@@ -3,11 +3,10 @@
 
 class Wind : public Object
 {
-	Vector3D wind;
 public:
 	Wind();
 	~Wind() = default;
-	void setWind(Vector3D w);
+	void update(float deltaTime) override;
 	void collideWind(Object* obj);
 };
 

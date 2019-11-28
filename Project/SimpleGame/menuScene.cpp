@@ -13,8 +13,6 @@
 
 void MenuScene::init(){	
 	o = D_OBJECT;
-	windChangeCoolTime = defaultWindCoolTime;
-	itemCreationCoolTime = defaultItemCoolTime;
 	o->preGenerateImage("texture/ship.png");
 	o->preGenerateImage("texture/item.png");
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
@@ -23,12 +21,16 @@ void MenuScene::init(){
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
+	o->addObject<Wind>(value{ 0.f,0.f,0.f }, color{ 0.f,0.f,0.f,0.f },
+		value{ 1600.f,900.f,100.f }, value{ 0.f,0.f,0.f }, "texture/backWind.png");
+	
 
 	v = o->getObjects();
 
 	v[0]->setType(E_SHIP);
 	v[1]->setType(E_SHIP);
 	v[2]->setType(E_SHIP);
+	v[3]->setType(E_WIND);
 
 	serverDevice.initialize();
 }
@@ -60,26 +62,7 @@ void MenuScene::update(float dt){
 
 			serverDevice.sendData(shootPacket{ (char)serverDevice.getId(), (short)D_INPUT->mx, (short)D_INPUT->my, (short)v.x, (short)v.y });
 		}
-	}
-	windChangeCoolTime -= dt;
-	if (windChangeCoolTime < std::numeric_limits<float>::epsilon()) {
-		v = o->getObjects();
-		for (auto& obj : v) {
-			if (obj->getType() == E_WIND) {
-				auto wind = obj->getObjectCast<Wind>(obj);
-				wind->setWind(Vector3D(0.f, 0.f, 0.f));
-				windChangeCoolTime = defaultWindCoolTime;
-				break;
-			}
-		}
-	}
-	itemCreationCoolTime -= dt;
-	if (itemCreationCoolTime < std::numeric_limits<float>::epsilon()) {
-		// ·£´ýÇÑ À§Ä¡¿¡ ¾ÆÀÌÅÛÀ» ÄðÅ¸ÀÓ¸¶´Ù »ý¼º ·£´ý ÁÂÇ¥´Â ±¸Çö ¾ÈµÊ
-		//o->addObject<Item>(value{ 0.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
-			//value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
-		itemCreationCoolTime = defaultItemCoolTime;
-	}
+	}	
 }
 
 void MenuScene::draw(){
