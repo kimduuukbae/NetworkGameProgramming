@@ -93,6 +93,7 @@ void ServerDevice::recvData(){
 			shootPacket sht = recvshootPacket();
 			int idx = objects->addObject<Bullet>(value{ (float)sht.tarPosX,(float)sht.tarPosY,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 				value{ 20.0f,20.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/bullet.png");
+			std::cout << idx << std::endl;
 			auto t = objects->getObject<Bullet>(idx);
 			t->setShipIdx(sht.id);
 			t->setType(E_BULLET);

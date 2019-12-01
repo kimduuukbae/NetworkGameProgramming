@@ -33,6 +33,8 @@ void Object::update(double deltaTime){
 			gearTime = 0.0f;
 		}
 	}
+	if (type == E_BULLET & velocity.size() < 0.1f)
+		setDelete();
 }
 
 void Object::increaseSpeed(){

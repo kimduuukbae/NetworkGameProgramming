@@ -24,6 +24,13 @@ Ship::Ship(){
 }
 
 void Ship::update(float deltaTime){
+	for (auto i : collision->getCollisionObject()) {
+		if (i->getType() == E_BULLET) {
+			auto it = getObjectCast<Bullet>(i);
+			if(shipIdx != it->getShipIdx() )
+				i->setDelete();
+		}
+	}
 	if (pushType != E_NONE) {
 		gearTime += deltaTime;
 		if (gearTime > 0.2f) {
