@@ -4,6 +4,13 @@
 
 class EventManager;
 
+template <typename T>
+void objectSwap(T& t1, T& t2) {
+	Object& tmp = t1;
+	t1 = t2;
+	t2 = tmp;
+}
+
 class ObjectManager {
 public:
 	ObjectManager();
@@ -16,6 +23,8 @@ private:
 	std::vector<Object> objects;
 	EventManager* eventManager;
 
-	float ItemCreateTime = 20.f;
-	float windChangeTime = 30.f;
+	float ItemCreateTime;
+	float windChangeTime;
+	float garbageTime;
+	void garbageColliection();
 };

@@ -27,6 +27,9 @@ public:
 	void setAncesterIdx(int i);
 	int getAncester();
 	int getIdx();
+
+	void setDelete();
+	bool getDelete();
 	box getBox();
 	E_OBJECT_TYPE getType();
 	value getPos();
@@ -44,4 +47,6 @@ private:
 	float rad;
 	double gearTime;
 	int ancesteridx;
+
+	bool deleteIt;
 };

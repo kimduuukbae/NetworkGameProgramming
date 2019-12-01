@@ -50,5 +50,6 @@ enum packetType : char {
 	E_PACKET_OTSET,	// 다른 유저들을 세팅하기위한 패킷
 	E_PACKET_SYNC,	// 동기화를 위한 패킷
 	E_PACKET_ITEM,
-	E_PACKET_WIND
+	E_PACKET_WIND,
+	E_PACKET_DELT,	// 어떤 오브젝트의 삭제
 };

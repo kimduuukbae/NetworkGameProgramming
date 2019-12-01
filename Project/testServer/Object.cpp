@@ -11,7 +11,8 @@ Object::Object(value pos, value dir, value vol, E_OBJECT_TYPE e)
 	gearTime{0.0},
 	pushType{E_NONE},
 	volume{ box{vol.x / 2, vol.x / 2, vol.y / 2, vol.y / 2} },
-	ancesteridx {-1}
+	ancesteridx {-1},
+	deleteIt {false}
 {}
 
 void Object::update(double deltaTime){
@@ -99,6 +100,14 @@ int Object::getAncester(){
 
 int Object::getIdx(){
 	return idx;
+}
+
+void Object::setDelete(){
+	deleteIt = true;
+}
+
+bool Object::getDelete(){
+	return deleteIt;
 }
 
 box Object::getBox(){
