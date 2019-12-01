@@ -8,6 +8,7 @@ std::mutex m;
 ServerDevice::ServerDevice(){
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		err_quit("Startup");
+	eventManager = EventManager::instance();
 }
 ServerDevice::~ServerDevice(){
 	closesocket(listenSocket);
@@ -58,23 +59,23 @@ void ServerDevice::recvData(SOCKET s){
 		case E_PACKET_SPEED: {
 			simplePacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
-			eventManager.pushEvent(pack, E_EVENT);
-			eventManager.pushEvent(pack, E_SEND);
+			eventManager->pushEvent(pack, E_EVENT);
+			eventManager->pushEvent(pack, E_SEND);
 			break;
 		}
 		case E_PACKET_DEGREE: { // 만약 각도 변경 요청일경우
 			simplePacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
-			eventManager.pushEvent(pack, E_EVENT);
-			eventManager.pushEvent(pack, E_SEND);
+			eventManager->pushEvent(pack, E_EVENT);
+			eventManager->pushEvent(pack, E_SEND);
 			break;
 		}
 		case E_PACKET_SHOOT:
 		{
 			shootPacket pack;
 			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
-			eventManager.pushEvent(pack, E_EVENT);
-			eventManager.pushEvent(pack, E_SEND);
+			eventManager->pushEvent(pack, E_EVENT);
+			eventManager->pushEvent(pack, E_SEND);
 			break;
 		}
 		case E_PACKET_HIT:
@@ -87,8 +88,8 @@ void ServerDevice::recvData(SOCKET s){
 
 void ServerDevice::updateThread(){
 	while (1) {
-		if (eventManager.eventQSize()) {
-			auto e = eventManager.popEventQueue();
+		if (eventManager->eventQSize()) {
+			auto e = eventManager->popEventQueue();
 			auto[simPacket, shtPacket, psPacket,aPacket, itmPacket] = e.getPacket();	// 패킷을 열어봄
 			if (simPacket != nullptr) {
 				Object& o = objectManager.findObject(simPacket->id);
@@ -127,26 +128,8 @@ void ServerDevice::updateThread(){
 				for (int i = 0; i < 3; ++i) {
 					auto[x, y, z] = objectManager.findObject(i).getPos();
 					auto[vx, vy, vz] = objectManager.findObject(i).getVelocity();
-					eventManager.pushEvent(allPacket{ (char)i,x,y,vx,vy }, E_SEND);
+					eventManager->pushEvent(allPacket{ (char)i,x,y,vx,vy }, E_SEND);
 				}
-			}
-			ItemCreateTime -= deltaTime;
-			if (ItemCreateTime < FLT_EPSILON)
-			{
-				ItemCreateTime = 20.f;
-				short effect = rand() % 3;
-				short posX = rand() % (775 - (-775) + 1) + (-775);
-				short posY = rand() % (425 - (-425) + 1) + (-425);
-				eventManager.pushEvent(itemPacket{ effect,posX,posY }, E_SEND);
-			}
-			windChangeTime -= deltaTime;
-			if (windChangeTime < FLT_EPSILON)
-			{
-				windChangeTime = 30.f;
-				short wind = -1;
-				short windVelX = rand() % (10 - (-10) + 1) + (-10);
-				short windVelY = rand() % (10 - (-10) + 1) + (-10);
-				eventManager.pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
 			}
 			timePoint = std::chrono::high_resolution_clock::now();
 		}
@@ -155,10 +138,10 @@ void ServerDevice::updateThread(){
 
 void ServerDevice::sendData(){
 	while (1) {
-		if (eventManager.sendQSize()) {
+		if (eventManager->sendQSize()) {
 			//std::cout << "보낼 데이터 갯수 !!" << eventManager.sendQSize() << std::endl;
 			m.lock();
-			auto e = eventManager.popSendQueue();
+			auto e = eventManager->popSendQueue();
 			m.unlock();
 			auto[simPacket, shtPacket, psPacket, aPacket, itmPacket] = e.getPacket();
 			packetHead head;
@@ -230,15 +213,15 @@ void ServerDevice::makeThread(){
 	for (int i = 0; i < 3; i++) {
 		std::thread{ &ServerDevice::recvData,this,clientSocket[i] }.detach();
 		simplePacket s{ i, 0, E_PACKET_SENID };
-		eventManager.pushEvent(Event{ s, E_ONE }, E_SEND);
+		eventManager->pushEvent(Event{ s, E_ONE }, E_SEND);
 	}
 	posPacket p1{ 0, -400,-200 };
 	posPacket p2{ 1, -400,300 };
 	posPacket p3{ 2, 400,-100 };
 
-	eventManager.pushEvent(p1, E_SEND);
-	eventManager.pushEvent(p2, E_SEND);
-	eventManager.pushEvent(p3, E_SEND);
+	eventManager->pushEvent(p1, E_SEND);
+	eventManager->pushEvent(p2, E_SEND);
+	eventManager->pushEvent(p3, E_SEND);
 
 	std::thread{ &ServerDevice::updateThread,this }.detach();
 

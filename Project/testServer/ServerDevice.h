@@ -1,10 +1,12 @@
 #pragma once
 #include <WinSock2.h>
 #include <chrono>
-#include "EventManager.h"
 #include "ObjectManager.h"
+#include "EventManager.h"
 #pragma warning(disable:4996)
 #pragma comment(lib, "ws2_32")
+
+class EventManager;
 
 class ServerDevice {
 public:
@@ -24,16 +26,15 @@ private:
 	
 	WSADATA wsa;
 
-	EventManager eventManager;
+	EventManager* eventManager;
 	ObjectManager objectManager;
+
 	void recvData(SOCKET s);
 	void updateThread();
 	void sendData();
 	void makeThread();
 	void setPacketHead(packetHead& h, Event& e);
 
-	float ItemCreateTime = 20.f;
-	float windChangeTime = 30.f;
 	float deltaTime;
 	float sendSync;
 	std::chrono::time_point<std::chrono::steady_clock> timePoint;

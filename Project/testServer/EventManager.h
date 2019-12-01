@@ -8,6 +8,7 @@ enum E_PUSH_TYPE {
 
 class EventManager {
 public:
+	static EventManager* instance();
 	EventManager();
 	~EventManager() = default;
 	void pushEvent(const Event& e, E_PUSH_TYPE eventType);

@@ -1,8 +1,15 @@
 #include "EventManager.h"
 #include <mutex>
 std::mutex m2;
+
+static EventManager* _instance = nullptr;
+EventManager* EventManager::instance(){
+	if (_instance == nullptr)
+		_instance = new EventManager();
+	return _instance;
+}
 EventManager::EventManager(){
-	
+	delete _instance;
 }
 void EventManager::pushEvent(const Event & e, E_PUSH_TYPE eventType){
 	m2.lock();
