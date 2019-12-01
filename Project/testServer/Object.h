@@ -15,14 +15,19 @@ enum E_SHIP_PUSH_TYPE {
 class Object {
 public:
 	Object() = delete;
-	Object(value pos, value dir, E_OBJECT_TYPE e);
+	Object(value pos, value dir, value volume,  E_OBJECT_TYPE e);
 	~Object() = default;
 	void update(double deltaTime);
 	void increaseSpeed();
 	void decreaseSpeed();
 	void rotation(float r);
 	void addSpeed(float f);
-	
+	void setVelocity(float x, float y, float z);
+	void setIdx(int i);
+	void setAncesterIdx(int i);
+	int getAncester();
+	int getIdx();
+	box getBox();
 	E_OBJECT_TYPE getType();
 	value getPos();
 	value getVelocity();
@@ -32,9 +37,11 @@ private:
 	Vector3D velocity;
 	E_OBJECT_TYPE type;
 	E_SHIP_PUSH_TYPE pushType;
+
+	box volume;
+
 	int idx;
-
 	float rad;
-
 	double gearTime;
+	int ancesteridx;
 };

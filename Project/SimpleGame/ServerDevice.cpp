@@ -58,6 +58,10 @@ void ServerDevice::sendData(const std::variant<simplePacket, shootPacket, posPac
 int ServerDevice::getId(){
 	return myId;
 }
+__interface IInterface
+{
+
+};
 
 void ServerDevice::makeThread(){
 	std::thread{ &ServerDevice::recvData, this }.detach();
@@ -144,12 +148,10 @@ void ServerDevice::recvData(){
 		}
 		case E_PACKET_WIND: {
 			itemPacket wind = recvItemPacket();
-			std::cout << (float)wind.itemPosX << "  " << (float)wind.itemPosY << std::endl;
 			for (Object* o : objects->getObjects()) {
 				if (o->getType() == E_WIND)
-				{
 					o->setVelocity(Vector3D{ (float)wind.itemPosX,(float)wind.itemPosY,0.f });
-				}
+				
 			}
 			break;
 		}

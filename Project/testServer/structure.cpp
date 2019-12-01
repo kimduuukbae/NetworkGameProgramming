@@ -141,3 +141,10 @@ box::box(value pos, value volume) {
 	top = pos.y + volume.y / 2;
 	bottom = pos.y - volume.y / 2;
 }
+
+box::box(float l, float r, float t, float b){
+	left = l;
+	right = r;
+	top = t;
+	bottom = b;
+}

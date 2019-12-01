@@ -102,7 +102,13 @@ void ServerDevice::updateThread(){
 				}
 			}
 			else if(shtPacket != nullptr){
-				objectManager.addObject(value((float)shtPacket->tarPosX, (float)shtPacket->tarPosY, 0.f), value((float)shtPacket->mposX, (float)shtPacket->mPosY, 0.f), E_BULLET);
+				int idx = objectManager.addObject(value((float)shtPacket->tarPosX, (float)shtPacket->tarPosY, 0.f),
+					value((float)shtPacket->mposX, (float)shtPacket->mPosY, 0.f),
+					value{ 20.0f,20.0f,1.0f }, E_BULLET);
+				auto[id, mx, my, tx, ty] = *shtPacket;
+				float vTime = sqrtf(pow(mx - tx, 2) + pow(my - ty, 2)) / 300.0f;
+				objectManager.findObject(idx).setVelocity((mx - tx) / vTime, (my - ty) / vTime,0.0f);
+				objectManager.findObject(idx).setAncesterIdx(id);
 			}
 			else if(psPacket != nullptr){
 
@@ -158,7 +164,6 @@ void ServerDevice::sendData(){
 			packetHead head;
 			
 			setPacketHead(head, e);
-			std::cout << (int)head.id << std::endl;
 			if (simPacket != nullptr) {
 				if (e.getTarget() == E_EVERYONE) {
 					for (int i = 0; i < 3; ++i) {
@@ -215,13 +220,13 @@ void ServerDevice::sendData(){
 
 void ServerDevice::makeThread(){
 	objectManager.addObject(value{ -400.0f, -200.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
-		E_SHIP);
+		value{ 150.0f,100.0f,1.0f }, E_SHIP);
 	objectManager.addObject(value{ -400.0f, 300.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
-		E_SHIP);
+		value{ 150.0f,100.0f,1.0f }, E_SHIP);
 	objectManager.addObject(value{ 400.0f, -100.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
-		E_SHIP);
+		value{ 150.0f,100.0f,1.0f }, E_SHIP);
 	timePoint = std::chrono::high_resolution_clock::now();
-	objectManager.addObject(value{ 0.f,0.f,0.f }, value{ 1.f,1.f,1.f }, E_WIND);
+	objectManager.addObject(value{ 0.f,0.f,0.f }, value{ 1.f,1.f,1.f }, value{ 0.0f,0.0f,0.0f }, E_WIND);
 	for (int i = 0; i < 3; i++) {
 		std::thread{ &ServerDevice::recvData,this,clientSocket[i] }.detach();
 		simplePacket s{ i, 0, E_PACKET_SENID };

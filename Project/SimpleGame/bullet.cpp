@@ -5,7 +5,7 @@
 #include "Input.h"
 #include "ship.h"
 #include<cmath>
-
+#include<iostream>
 Bullet::Bullet() {
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();
@@ -21,8 +21,10 @@ void Bullet::update(float deltaTime) {
 
 void Bullet::process(short mx, short my, short sPosX, short sPosY) {
 	vTime = sqrtf(pow(mx - sPosX, 2) + pow(my - sPosY, 2)) / 300.f;
-
+	
 	setVelocity((mx - sPosX) / vTime, (my - sPosY) / vTime, 0.0f);
+	auto [x,y,z] = getVelocity();
+	std::cout << x << "   " << y << std::endl;
 }
 
 void Bullet::setShipIdx(int idx){

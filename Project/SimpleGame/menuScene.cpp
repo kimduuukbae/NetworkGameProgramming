@@ -15,6 +15,8 @@ void MenuScene::init(){
 	o = D_OBJECT;
 	o->preGenerateImage("texture/ship.png");
 	o->preGenerateImage("texture/item.png");
+	o->preGenerateImage("texture/bullet.png");
+	o->preGenerateImage("texture/backWind.png");
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },

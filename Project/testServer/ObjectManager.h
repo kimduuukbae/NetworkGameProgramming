@@ -5,9 +5,11 @@
 class ObjectManager {
 public:
 	ObjectManager() = default;
-	void addObject(value pos, value dir,E_OBJECT_TYPE e);
+	int addObject(value pos, value dir, value v, E_OBJECT_TYPE e);
 	void update(double deltaTime);
-	Object& findObject(int idx);
+	inline Object& findObject(int idx) {
+		return objects[idx];
+	}
 private:
 	std::vector<Object> objects;
 };

@@ -13,6 +13,7 @@ struct value {
 struct box {
 	float left, right, top, bottom;
 	box(value pos, value volume);
+	box(float l, float r, float t, float b);
 	box() = default;
 };
 struct color {

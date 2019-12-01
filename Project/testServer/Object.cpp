@@ -2,14 +2,16 @@
 #include <cmath>
 #include <iostream>
 using namespace std;
-Object::Object(value pos, value dir, E_OBJECT_TYPE e)
+Object::Object(value pos, value dir, value vol, E_OBJECT_TYPE e)
 	:
 	position{pos},
 	direction{dir},
 	velocity(value{0.0f,0.0f,0.0f}),
 	type{e},
 	gearTime{0.0},
-	pushType{E_NONE}
+	pushType{E_NONE},
+	volume{ box{vol.x / 2, vol.x / 2, vol.y / 2, vol.y / 2} },
+	ancesteridx {-1}
 {}
 
 void Object::update(double deltaTime){
@@ -77,6 +79,31 @@ void Object::addSpeed(float f){
 		pushType = E_PUSH;
 	else
 		pushType = E_RELEASED;
+}
+
+void Object::setVelocity(float x, float y, float z){
+	velocity = value{ x,y,z };
+}
+
+void Object::setIdx(int i){
+	idx = i;
+}
+
+void Object::setAncesterIdx(int i){
+	ancesteridx = i;
+}
+
+int Object::getAncester(){
+	return ancesteridx;
+}
+
+int Object::getIdx(){
+	return idx;
+}
+
+box Object::getBox(){
+	auto[x, y, z] = position.getValue();
+	return { x - volume.left, x + volume.right, y + volume.top, y - volume.bottom };
 }
 
 E_OBJECT_TYPE Object::getType(){
