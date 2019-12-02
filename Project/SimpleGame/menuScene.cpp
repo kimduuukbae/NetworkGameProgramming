@@ -8,6 +8,7 @@
 #include "Item.h"
 #include "Reef.h"
 #include "Wind.h"
+#include "PhysicsComponent.h"
 #include <limits>
 
 
@@ -17,6 +18,7 @@ void MenuScene::init(){
 	o->preGenerateImage("texture/item.png");
 	o->preGenerateImage("texture/bullet.png");
 	o->preGenerateImage("texture/backWind.png");
+
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
@@ -24,9 +26,8 @@ void MenuScene::init(){
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 	o->addObject<Wind>(value{ 0.f,0.f,0.f }, color{ 0.f,0.f,0.f,0.f },
-		value{ 1600.f,900.f,100.f }, value{ 0.f,0.f,0.f }, "texture/backWind.png");
+		value{ 0.f,0.f,0.f }, value{ 0.f,0.f,0.f }, "texture/backWind.png");
 	
-
 	v = o->getObjects();
 
 	v[0]->setType(E_SHIP);
@@ -39,6 +40,16 @@ void MenuScene::init(){
 
 void MenuScene::update(float dt){
 	o->update(dt);
+	if (o->getObject<Wind>(3)->getVelocity().size() > 0.1f) {
+		auto[x, y, z] = o->getObject<Wind>(3)->getVelocity();
+		for (auto& i : o->getObjects()) {
+			if (i->getComponent<IPhysicsComponent>() != nullptr) {
+				auto[sx, sy, sz] = i->getPos();
+				i->setPos(sx + x, sy + y, sz + z);
+			}
+		}
+	}
+
 	shootDelay += dt;
 	if (auto ship = o->getObject<Ship>(serverDevice.getId()); ship != nullptr) {
 		if (D_INPUT->isKeyDown(VK_UP))

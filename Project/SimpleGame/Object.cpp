@@ -102,6 +102,14 @@ void Object::setType(E_TYPE e){
 	myType = e;
 }
 
+void Object::setLive(bool flag){
+	live = flag;
+}
+
+bool Object::getLive(){
+	return live;
+}
+
 E_TYPE Object::getType(){
 	return myType;
 }

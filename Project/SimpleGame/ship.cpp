@@ -14,7 +14,7 @@ Ship::Ship(){
 	addComponent<ICollisionComponent>();
 	collision = getComponent<ICollisionComponent>();
 	maxSpeed = 1.0f;
-	hp = 100;
+	hp = 1;
 	damage = 10;
 	bulletCount = 10;
 	pushType = E_NONE;
@@ -24,7 +24,6 @@ Ship::Ship(){
 }
 
 void Ship::update(float deltaTime){
-    
 	for (auto i : collision->getCollisionObject()) {
 		if (i->getType() == E_BULLET) {
 			auto it = getObjectCast<Bullet>(i);
@@ -54,6 +53,7 @@ void Ship::update(float deltaTime){
 		}
 	}
 	Object::update(deltaTime);
+	
 	Vector3D v = getPos();
 	v.setX(clamp(-700.0f, v.getX(), 700.0f));
 	setPos(v.getX(), v.getY(), v.getZ());
@@ -121,6 +121,8 @@ void Ship::manageHp(int damage){
 	hp -= damage;
 	if (hp > 100)
 		hp = 100;
+	else if (hp < 1)
+		setLive(false);
 }
 
 void Ship::setMaxSpeed(float speed){

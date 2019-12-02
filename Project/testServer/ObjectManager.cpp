@@ -6,7 +6,7 @@
 
 ObjectManager::ObjectManager() : 
 ItemCreateTime{ 20.0f },
-windChangeTime{ 30.0f },
+windChangeTime{ 5.0f },
 garbageTime {10.0f},
 eventManager{ EventManager::instance() }
 {}
@@ -25,9 +25,11 @@ void ObjectManager::update(double deltaTime){
 				std::cout << "충돌 일어남!" << std::endl;
 				i.setDelete();
                 eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),10,E_PACKET_HIT }, E_SEND);
-                if ((*it).getHp() == 0 && x == 0)
-                    x--;    // 한번만 보내라고 해놓은거 나중에 삭제
-                    eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), NULL, E_PACKET_DIE }, E_SEND);
+				if ((*it).getHp() == 0 && x == 0) {
+					x--;    // 한번만 보내라고 해놓은거 나중에 삭제
+					eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), NULL, E_PACKET_DIE }, E_SEND);
+				}
+
 				break;
 			}
 		}

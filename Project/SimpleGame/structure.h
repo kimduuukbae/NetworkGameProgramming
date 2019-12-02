@@ -8,6 +8,7 @@ struct value {
 	value operator+(const value& other);
 	value operator/(float scalar);
 	bool operator<(float scalar);
+	float size();
 	float x, y, z;
 };
 struct box {

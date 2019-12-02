@@ -24,7 +24,6 @@ void Bullet::process(short mx, short my, short sPosX, short sPosY) {
 	
 	setVelocity((mx - sPosX) / vTime, (my - sPosY) / vTime, 0.0f);
 	auto [x,y,z] = getVelocity();
-	std::cout << x << "   " << y << std::endl;
 }
 
 void Bullet::setShipIdx(int idx){

@@ -47,6 +47,9 @@ public:
 	float getDegree();
 
 	void setType(E_TYPE e);
+
+	void setLive(bool flag);
+	bool getLive();
 	E_TYPE getType();
 	template <typename T>
 	T* getComponent() {
@@ -75,6 +78,7 @@ private:
 	int objectIdx;
 	std::vector<IComponent*> components;
 	bool deleteIt;
+	bool live{ true };
 	float degree;
 	E_TYPE myType;
 };

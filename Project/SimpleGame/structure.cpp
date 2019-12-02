@@ -20,6 +20,10 @@ bool value::operator<(float scalar) {
 	return F < scalar;
 }
 
+float value::size(){
+	return fabsf(x) + fabsf(y) + fabsf(z);
+}
+
 color::color() :r{ 0 }, g{ 0 }, b{ 0 }, a{ 0 }{}
 
 color::color(float r1, float g1, float b1, float a1) : r{ r1 }, g{ g1 }, b{ b1 }, a{ a1 }{}
@@ -35,7 +39,7 @@ Vector3D& Vector3D::normalize(){
 }
 
 float Vector3D::size(){
-	return fabsf(v.x) + fabsf(v.y) + fabsf(v.z);
+	return v.size();
 }
 
 Vector3D Vector3D::operator-(const Vector3D & rhs){

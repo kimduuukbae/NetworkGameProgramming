@@ -28,7 +28,7 @@ void ObjectManager::destroy(){
 
 void ObjectManager::draw(){
 	for (auto& i : objects) {
-		if (!i->getDelete()) {
+		if (i->getLive() & !i->getDelete()) {
 			auto[x, y, z] = i->getPos();
 			auto[sx, sy, sz] = i->getVolume();
 			auto[r, g, b, a] = i->getColor();
@@ -39,8 +39,10 @@ void ObjectManager::draw(){
 }
 
 void ObjectManager::update(float dt){
-	for (auto& i : objects)
-		i->update(dt);
+	for (auto& i : objects) {
+		if(i->getLive())
+			i->update(dt);
+	}
 	updateCollision();
 	garbageTime += dt;
 	if (garbageTime > garbageTimePlan) {

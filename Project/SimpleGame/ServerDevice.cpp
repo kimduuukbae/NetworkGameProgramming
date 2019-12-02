@@ -58,10 +58,6 @@ void ServerDevice::sendData(const std::variant<simplePacket, shootPacket, posPac
 int ServerDevice::getId(){
 	return myId;
 }
-__interface IInterface
-{
-
-};
 
 void ServerDevice::makeThread(){
 	std::thread{ &ServerDevice::recvData, this }.detach();
@@ -93,17 +89,17 @@ void ServerDevice::recvData(){
 			shootPacket sht = recvshootPacket();
 			int idx = objects->addObject<Bullet>(value{ (float)sht.tarPosX,(float)sht.tarPosY,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 				value{ 20.0f,20.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/bullet.png");
-			std::cout << idx << std::endl;
 			auto t = objects->getObject<Bullet>(idx);
 			t->setShipIdx(sht.id);
 			t->setType(E_BULLET);
 			t->process(sht.mposX, sht.mPosY, sht.tarPosX, sht.tarPosY);
 			break;
 		}
-		case E_PACKET_HIT:
-            simplePacket sim = recvSimplePacket();
-            objects->getObject<Ship>(sim.id)->manageHp(sim.value);
+		case E_PACKET_HIT: {
+			simplePacket sim = recvSimplePacket();
+			objects->getObject<Ship>(sim.id)->manageHp(sim.value);
 			break;
+		}
 		case E_PACKET_DIE:
             //simplePacket sim = recvSimplePacket();
             //objects->getObject<Ship>(sim.id)->;
