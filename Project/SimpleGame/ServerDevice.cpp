@@ -101,8 +101,12 @@ void ServerDevice::recvData(){
 			break;
 		}
 		case E_PACKET_HIT:
+            simplePacket sim = recvSimplePacket();
+            objects->getObject<Ship>(sim.id)->manageHp(sim.value);
 			break;
 		case E_PACKET_DIE:
+            //simplePacket sim = recvSimplePacket();
+            //objects->getObject<Ship>(sim.id)->;
 			break;
 		case E_PACKET_SENID: {
 			simplePacket sim = recvSimplePacket();
