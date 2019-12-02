@@ -25,6 +25,8 @@ public:
 	void setVelocity(float x, float y, float z);
 	void setIdx(int i);
 	void setAncesterIdx(int i);
+    void manageHp(int damage);
+    int getHp();
 	int getAncester();
 	int getIdx();
 
@@ -47,6 +49,7 @@ private:
 	float rad;
 	double gearTime;
 	int ancesteridx;
+    int HealthPoint;
 
 	bool deleteIt;
 };

@@ -12,6 +12,7 @@ Object::Object(value pos, value dir, value vol, E_OBJECT_TYPE e)
 	pushType{E_NONE},
 	volume{ box{vol.x / 2, vol.x / 2, vol.y / 2, vol.y / 2} },
 	ancesteridx {-1},
+    HealthPoint{100},
 	deleteIt {false}
 {}
 
@@ -94,6 +95,18 @@ void Object::setIdx(int i){
 
 void Object::setAncesterIdx(int i){
 	ancesteridx = i;
+}
+
+void Object::manageHp(int damage)
+{
+    HealthPoint -= damage;
+    if (HealthPoint > 100)
+        HealthPoint = 100;
+}
+
+int Object::getHp()
+{
+    return HealthPoint;
 }
 
 int Object::getAncester(){
