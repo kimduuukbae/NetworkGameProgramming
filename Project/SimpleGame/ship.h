@@ -30,6 +30,7 @@ public:
 	int getShipIdx();
 	void setbulletCooltime(int count);
 	int getbulletCooltime();
+    int getHp();
 private:
 	ICollisionComponent* collision;
 	float gearTime;

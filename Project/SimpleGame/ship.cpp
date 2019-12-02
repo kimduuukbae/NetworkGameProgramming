@@ -24,6 +24,7 @@ Ship::Ship(){
 }
 
 void Ship::update(float deltaTime){
+    
 	for (auto i : collision->getCollisionObject()) {
 		if (i->getType() == E_BULLET) {
 			auto it = getObjectCast<Bullet>(i);
@@ -152,4 +153,9 @@ void Ship::setbulletCooltime(int count){
 
 int Ship::getbulletCooltime(){
 	return bulletCount;
+}
+
+int Ship::getHp()
+{
+    return hp;
 }

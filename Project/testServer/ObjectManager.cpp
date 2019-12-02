@@ -11,7 +11,7 @@ garbageTime {10.0f},
 eventManager{ EventManager::instance() }
 {}
 
-
+int x = 0;
 //0 1 2 배, 3 바람 4 ~ 총알 아이템
 void ObjectManager::update(double deltaTime){
 	for (auto& i : objects) {
@@ -24,6 +24,10 @@ void ObjectManager::update(double deltaTime){
 			if (AABBCollision((*it).getBox(), i.getBox())) {
 				std::cout << "충돌 일어남!" << std::endl;
 				i.setDelete();
+                eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),10,E_PACKET_HIT }, E_SEND);
+                if ((*it).getHp() == 0 && x == 0)
+                    x--;    // 한번만 보내라고 해놓은거 나중에 삭제
+                    eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), NULL, E_PACKET_DIE }, E_SEND);
 				break;
 			}
 		}
