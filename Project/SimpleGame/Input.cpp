@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Input.h"
 #include "Dependencies\freeglut.h"
+#include <stdio.h>
 static Input* inst = nullptr;
 bool keyFlag[256];
 bool mouseFlag;
@@ -93,8 +94,8 @@ void SpecialKeyUpInput(int key, int x, int y) {
 void MouseInput(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && mouseFlag == false) {
 		mouseFlag = true;
-		D_INPUT->mx = x - 800;
-		D_INPUT->my = -y + 450;
+		D_INPUT->mx = (x - D_INPUT->winsizeX / 2) * (1600 / D_INPUT->winsizeX);
+		D_INPUT->my = (-y + D_INPUT->winsizeY / 2) * (900 / D_INPUT->winsizeY);
 	}
 	else if (state == GLUT_UP)
 		mouseFlag = false;

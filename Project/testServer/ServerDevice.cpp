@@ -73,7 +73,7 @@ void ServerDevice::recvData(SOCKET s){
 		case E_PACKET_SHOOT:
 		{
 			shootPacket pack;
-			retval = recvn(s, (char*)&pack, sizeof(pack), 0);
+			retval = recvn(s, (char*)&pack, sizeof(pack), 0);		
 			eventManager->pushEvent(pack, E_EVENT);
 			eventManager->pushEvent(pack, E_SEND);
 			break;

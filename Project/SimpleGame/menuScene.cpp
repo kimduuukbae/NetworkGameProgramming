@@ -72,7 +72,6 @@ void MenuScene::update(float dt){
 			shootDelay = 0.0f;
 
 			value v = ship->getPos();
-
 			serverDevice.sendData(shootPacket{ (char)serverDevice.getId(), (short)D_INPUT->mx, (short)D_INPUT->my, (short)v.x, (short)v.y });
 		}
 	}	

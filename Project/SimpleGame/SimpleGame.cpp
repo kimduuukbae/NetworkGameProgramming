@@ -30,6 +30,12 @@ void RenderScene(int temp){
 void Idle(void){
 	
 }
+GLvoid Reshape(int w, int h) // 콜백 함수: 다시 그리기 
+{
+	glViewport(0, 0, w, h);
+	D_INPUT->winsizeX = w;
+	D_INPUT->winsizeY = h;
+}
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
@@ -51,6 +57,7 @@ int main(int argc, char **argv)
 	glutMouseFunc(MouseInput);
 	elapsedTime = glutGet(GLUT_ELAPSED_TIME);
 	glutTimerFunc(16, RenderScene, 16);
+	glutReshapeFunc(Reshape);
 	//atexit() GLUT 는 OS 에게 resource free 를 맡기기 때문에, memory leak 이 존재함. atexit를 통해 해제 함수를 다 호출해줌
 	glutMainLoop();
 	printf("EXIT");

@@ -12,6 +12,7 @@ public:
 	void setDeltaTime(float t);
 	float getDeltaTime();
 	float mx, my;
+	float winsizeX = 1600, winsizeY = 900;
 private:
 	float deltaTime;
 };
