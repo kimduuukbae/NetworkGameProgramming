@@ -35,6 +35,11 @@ void ObjectManager::update(double deltaTime){
 		}
 		i.update(deltaTime);
 	}
+	auto [wvx, wvy, wvz] = findObject(3).getVelocity();
+	for (int i = 0; i < 3; ++i) {
+		auto [x, y, z] = findObject(i).getPos();
+		findObject(i).setPos(value{ x + wvx * (float)deltaTime,y + wvy * (float)deltaTime,z + wvz * (float)deltaTime });
+	}
 	ItemCreateTime -= deltaTime;
 	if (ItemCreateTime < FLT_EPSILON)
 	{
@@ -51,6 +56,7 @@ void ObjectManager::update(double deltaTime){
 		short wind = -1;
 		short windVelX = rand() % (10 - (-10) + 1) + (-10);
 		short windVelY = rand() % (10 - (-10) + 1) + (-10);
+		findObject(3).setVelocity(windVelX, windVelY, 0.f);
 		eventManager->pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
 	}
 	garbageTime -= deltaTime;

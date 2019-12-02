@@ -129,6 +129,7 @@ void ServerDevice::updateThread(){
 					auto[x, y, z] = objectManager.findObject(i).getPos();
 					auto[vx, vy, vz] = objectManager.findObject(i).getVelocity();
 					eventManager->pushEvent(allPacket{ (char)i,x,y,vx,vy }, E_SEND);
+					printf("%d %d %d\n", i, (int)x, (int)y);
 				}
 			}
 			timePoint = std::chrono::high_resolution_clock::now();
@@ -209,7 +210,7 @@ void ServerDevice::makeThread(){
 	objectManager.addObject(value{ 400.0f, -100.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
 		value{ 150.0f,100.0f,1.0f }, E_SHIP);
 	timePoint = std::chrono::high_resolution_clock::now();
-	objectManager.addObject(value{ 0.f,0.f,0.f }, value{ 1.f,1.f,1.f }, value{ 0.0f,0.0f,0.0f }, E_WIND);
+	objectManager.addObject(value{ 0.f,0.f,0.f }, value{ 0.f,0.f,0.f }, value{ 0.0f,0.0f,0.0f }, E_WIND);
 	for (int i = 0; i < 3; i++) {
 		std::thread{ &ServerDevice::recvData,this,clientSocket[i] }.detach();
 		simplePacket s{ i, 0, E_PACKET_SENID };

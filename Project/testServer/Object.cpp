@@ -138,6 +138,13 @@ value Object::getPos(){
 	return position.getValue();
 }
 
+void Object::setPos(value pos)
+{
+	position.setX(pos.x);
+	position.setY(pos.y);
+	position.setZ(pos.z);
+}
+
 value Object::getVelocity(){
 	return velocity.getValue();
 }

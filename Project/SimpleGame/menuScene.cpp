@@ -45,7 +45,7 @@ void MenuScene::update(float dt){
 		for (auto& i : o->getObjects()) {
 			if (i->getComponent<IPhysicsComponent>() != nullptr) {
 				auto[sx, sy, sz] = i->getPos();
-				i->setPos(sx + x, sy + y, sz + z);
+				i->setPos(sx + x * dt, sy + y * dt, sz + z * dt);
 			}
 		}
 	}

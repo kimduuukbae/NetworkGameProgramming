@@ -35,6 +35,7 @@ public:
 	box getBox();
 	E_OBJECT_TYPE getType();
 	value getPos();
+	void setPos(value pos);
 	value getVelocity();
 private:
 	Vector3D position;
