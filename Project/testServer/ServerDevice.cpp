@@ -129,7 +129,7 @@ void ServerDevice::updateThread(){
 					auto[x, y, z] = objectManager.findObject(i).getPos();
 					auto[vx, vy, vz] = objectManager.findObject(i).getVelocity();
 					eventManager->pushEvent(allPacket{ (char)i,x,y,vx,vy }, E_SEND);
-					printf("%d %d %d\n", i, (int)x, (int)y);
+					//printf("%d %d %d\n", i, (int)x, (int)y);
 				}
 			}
 			timePoint = std::chrono::high_resolution_clock::now();

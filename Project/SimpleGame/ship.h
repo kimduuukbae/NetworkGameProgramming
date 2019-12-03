@@ -31,6 +31,7 @@ public:
 	void setbulletCooltime(int count);
 	int getbulletCooltime();
     int getHp();
+	void setHp(int hp);
 private:
 	ICollisionComponent* collision;
 	float gearTime;

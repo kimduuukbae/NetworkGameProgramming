@@ -101,8 +101,8 @@ void ServerDevice::recvData(){
 			break;
 		}
 		case E_PACKET_DIE:
-            //simplePacket sim = recvSimplePacket();
-            //objects->getObject<Ship>(sim.id)->;
+			//simplePacket sim = recvSimplePacket();
+			//objects->getObject<Ship>(sim.id)->;
 			break;
 		case E_PACKET_SENID: {
 			simplePacket sim = recvSimplePacket();
@@ -119,7 +119,7 @@ void ServerDevice::recvData(){
 		case E_PACKET_SYNC: {
 			allPacket all = recvallPacket();
 			auto o = objects->getObject<Ship>(all.id);
-			auto[x, y, z] = o->getPos();
+			auto [x, y, z] = o->getPos();
 			o->setPos(all.x, all.y, 0.0f);
 			o->setVelocity(all.velx, all.vely, 0.0f);
 			break;
@@ -152,8 +152,31 @@ void ServerDevice::recvData(){
 			for (Object* o : objects->getObjects()) {
 				if (o->getType() == E_WIND)
 					o->setVelocity(Vector3D{ (float)wind.itemPosX,(float)wind.itemPosY,0.f });
-				
+
 			}
+			break;
+		}
+		case E_PACKET_GETITEM: {
+			simplePacket sim = recvSimplePacket();
+			auto o = objects->getObject<Ship>(sim.id);
+			switch ((short)sim.value) {
+			case 0: {
+				float curMaxSpeed = o->getMaxSpeed();
+				o->setMaxSpeed(curMaxSpeed + 5.f);
+				break;
+			}
+			case 1: {
+				float curBulletDamage = o->getDamage();
+				o->setDamage(curBulletDamage + 5);
+				break;
+			}
+			case 2:
+				o->manageHp(-20);
+				if (o->getHp() > 100)
+					o->setHp(100);
+				break;
+			}
+			printf("%d %f %d %d\n", sim.id, o->getMaxSpeed(), o->getDamage(), o->getHp());
 			break;
 		}
 		}

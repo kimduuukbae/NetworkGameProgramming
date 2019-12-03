@@ -30,6 +30,9 @@ void Ship::update(float deltaTime){
 			if(shipIdx != it->getShipIdx() )
 				i->setDelete();
 		}
+		else if (i->getType() == E_ITEM) {
+			i->setDelete();
+		}
 	}
 	if (pushType != E_NONE) {
 		gearTime += deltaTime;
@@ -160,4 +163,9 @@ int Ship::getbulletCooltime(){
 int Ship::getHp()
 {
     return hp;
+}
+
+void Ship::setHp(int hp)
+{
+	this->hp = hp;
 }
