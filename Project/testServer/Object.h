@@ -51,6 +51,6 @@ private:
 	double gearTime;
 	int ancesteridx;
     int HealthPoint;
-
+	
 	bool deleteIt;
 };

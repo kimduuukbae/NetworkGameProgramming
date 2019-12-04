@@ -13,11 +13,11 @@ Ship::Ship(){
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();
 	collision = getComponent<ICollisionComponent>();
-	maxSpeed = 1.0f;
 	hp = 1;
 	damage = 10;
 	bulletCount = 10;
 	pushType = E_NONE;
+	maxSpeed = 30.0f;
 	gearTime = 0.0f;
 	direction = Vector3D(1.0f, 0.0f, 0.0f);
 	rad = 0.0f;
@@ -42,8 +42,8 @@ void Ship::update(float deltaTime){
 			else
 				decreasedSpeed();
 			Vector3D v = getVelocity();
-			v.setX(clamp(-10.0f, v.getX(), 10.0f));
-			v.setY(clamp(-10.0f, v.getY(), 10.0f));
+			v.setX(clamp(-maxSpeed, v.getX(), maxSpeed));
+			v.setY(clamp(-maxSpeed, v.getY(), maxSpeed));
 			setVelocity(v);
 			gearTime = 0.0f;
 		}

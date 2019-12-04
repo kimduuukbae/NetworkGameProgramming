@@ -204,11 +204,11 @@ void ServerDevice::sendData(){
 
 void ServerDevice::makeThread(){
 	objectManager.addObject(value{ -400.0f, -200.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
-		value{ 150.0f,100.0f,1.0f }, E_SHIP);
+		value{ 150.0f,50.0f,1.0f }, E_SHIP);
 	objectManager.addObject(value{ -400.0f, 300.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
-		value{ 150.0f,100.0f,1.0f }, E_SHIP);
+		value{ 150.0f,50.0f,1.0f }, E_SHIP);
 	objectManager.addObject(value{ 400.0f, -100.0f, 0.0f }, value{ 1.0f,0.0f,0.0f },
-		value{ 150.0f,100.0f,1.0f }, E_SHIP);
+		value{ 150.0f,50.0f,1.0f }, E_SHIP);
 	timePoint = std::chrono::high_resolution_clock::now();
 	objectManager.addObject(value{ 0.f,0.f,0.f }, value{ 0.f,0.f,0.f }, value{ 0.0f,0.0f,0.0f }, E_WIND);
 	for (int i = 0; i < 3; i++) {

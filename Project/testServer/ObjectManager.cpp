@@ -54,7 +54,7 @@ void ObjectManager::update(double deltaTime){
 		short effect = rand() % 3;
 		short posX = rand() % (775 - (-775) + 1) + (-775);
 		short posY = rand() % (425 - (-425) + 1) + (-425);
-		addObject(value{ (float)posX,(float)posY,0.f }, value{ 0.f,0.f,0.f }, value{ 0.f,0.f,0.f }, E_ITEM);
+		addObject(value{ (float)posX,(float)posY,0.f }, value{ 0.f,0.f,0.f }, value{ 50.f,50.f,0.f }, E_ITEM);
 		eventManager->pushEvent(itemPacket{ effect,posX,posY }, E_SEND);
 	}
 	windChangeTime -= deltaTime;

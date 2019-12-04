@@ -28,8 +28,8 @@ void Object::update(double deltaTime){
 			else if (pushType == E_RELEASED)
 				decreaseSpeed();
 			Vector3D v = velocity;
-			v.setX(clamp(-10.0f, v.getX(), 10.0f));
-			v.setY(clamp(-10.0f, v.getY(), 10.0f));
+			v.setX(clamp(-30.0f, v.getX(), 30.0f));
+			v.setY(clamp(-30.0f, v.getY(), 30.0f));
 			velocity = v;
 			gearTime = 0.0f;
 		}
