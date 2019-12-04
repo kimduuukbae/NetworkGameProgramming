@@ -122,14 +122,12 @@ void ServerDevice::updateThread(){
 		if (deltaTime > 0.0159999f) {
 			objectManager.update(deltaTime);
 			sendSync += deltaTime;
-			//std::cout << deltaTime << std::endl;
 			if (sendSync > 0.1) {
 				sendSync = 0.0;
 				for (int i = 0; i < 3; ++i) {
 					auto[x, y, z] = objectManager.findObject(i).getPos();
 					auto[vx, vy, vz] = objectManager.findObject(i).getVelocity();
 					eventManager->pushEvent(allPacket{ (char)i,x,y,vx,vy }, E_SEND);
-					//printf("%d %d %d\n", i, (int)x, (int)y);
 				}
 			}
 			timePoint = std::chrono::high_resolution_clock::now();

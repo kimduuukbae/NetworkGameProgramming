@@ -15,7 +15,8 @@ Object::Object(value pos, value dir, value vol, E_OBJECT_TYPE e)
     HealthPoint{100},
 	maxSpeed{15.0f},
 	deleteIt {false},
-	live{true}
+	live{true},
+	damage{10}
 {}
 
 void Object::update(double deltaTime){
@@ -126,8 +127,7 @@ int Object::getDamage()
 	return damage;
 }
 
-int Object::getHp()
-{
+int Object::getHp(){
     return HealthPoint;
 }
 

@@ -78,10 +78,10 @@ void ObjectManager::pushCollisionObject(Object* o){
 void ObjectManager::updateCollision(){
 	for (auto it1 = collisionObjects.begin(); it1 != collisionObjects.end(); ++it1) {
 		(*it1)->getComponent<ICollisionComponent>()->clear();
-		if ((*it1)->getDelete())
+		if ((*it1)->getDelete() | !(*it1)->getLive())
 			continue;
 		for (auto it2 = collisionObjects.begin(); it2 != collisionObjects.end(); ++it2) {
-			if (it1 == it2 || (*it2)->getDelete())
+			if (it1 == it2 | (*it2)->getDelete() | !(*it2)->getLive())
 				continue;
 			if (auto comp = (*it1)->getComponent<ICollisionComponent>();
 				AABBCollision(
