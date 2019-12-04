@@ -21,11 +21,13 @@ void ObjectManager::update(double deltaTime){
 			if (!(*it).getLive() | (&i == &(*it)) | ((i.getType() == E_BULLET) & (i.getAncester() == (*it).getIdx())))
 				continue;
 			if (AABBCollision((*it).getBox(), i.getBox())) {
-				std::cout << "충돌 일어남!" << std::endl;		
-				i.setDelete();
 				if (i.getType() == E_BULLET) {
 					eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),(float)findObject(i.getAncester()).getDamage(),E_PACKET_HIT }, E_SEND);
 					(*it).manageHp(findObject(i.getAncester()).getDamage());
+					if ((*it).getHp() < 1) {
+						(*it).setLive(false);
+						eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), 0, E_PACKET_DIE }, E_SEND);
+					}
 				}
 				else if (i.getType() == E_ITEM)
 				{
@@ -43,10 +45,7 @@ void ObjectManager::update(double deltaTime){
 						break;
 					}
 				}
-				if ((*it).getHp() == 0) {
-					(*it).setLive(false);
-					eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), NULL, E_PACKET_DIE }, E_SEND);
-				}
+				i.setDelete();
 				break;
 			}
 		}
@@ -104,6 +103,5 @@ void ObjectManager::garbageColliection() {
 	if (count > 1) {
 		auto it = objects.end() - (count - 1);
 		objects.erase(it, objects.end());
-		std::cout << "오브젝트 싹 지웠음 남은 오브젝트 갯수 :" << objects.size() << std::endl;
 	}
 }

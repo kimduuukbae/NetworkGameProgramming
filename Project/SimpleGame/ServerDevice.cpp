@@ -70,117 +70,119 @@ void ServerDevice::recvData(){
 	
 	while (1) {
 		packetHead h;
-		int retval = recvn(connectSocket, (char*)&h, sizeof(h), 0);
+		int retval = recvn(connectSocket, (char*)&h, sizeof(packetHead), 0);
 		if (retval == SOCKET_ERROR)
 			return;
 		m.lock();
 		switch (h.packetType) {
-		case E_PACKET_SPEED: {
-			simplePacket sim = recvSimplePacket();
-			objects->getObject<Ship>(sim.id)->addSpeed(sim.value);
-			break;
-		}
-		case E_PACKET_DEGREE: {
-			simplePacket sim = recvSimplePacket();
-			objects->getObject<Ship>(sim.id)->rotation(sim.value);
-			break;
-		}
-		case E_PACKET_SHOOT: {
-			shootPacket sht = recvshootPacket();
-			int idx = objects->addObject<Bullet>(value{ (float)sht.tarPosX,(float)sht.tarPosY,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
-				value{ 20.0f,20.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/bullet.png");
-			auto t = objects->getObject<Bullet>(idx);
-			t->setShipIdx(sht.id);
-			t->setType(E_BULLET);
-			t->process(sht.mposX, sht.mPosY, sht.tarPosX, sht.tarPosY);
-			break;
-		}
-		case E_PACKET_HIT: {
-			simplePacket sim = recvSimplePacket();
-			objects->getObject<Ship>(sim.id)->manageHp(sim.value);
-			break;
-		}
-		case E_PACKET_DIE:
-			//simplePacket sim = recvSimplePacket();
-			//objects->getObject<Ship>(sim.id)->;
-			break;
-		case E_PACKET_SENID: {
-			simplePacket sim = recvSimplePacket();
-			myId = h.id;
-			break;
-		}
-		case E_PACKET_OTSET: {
-			posPacket pos = recvposPacket();
-			auto o = objects->getObject<Ship>(pos.id);
-			o->setShipIdx(pos.id);
-			o->setPos(pos.posX, pos.posY, 0);
-			if (pos.id == 2)
-				objects->getObject<Object>(4)->setDelete();
-			break;
-		}
-		case E_PACKET_SYNC: {
-			allPacket all = recvallPacket();
-			auto o = objects->getObject<Ship>(all.id);
-			auto [x, y, z] = o->getPos();
-			o->setPos(all.x, all.y, 0.0f);
-			o->setVelocity(all.velx, all.vely, 0.0f);
-			break;
-		}
-		case E_PACKET_ITEM: {
-			itemPacket item = recvItemPacket();
-			//std::cout << (float)item.itemPosX << "  " <<  (float)item.itemPosY << std::endl;
-			if (item.effect == 0) {			// 속도 업
-				int idx = objects->addObject<SpeedItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
-					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
-				auto o = objects->getObject(idx);
-				o->setType(E_ITEM);
-			}
-			else if (item.effect == 1) {	// 공격력 업
-				int idx = objects->addObject<DamageItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
-					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
-				auto o = objects->getObject(idx);
-				o->setType(E_ITEM);
-			}
-			else {							// 체력 업
-				int idx = objects->addObject<HealItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
-					value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
-				auto o = objects->getObject(idx);
-				o->setType(E_ITEM);
-			}
-			break;
-		}
-		case E_PACKET_WIND: {
-			itemPacket wind = recvItemPacket();
-			for (Object* o : objects->getObjects()) {
-				if (o->getType() == E_WIND)
-					o->setVelocity(Vector3D{ (float)wind.itemPosX,(float)wind.itemPosY,0.f });
-
-			}
-			break;
-		}
-		case E_PACKET_GETITEM: {
-			simplePacket sim = recvSimplePacket();
-			auto o = objects->getObject<Ship>(sim.id);
-			switch ((short)sim.value) {
-			case 0: {
-				float curMaxSpeed = o->getMaxSpeed();
-				o->setMaxSpeed(curMaxSpeed + 5.f);
+			case E_PACKET_SPEED: {
+				simplePacket sim = recvSimplePacket();
+				objects->getObject<Ship>(sim.id)->addSpeed(sim.value);
 				break;
 			}
-			case 1: {
-				float curBulletDamage = o->getDamage();
-				o->setDamage(curBulletDamage + 5);
+			case E_PACKET_DEGREE: {
+				simplePacket sim = recvSimplePacket();
+				objects->getObject<Ship>(sim.id)->rotation(sim.value);
 				break;
 			}
-			case 2:
-				o->manageHp(-20);
-				if (o->getHp() > 100)
-					o->setHp(100);
+			case E_PACKET_SHOOT: {
+				shootPacket sht = recvshootPacket();
+				int idx = objects->addObject<Bullet>(value{ (float)sht.tarPosX,(float)sht.tarPosY,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+					value{ 20.0f,20.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/bullet.png");
+				auto t = objects->getObject<Bullet>(idx);
+				t->setShipIdx(sht.id);
+				t->setType(E_BULLET);
+				t->process(sht.mposX, sht.mPosY, sht.tarPosX, sht.tarPosY);
 				break;
 			}
-			printf("%d %f %d %d\n", sim.id, o->getMaxSpeed(), o->getDamage(), o->getHp());
-			break;
-		}
+			case E_PACKET_HIT: {
+				simplePacket sim = recvSimplePacket();
+				std::cout << "히트패킷 들어옴" << std::endl;
+				std::cout << (int)sim.id << "   " << (int)sim.value << std::endl;
+				break;
+			}
+			case E_PACKET_DIE: {
+				simplePacket sim = recvSimplePacket();
+				objects->getObject<Ship>(sim.id)->setLive(false);
+				break;
+			}
+			case E_PACKET_SENID: {
+				simplePacket sim = recvSimplePacket();
+				myId = h.id;
+				break;
+			}
+			case E_PACKET_OTSET: {
+				posPacket pos = recvposPacket();
+				auto o = objects->getObject<Ship>(pos.id);
+				o->setShipIdx(pos.id);
+				o->setPos(pos.posX, pos.posY, 0);
+				if (pos.id == 2)
+					objects->getObject<Object>(4)->setDelete();
+				break;
+			}
+			case E_PACKET_SYNC: {
+				allPacket all = recvallPacket();
+				auto o = objects->getObject<Ship>(all.id);
+				auto [x, y, z] = o->getPos();
+				o->setPos(all.x, all.y, 0.0f);
+				o->setVelocity(all.velx, all.vely, 0.0f);
+				break;
+			}
+			case E_PACKET_ITEM: {
+				itemPacket item = recvItemPacket();
+				//std::cout << (float)item.itemPosX << "  " <<  (float)item.itemPosY << std::endl;
+				if (item.effect == 0) {			// 속도 업
+					int idx = objects->addObject<SpeedItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
+						value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
+					auto o = objects->getObject(idx);
+					o->setType(E_ITEM);
+				}
+				else if (item.effect == 1) {	// 공격력 업
+					int idx = objects->addObject<DamageItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
+						value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
+					auto o = objects->getObject(idx);
+					o->setType(E_ITEM);
+				}
+				else {							// 체력 업
+					int idx = objects->addObject<HealItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
+						value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
+					auto o = objects->getObject(idx);
+					o->setType(E_ITEM);
+				}
+				break;
+			}
+			case E_PACKET_WIND: {
+				itemPacket wind = recvItemPacket();
+				for (Object* o : objects->getObjects()) {
+					if (o->getType() == E_WIND)
+						o->setVelocity(Vector3D{ (float)wind.itemPosX,(float)wind.itemPosY,0.f });
+				}
+				break;
+			}
+			case E_PACKET_GETITEM: {
+				simplePacket sim = recvSimplePacket();
+				auto o = objects->getObject<Ship>(sim.id);
+					switch ((short)sim.value) {
+					case 0: {
+						float curMaxSpeed = o->getMaxSpeed();
+						o->setMaxSpeed(curMaxSpeed + 5.f);
+						break;
+					}
+					case 1: {
+						float curBulletDamage = o->getDamage();
+						o->setDamage(curBulletDamage + 5);
+						break;
+					}
+					case 2: {
+						o->manageHp(-20);
+						if (o->getHp() > 100)
+							o->setHp(100);
+						break;
+					}
+				}
+				printf("%d %f %d %d\n", sim.id, o->getMaxSpeed(), o->getDamage(), o->getHp());
+				break;
+			}
 		}
 		m.unlock();
 	}

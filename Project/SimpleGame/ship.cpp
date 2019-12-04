@@ -8,12 +8,13 @@
 #include "Wind.h"
 #include <iostream>
 #include <cmath>
+#include "ObjectManager.h"
 using namespace std;
 Ship::Ship(){
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();
 	collision = getComponent<ICollisionComponent>();
-	hp = 1;
+	hp = 100;
 	damage = 10;
 	bulletCount = 10;
 	pushType = E_NONE;
@@ -124,7 +125,7 @@ void Ship::manageHp(int damage){
 	hp -= damage;
 	if (hp > 100)
 		hp = 100;
-	else if (hp < 1)
+	if (hp < 1)
 		setLive(false);
 }
 
