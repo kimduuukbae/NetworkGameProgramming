@@ -24,14 +24,28 @@ void ObjectManager::update(double deltaTime){
 			if (AABBCollision((*it).getBox(), i.getBox())) {
 				std::cout << "충돌 일어남!" << std::endl;		
 				i.setDelete();
-				if (i.getType() == E_BULLET)
-					eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),10,E_PACKET_HIT }, E_SEND);
+				if (i.getType() == E_BULLET) {
+					eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),findObject(i.getAncester()).getDamage(),E_PACKET_HIT }, E_SEND);
+					(*it).manageHp(findObject(i.getAncester()).getDamage());
+				}
 				else if (i.getType() == E_ITEM)
 				{
 					short effect = rand() % 3;
 					eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),(float)effect,E_PACKET_GETITEM }, E_SEND);
+					switch (effect) {
+					case 0:
+						(*it).setMaxSpeed((*it).getMaxSpeed() + 5.f);
+						break;
+					case 1:
+						(*it).setDamage((*it).getDamage() + 5);
+						break;
+					case 2:
+						(*it).manageHp(-20);
+						break;
+					}
 				}
 				if ((*it).getHp() == 0 && x == 0) {
+
 					x--;    // 한번만 보내라고 해놓은거 나중에 삭제
 					eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), NULL, E_PACKET_DIE }, E_SEND);
 				}

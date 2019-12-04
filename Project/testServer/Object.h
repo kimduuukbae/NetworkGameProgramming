@@ -27,6 +27,10 @@ public:
 	void setAncesterIdx(int i);
     void manageHp(int damage);
     int getHp();
+	void setMaxSpeed(float maxSpeed);
+	float getMaxSpeed();
+	void setDamage(int damage);
+	int getDamage();
 	int getAncester();
 	int getIdx();
 
@@ -51,6 +55,7 @@ private:
 	double gearTime;
 	int ancesteridx;
     int HealthPoint;
-	
+	float maxSpeed;
+	int damage;
 	bool deleteIt;
 };

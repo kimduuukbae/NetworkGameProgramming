@@ -13,6 +13,7 @@ Object::Object(value pos, value dir, value vol, E_OBJECT_TYPE e)
 	volume{ box{vol.x / 2, vol.x / 2, vol.y / 2, vol.y / 2} },
 	ancesteridx {-1},
     HealthPoint{100},
+	maxSpeed{15.0f},
 	deleteIt {false}
 {}
 
@@ -28,8 +29,8 @@ void Object::update(double deltaTime){
 			else if (pushType == E_RELEASED)
 				decreaseSpeed();
 			Vector3D v = velocity;
-			v.setX(clamp(-30.0f, v.getX(), 30.0f));
-			v.setY(clamp(-30.0f, v.getY(), 30.0f));
+			v.setX(clamp(-maxSpeed, v.getX(), maxSpeed));
+			v.setY(clamp(-maxSpeed, v.getY(), maxSpeed));
 			velocity = v;
 			gearTime = 0.0f;
 		}
@@ -102,6 +103,26 @@ void Object::manageHp(int damage)
     HealthPoint -= damage;
     if (HealthPoint > 100)
         HealthPoint = 100;
+}
+
+void Object::setMaxSpeed(float maxSpeed)
+{
+	this->maxSpeed = maxSpeed;
+}
+
+float Object::getMaxSpeed()
+{
+	return maxSpeed;
+}
+
+void Object::setDamage(int damage)
+{
+	this->damage += damage;
+}
+
+int Object::getDamage()
+{
+	return damage;
 }
 
 int Object::getHp()
