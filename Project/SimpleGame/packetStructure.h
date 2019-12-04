@@ -52,7 +52,8 @@ enum packetType : char {
 	E_PACKET_ITEM,
 	E_PACKET_WIND,
 	E_PACKET_DELT,
-	E_PACKET_GETITEM
+	E_PACKET_GETITEM,
+	E_PACKET_REEF
 };
 /*
 	¡÷¿«

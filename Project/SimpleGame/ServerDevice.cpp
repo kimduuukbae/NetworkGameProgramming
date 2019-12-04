@@ -5,6 +5,7 @@
 #include "ship.h"
 #include "bullet.h"
 #include "item.h"
+#include "Reef.h"
 #include <iostream>
 #include <mutex>
 using namespace std;
@@ -77,7 +78,10 @@ void ServerDevice::recvData(){
 		switch (h.packetType) {
 			case E_PACKET_SPEED: {
 				simplePacket sim = recvSimplePacket();
-				objects->getObject<Ship>(sim.id)->addSpeed(sim.value);
+				if ('0' <= sim.id && sim.id < '3')
+					objects->getObject<Ship>(sim.id)->addSpeed(sim.value);
+				/*else
+					objects->getObject<Item>(sim.id)->addSpeed(sim.value);*/
 				break;
 			}
 			case E_PACKET_DEGREE: {
@@ -156,6 +160,15 @@ void ServerDevice::recvData(){
 					if (o->getType() == E_WIND)
 						o->setVelocity(Vector3D{ (float)wind.itemPosX,(float)wind.itemPosY,0.f });
 				}
+				break;
+			}
+			case E_PACKET_REEF: {
+				itemPacket reef = recvItemPacket();
+				int idx = objects->addObject<Reef>(value{ (float)reef.itemPosX,(float)reef.itemPosY,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+					value{ 100.0f,100.0f,0.0f }, value{ 0.0f,0.0f,0.0f }, "texture/reef.png");
+				auto t = objects->getObject(idx);
+				t->setType(E_REEF);
+
 				break;
 			}
 			case E_PACKET_GETITEM: {

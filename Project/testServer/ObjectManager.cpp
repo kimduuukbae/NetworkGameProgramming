@@ -11,7 +11,7 @@ garbageTime {10.0f},
 eventManager{ EventManager::instance() }
 {}
 
-//0 1 2 배, 3 바람 4 ~ 총알 아이템
+//0 1 2 배, 3 바람 4~6 암초 7 ~ 총알 아이템
 void ObjectManager::update(double deltaTime){
 	for (auto& i : objects) {
 		if ((i.getType() == E_WIND) | i.getDelete() | !i.getLive())
@@ -47,6 +47,18 @@ void ObjectManager::update(double deltaTime){
 				}
 				i.setDelete();
 				break;
+			}
+		}
+
+		for (auto it = objects.begin() + 4; it != objects.begin() + 7; ++it) {
+			if (AABBCollision((*it).getBox(), i.getBox())) {
+				if (i.getType() == E_SHIP);
+				//eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),(float)0.f,E_PACKET_SPEED }, E_SEND);
+				else if (i.getType() == E_BULLET) {
+					i.setDelete();
+				}
+				else if (i.getType() == E_ITEM)
+					eventManager->pushEvent(simplePacket{ (char)i.getIdx(),(float)0.f,E_PACKET_SPEED }, E_SEND);
 			}
 		}
 		i.update(deltaTime);

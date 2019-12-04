@@ -14,6 +14,11 @@ Bullet::Bullet() {
 
 void Bullet::update(float deltaTime) {
 	Object::update(deltaTime);
+
+	for (auto i : collision->getCollisionObject())
+		if (i->getType() == E_REEF)
+			setDelete();
+
 	fTime += deltaTime;
 	if (vTime < fTime)
 		setDelete();
