@@ -19,13 +19,10 @@ void MenuScene::init(){
 	o->preGenerateImage("texture/bullet.png");
 	o->preGenerateImage("texture/backWind.png");
 	o->preGenerateImage("texture/waiting.png");
-<<<<<<< HEAD
 	o->preGenerateImage("texture/reef.png");
 	o->preGenerateImage("texture/reef_2.png");
 	o->preGenerateImage("texture/reef_3.png");
-=======
 	o->preGenerateImage("texture/wind.png");
->>>>>>> master
 
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
