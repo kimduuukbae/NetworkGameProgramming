@@ -3,6 +3,7 @@
 #include "CollisionComponent.h"
 #include "Renderer.h"
 #include "ship.h"
+#include "Wind.h"
 static ObjectManager* inst = nullptr;
 using namespace std;
 ObjectManager* ObjectManager::instance() {

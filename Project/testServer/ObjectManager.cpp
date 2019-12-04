@@ -83,10 +83,10 @@ void ObjectManager::update(double deltaTime){
 	windChangeTime -= deltaTime;
 	if (windChangeTime < FLT_EPSILON)
 	{
-		windChangeTime = 30.f;
+		windChangeTime = 5.f;
 		short wind = -1;
-		short windVelX = 0;// rand() % (10 - (-10) + 1) + (-10);
-		short windVelY = 0;// rand() % (10 - (-10) + 1) + (-10);
+		short windVelX = rand() % (10 - (-10) + 1) + (-10);
+		short windVelY = rand() % (10 - (-10) + 1) + (-10);
 		findObject(3).setVelocity(windVelX, windVelY, 0.f);
 		eventManager->pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
 	}

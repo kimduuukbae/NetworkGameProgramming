@@ -157,8 +157,13 @@ void ServerDevice::recvData(){
 			case E_PACKET_WIND: {
 				itemPacket wind = recvItemPacket();
 				for (Object* o : objects->getObjects()) {
-					if (o->getType() == E_WIND)
+					if (o->getType() == E_WIND) {
 						o->setVelocity(Vector3D{ (float)wind.itemPosX,(float)wind.itemPosY,0.f });
+						auto [x, y, z] = o->getVelocity();
+						float degree = atan2(y, x) * 180 / 3.14;
+						o->setDegree(degree);
+						break;
+					}
 				}
 				break;
 			}
