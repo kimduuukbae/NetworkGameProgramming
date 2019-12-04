@@ -97,8 +97,7 @@ void ServerDevice::recvData(){
 			}
 			case E_PACKET_HIT: {
 				simplePacket sim = recvSimplePacket();
-				std::cout << "히트패킷 들어옴" << std::endl;
-				std::cout << (int)sim.id << "   " << (int)sim.value << std::endl;
+				objects->getObject<Ship>(sim.id)->manageHp(sim.value);
 				break;
 			}
 			case E_PACKET_DIE: {

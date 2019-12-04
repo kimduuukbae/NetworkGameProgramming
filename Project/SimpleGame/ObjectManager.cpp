@@ -35,11 +35,15 @@ void ObjectManager::draw(){
 			auto[r, g, b, a] = i->getColor();
 			renderer->DrawTextureRect(x, y, z, sx, -sy, sz, r, g, b, a,
 				i->getPngIdx(),i->getDegree());
-			if (i->getType() == E_SHIP) {
-				int hp = getObject<Ship>(i->getIdx())->getHp();
-				renderer->DrawSolidRect(x - (100 - hp) / 2.f, y - 40.f, z, (float)hp, 15.f, 0.f, 1.f, 0.f, 0.f, 1.f);
-				renderer->DrawSolidRect(x + hp / 2.f, y - 40.f, z, (float)(100 - hp), 15.f, 0.f, 1.f, 1.f, 1.f, 1.f);
-			}
+		}
+	}
+	for(int i=0;i<3;i++) {
+		auto o = getObject<Ship>(i);
+		if (o->getLive()) {
+			auto [x, y, z] = o->getPos();
+			int hp = o->getHp();
+			renderer->DrawSolidRect(x - (100 - hp) / 2.f, y - 40.f, z, (float)hp, 15.f, 0.f, 1.f, 0.f, 0.f, 1.f);
+			renderer->DrawSolidRect(x + hp / 2.f, y - 40.f, z, (float)(100 - hp), 15.f, 0.f, 1.f, 1.f, 1.f, 1.f);
 		}
 	}
 }
