@@ -14,7 +14,8 @@ Object::Object(value pos, value dir, value vol, E_OBJECT_TYPE e)
 	ancesteridx {-1},
     HealthPoint{100},
 	maxSpeed{15.0f},
-	deleteIt {false}
+	deleteIt {false},
+	live{true}
 {}
 
 void Object::update(double deltaTime){
@@ -168,4 +169,12 @@ void Object::setPos(value pos)
 
 value Object::getVelocity(){
 	return velocity.getValue();
+}
+
+void Object::setLive(bool flag){
+	live = flag;
+}
+
+bool Object::getLive(){
+	return live;
 }
