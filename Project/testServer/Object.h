@@ -37,7 +37,11 @@ public:
 	value getPos();
 	void setPos(value pos);
 	value getVelocity();
+
+	void setLive(bool flag);
+	bool getLive();
 private:
+
 	Vector3D position;
 	Vector3D direction;
 	Vector3D velocity;
@@ -53,4 +57,5 @@ private:
     int HealthPoint;
 	
 	bool deleteIt;
+	bool live;
 };
