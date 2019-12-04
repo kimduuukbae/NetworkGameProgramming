@@ -18,6 +18,7 @@ void MenuScene::init(){
 	o->preGenerateImage("texture/item.png");
 	o->preGenerateImage("texture/bullet.png");
 	o->preGenerateImage("texture/backWind.png");
+	o->preGenerateImage("texture/waiting.png");
 
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
@@ -27,6 +28,8 @@ void MenuScene::init(){
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 	o->addObject<Wind>(value{ 0.f,0.f,0.f }, color{ 0.f,0.f,0.f,0.f },
 		value{ 0.f,0.f,0.f }, value{ 0.f,0.f,0.f }, "texture/backWind.png");
+	o->addObject<Object>(value{ 0.f,0.f,0.f }, color{ 1.f,1.f,1.f,1.f },
+		value{ 800.0f,200.f,0.f }, value{ 0.f,0.f,0.f }, "texture/waiting.png");
 	
 	v = o->getObjects();
 

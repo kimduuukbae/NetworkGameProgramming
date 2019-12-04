@@ -24,7 +24,7 @@ void ObjectManager::update(double deltaTime){
 				std::cout << "충돌 일어남!" << std::endl;		
 				i.setDelete();
 				if (i.getType() == E_BULLET) {
-					eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),findObject(i.getAncester()).getDamage(),E_PACKET_HIT }, E_SEND);
+					eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),(float)findObject(i.getAncester()).getDamage(),E_PACKET_HIT }, E_SEND);
 					(*it).manageHp(findObject(i.getAncester()).getDamage());
 				}
 				else if (i.getType() == E_ITEM)

@@ -114,6 +114,8 @@ void ServerDevice::recvData(){
 			auto o = objects->getObject<Ship>(pos.id);
 			o->setShipIdx(pos.id);
 			o->setPos(pos.posX, pos.posY, 0);
+			if (pos.id == 2)
+				objects->getObject<Object>(4)->setDelete();
 			break;
 		}
 		case E_PACKET_SYNC: {
