@@ -82,6 +82,7 @@ void MenuScene::update(float dt){
 
 void MenuScene::draw(){
 	o->draw();
+	
 }
 
 void MenuScene::destroy(){

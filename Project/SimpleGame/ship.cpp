@@ -13,7 +13,7 @@ Ship::Ship(){
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();
 	collision = getComponent<ICollisionComponent>();
-	hp = 1;
+	hp = 100;
 	damage = 10;
 	bulletCount = 10;
 	pushType = E_NONE;
