@@ -103,8 +103,6 @@ void Ship::rotation(float f){
 	y = std::sin(rad);
 	direction = Vector3D{ x,y,0.0f };
 	setDegree(getDegree() + radToDegree(f));
-	cout << getDegree() << endl;
-	cout << direction.getX() << " " << direction.getY() << endl;
 }
 
 void Ship::addSpeed(float f) {
