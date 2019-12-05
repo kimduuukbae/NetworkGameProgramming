@@ -59,8 +59,7 @@ void ObjectManager::update(double deltaTime){
 				else if (i.getType() == E_BULLET)
 					i.setDelete();
 				else if (i.getType() == E_ITEM) {
-					i.setVelocity(0.f, 0.f, 0.f);
-					//eventManager->pushEvent(simplePacket{ (char)i.getIdx(),(float)0.f,E_PACKET_SPEED }, E_SEND);
+					i.setCollobject(true);
 				}
 			}
 		}
@@ -69,8 +68,10 @@ void ObjectManager::update(double deltaTime){
 	auto [wvx, wvy, wvz] = findObject(3).getVelocity();
 	for (auto& i : objects) {
 		if (i.getType() == E_SHIP || i.getType() == E_ITEM || i.getType() == E_BULLET) {
-			auto [x, y, z] = i.getPos();
-			i.setPos(value{ x + wvx * (float)deltaTime,y + wvy * (float)deltaTime,z + wvz * (float)deltaTime });
+			if (!i.getCollobject()) {
+				auto [x, y, z] = i.getPos();
+				i.setPos(value{ x + wvx * (float)deltaTime,y + wvy * (float)deltaTime,z + wvz * (float)deltaTime });
+			}
 		}
 	}
 	ItemCreateTime -= deltaTime;

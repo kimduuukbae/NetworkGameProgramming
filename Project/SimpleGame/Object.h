@@ -50,6 +50,9 @@ public:
 
 	void setLive(bool flag);
 	bool getLive();
+
+	void setCollobject(bool flag);
+	bool getCollobject();
 	E_TYPE getType();
 	template <typename T>
 	T* getComponent() {
@@ -79,6 +82,7 @@ private:
 	std::vector<IComponent*> components;
 	bool deleteIt;
 	bool live{ true };
+	bool coll{ false };
 	float degree;
 	E_TYPE myType;
 };

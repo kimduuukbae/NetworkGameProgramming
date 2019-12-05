@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "Reef.h"
-#include "CollisionComponent.h"
+#include "Item.h"
+#include "bullet.h"
 #include "PhysicsComponent.h"
+#include "CollisionComponent.h"
 
 Reef::Reef()
 {
@@ -11,8 +13,12 @@ Reef::Reef()
 
 void Reef::update(float deltaTime)
 {
+	Object::update(deltaTime);
 	for (auto i : collision->getCollisionObject())
 		if (i->getType() == E_ITEM) {
-			i->setVelocity(0.f, 0.f, 0.f);
+			i->setCollobject(true);
+		}
+		else if (i->getType() == E_BULLET) {
+			i->setDelete();
 		}
 }

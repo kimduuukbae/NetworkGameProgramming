@@ -45,6 +45,9 @@ public:
 
 	void setLive(bool flag);
 	bool getLive();
+	
+	void setCollobject(bool flag);
+	bool getCollobject();
 private:
 
 	Vector3D position;
@@ -64,4 +67,5 @@ private:
 	int damage;
 	bool deleteIt;
 	bool live;
+	bool coll{ false };
 };

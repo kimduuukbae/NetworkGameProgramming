@@ -52,7 +52,7 @@ void MenuScene::update(float dt){
 	if (o->getObject<Wind>(3)->getVelocity().size() > 0.1f) {
 		auto[x, y, z] = o->getObject<Wind>(3)->getVelocity();
 		for (auto& i : o->getObjects()) {
-			if (i->getComponent<IPhysicsComponent>() != nullptr) {
+			if (i->getComponent<IPhysicsComponent>() != nullptr && !i->getCollobject()) {
 				auto[sx, sy, sz] = i->getPos();
 				i->setPos(sx + x * dt, sy + y * dt, sz + z * dt);
 			}

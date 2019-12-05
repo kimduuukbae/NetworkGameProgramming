@@ -110,6 +110,16 @@ bool Object::getLive(){
 	return live;
 }
 
+void Object::setCollobject(bool flag)
+{
+	coll = flag;
+}
+
+bool Object::getCollobject()
+{
+	return coll;
+}
+
 E_TYPE Object::getType(){
 	return myType;
 }

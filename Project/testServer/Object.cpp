@@ -183,3 +183,13 @@ void Object::setLive(bool flag){
 bool Object::getLive(){
 	return live;
 }
+
+void Object::setCollobject(bool flag)
+{
+	coll = flag;
+}
+
+bool Object::getCollobject()
+{
+	return coll;
+}

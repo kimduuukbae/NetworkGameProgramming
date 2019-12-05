@@ -25,7 +25,8 @@ SceneManager::~SceneManager(){
 }
 void SceneManager::render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.251f, 0.455f, 0.961f, 1.0f);
+	// glClearColor(0.251f, 0.455f, 0.961f, 1.0f);
+	glClearColor(0.180f, 0.478f, 0.780f, 1.0f);
 
 	curScene->draw();
 }

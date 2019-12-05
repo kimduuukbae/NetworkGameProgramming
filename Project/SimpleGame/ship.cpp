@@ -16,7 +16,7 @@ Ship::Ship(){
 	collision = getComponent<ICollisionComponent>();
 	hp = 100;
 	damage = 10;
-	bulletCount = 10;
+	bulletCount = 3;
 	pushType = E_NONE;
 	maxSpeed = 15.0f;
 	gearTime = 0.0f;
@@ -49,7 +49,7 @@ void Ship::update(float deltaTime){
 			gearTime = 0.0f;
 		}
 	}
-	if (bulletCount < 10) {
+	if (bulletCount < 3) {
 		coolTime += deltaTime;;
 		if (coolTime > 1.f) {
 			bulletCount++;
