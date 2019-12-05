@@ -137,6 +137,11 @@ void ObjectManager::preGenerateImage(const char * s){
 	generate(s);
 }
 
+int ObjectManager::getPngIdx(std::string name)
+{
+	return pngDictionary[name];
+}
+
 void ObjectManager::setGarbageTime(float time) {
 	garbageTimePlan = time;
 }

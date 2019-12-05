@@ -108,7 +108,14 @@ void ServerDevice::recvData(){
 			}
 			case E_PACKET_SENID: {
 				simplePacket sim = recvSimplePacket();
-				myId = h.id;
+				myId = h.id;	
+				objects->getObject<Ship>(myId)->setPngIdx(objects->getPngIdx("texture/green_ship.png"));
+				
+				for (int i = 0; i < 3; i++) {
+					if (myId != i) {
+						objects->getObject<Ship>(i)->setPngIdx(objects->getPngIdx("texture/red_ship.png"));
+					}
+				}
 				break;
 			}
 			case E_PACKET_OTSET: {

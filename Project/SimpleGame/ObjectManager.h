@@ -41,6 +41,7 @@ public:
 	void setGarbageTime(float time);
 	void garbageCollection();
 	void preGenerateImage(const char* s);
+	int getPngIdx(std::string name);
 private:
 	std::vector<Object*> objects;
 	std::list<Object*> collisionObjects;
