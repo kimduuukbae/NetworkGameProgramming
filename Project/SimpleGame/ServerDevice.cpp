@@ -177,7 +177,6 @@ void ServerDevice::recvData(){
 					value{ 100.0f,100.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/reef.png");
 				auto t = objects->getObject(idx);
 				t->setType(E_REEF);
-
 				break;
 			}
 			case E_PACKET_GETITEM: {

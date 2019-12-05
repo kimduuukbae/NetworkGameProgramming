@@ -11,6 +11,10 @@ value value::operator*(float scalar) {
 value value::operator+(const value& other) {
 	return value{ x + other.x, y + other.y , z + other.z };
 }
+value value::operator-(const value& other)
+{
+	return value(x - other.x, y - other.y, z - other.z);
+}
 value value::operator/(float scalar) {
 	return { x / scalar, y / scalar, z / scalar };
 }

@@ -6,6 +6,7 @@ struct value {
 	value(float tx, float ty, float tz);
 	value operator*(float scalar);
 	value operator+(const value& other);
+	value operator-(const value& other);
 	value operator/(float scalar);
 	bool operator<(float scalar);
 	float x, y, z;

@@ -4,6 +4,7 @@
 #include "ServerDevice.h"
 #include "EventManager.h"
 
+
 ObjectManager::ObjectManager() : 
 ItemCreateTime{ 5.0f },
 windChangeTime{ 5.0f },
@@ -28,6 +29,7 @@ void ObjectManager::update(double deltaTime){
 						(*it).setLive(false);
 						eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), 0, E_PACKET_DIE }, E_SEND);
 					}
+					i.setDelete();
 				}
 				else if (i.getType() == E_ITEM)
 				{
@@ -44,8 +46,15 @@ void ObjectManager::update(double deltaTime){
 						(*it).manageHp(-20);
 						break;
 					}
+					i.setDelete();
 				}
-				i.setDelete();
+				else if (i.getType() == E_REEF)
+				{
+					value dir = (*it).getDirection();
+					value rpos = i.getPos() - (*it).getPos();
+					float degree = fabs(atan2(dir.y, dir.x) * 180 / 3.14 - atan2(rpos.y, rpos.x) * 180 / 3.14);
+					std::cout << "Ãæµ¹°¢" << degree << std::endl;
+				}
 				break;
 			}
 		}
@@ -54,7 +63,13 @@ void ObjectManager::update(double deltaTime){
 		for (auto it = objects.begin() + 4; it != objects.begin() + 7; ++it) {
 			if (AABBCollision((*it).getBox(), i.getBox())) {
 				if (i.getType() == E_SHIP) {
-					//eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),(float)0.f,E_PACKET_SPEED }, E_SEND);
+					//value dir = i.getDirection();
+					//value rPos = (*it).getPos() - i.getPos();
+					//float degree = fabs(atan2(dir.y, dir.x) * 180 / 3.14 - atan2(rPos.y, rPos.x) * 180 / 3.14);
+					//if (degree <= 90.f) {
+					//	//i.setVelocity(0.f, 0.f, 0.f);
+					//	//eventManager->pushEvent()
+					//}
 				}
 				else if (i.getType() == E_BULLET)
 					i.setDelete();
@@ -89,8 +104,8 @@ void ObjectManager::update(double deltaTime){
 	{
 		windChangeTime = 5.f;
 		short wind = -1;
-		short windVelX = rand() % (10 - (-10) + 1) + (-10);
-		short windVelY = rand() % (10 - (-10) + 1) + (-10);
+		short windVelX = 0;// rand() % (10 - (-10) + 1) + (-10);
+		short windVelY = 0;// rand() % (10 - (-10) + 1) + (-10);
 		findObject(3).setVelocity(windVelX, windVelY, 0.f);
 		eventManager->pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
 	}
