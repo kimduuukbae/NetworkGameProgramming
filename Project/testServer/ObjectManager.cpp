@@ -50,15 +50,18 @@ void ObjectManager::update(double deltaTime){
 			}
 		}
 
+		// 암초 충돌 체크
 		for (auto it = objects.begin() + 4; it != objects.begin() + 7; ++it) {
 			if (AABBCollision((*it).getBox(), i.getBox())) {
-				if (i.getType() == E_SHIP);
-				//eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),(float)0.f,E_PACKET_SPEED }, E_SEND);
-				else if (i.getType() == E_BULLET) {
-					i.setDelete();
+				if (i.getType() == E_SHIP) {
+					//eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),(float)0.f,E_PACKET_SPEED }, E_SEND);
 				}
-				else if (i.getType() == E_ITEM)
-					eventManager->pushEvent(simplePacket{ (char)i.getIdx(),(float)0.f,E_PACKET_SPEED }, E_SEND);
+				else if (i.getType() == E_BULLET)
+					i.setDelete();
+				else if (i.getType() == E_ITEM) {
+					i.setVelocity(0.f, 0.f, 0.f);
+					//eventManager->pushEvent(simplePacket{ (char)i.getIdx(),(float)0.f,E_PACKET_SPEED }, E_SEND);
+				}
 			}
 		}
 		i.update(deltaTime);

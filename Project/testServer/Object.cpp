@@ -171,6 +171,11 @@ value Object::getVelocity(){
 	return velocity.getValue();
 }
 
+value Object::getDirection()
+{
+	return direction.getValue();
+}
+
 void Object::setLive(bool flag){
 	live = flag;
 }
