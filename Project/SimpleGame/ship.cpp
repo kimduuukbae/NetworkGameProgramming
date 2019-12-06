@@ -34,6 +34,12 @@ void Ship::update(float deltaTime){
 		else if (i->getType() == E_ITEM) {
 			i->setDelete();
 		}
+		else if (i->getType() == E_REEF) {
+			value rpos = i->getPos() - getPos();
+			float degree = fabs(radToDegree(atan2(direction.getY(), direction.getX())) - radToDegree(atan2(rpos.y, rpos.x)));
+			if (degree <= 45)
+				setVelocity(0.f, 0.f, 0.f);
+		}
 	}
 	if (pushType != E_NONE) {
 		gearTime += deltaTime;
