@@ -53,7 +53,11 @@ void ObjectManager::update(double deltaTime){
 					value dir = (*it).getDirection();
 					value rpos = i.getPos() - (*it).getPos();
 					float degree = fabs(atan2(dir.y, dir.x) * 180 / 3.14 - atan2(rpos.y, rpos.x) * 180 / 3.14);
-					std::cout << "충돌각" << degree << std::endl;
+					if (degree <= 45) {
+						eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), 0, E_PACKET_COLLREEF },E_SEND);
+						(*it).setVelocity(0.f, 0.f, 0.f);
+						std::cout << "충돌 패킷 전송" << std::endl;
+					}
 				}
 				break;
 			}

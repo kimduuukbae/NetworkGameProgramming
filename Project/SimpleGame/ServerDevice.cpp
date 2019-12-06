@@ -203,6 +203,12 @@ void ServerDevice::recvData(){
 				printf("%d %f %d %d\n", sim.id, o->getMaxSpeed(), o->getDamage(), o->getHp());
 				break;
 			}
+			case E_PACKET_COLLREEF: {
+				simplePacket sim = recvSimplePacket();
+				auto o = objects->getObject<Ship>(sim.id);
+				o->setVelocity(0.f, 0.f, 0.f);
+				break;
+			}
 		}
 		m.unlock();
 	}

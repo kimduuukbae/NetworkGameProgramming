@@ -53,5 +53,6 @@ enum packetType : char {
 	E_PACKET_WIND,
 	E_PACKET_DELT,	// 어떤 오브젝트의 삭제
 	E_PACKET_GETITEM,
-	E_PACKET_REEF
+	E_PACKET_REEF,
+	E_PACKET_COLLREEF
 };
