@@ -26,11 +26,11 @@ void MenuScene::init(){
 	o->preGenerateImage("texture/green_ship.png");
 	o->preGenerateImage("texture/red_ship.png");
 
-	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+	o->addObject<Ship>(value{ -1000.0f,500.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
-	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
+	o->addObject<Ship>(value{ -1000.0f,-500.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
 		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
 	o->addObject<Wind>(value{ -700.f,-350.f,0.f }, color{ 0.f,0.f,0.f,0.f },
 		value{ 150.f,150.f,0.f }, value{ 0.f,0.f,0.f }, "texture/wind.png");
