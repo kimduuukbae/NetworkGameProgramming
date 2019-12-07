@@ -21,6 +21,8 @@
 *.db
 *.ilk
 *.sln
+*.iobj
+*.ipdb
 
 # Precompiled Headers
 *.gch

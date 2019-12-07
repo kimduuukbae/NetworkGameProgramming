@@ -20,11 +20,11 @@ ServerDevice::ServerDevice(){
 void ServerDevice::initialize(){
 	connectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	std::cout << "아이피를 입력해주세요 : " << std::endl;
-	std::string s;
-	std::cin >> s;
+	//std::cout << "아이피를 입력해주세요 : " << std::endl;
+	//std::string s;
+	//std::cin >> s;
 
-	serverAddr.sin_addr.s_addr = inet_addr(s.c_str());
+	serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 	serverAddr.sin_port = htons(9000);
 	serverAddr.sin_family = AF_INET;
 
@@ -106,6 +106,10 @@ void ServerDevice::recvData(){
 			case E_PACKET_DIE: {
 				simplePacket sim = recvSimplePacket();
 				objects->getObject<Ship>(sim.id)->setLive(false);
+				live -= 1;
+				if (live == 1)
+					objects->addObject<Object>(value{ 0.f,0.f,0.f }, color{ 1.f,1.f,1.f,1.f },
+						value{ 800.0f,200.f,0.f }, value{ 0.f,0.f,0.f }, "texture/finale.png");
 				break;
 			}
 			case E_PACKET_SENID: {
@@ -124,7 +128,7 @@ void ServerDevice::recvData(){
 				auto o = objects->getObject<Ship>(pos.id);
 				o->setShipIdx(pos.id);
 				o->setPos(pos.posX, pos.posY, 0);
-				if (pos.id == 2)
+				if ((pos.id == 2) &objects->getObject<Object>(4)->getType() != E_REEF)
 					objects->getObject<Object>(4)->setDelete();
 				break;
 			}
@@ -205,19 +209,20 @@ void ServerDevice::recvData(){
 			}
 			case E_PACKET_RESET: {
 				simplePacket sim = recvSimplePacket();
-				if (sim.id > 3) {
-					if (auto t = objects->getObject<Object>(sim.id); t->getType() != NULL)
-						t->getDelete();
-				}
-				else {
-					auto o = objects->getObject<Ship>(sim.id);
-					o->setLive(true);
-					o->manageHp(-100);
-					o->setDegree(0.f);
-					o->setVelocity(0.f, 0.f, 0.f);
-					o->setDegree(0.f);
+				auto o = objects->getObjects();
+				for (auto it = o.begin() + 8; it != o.end(); ++it)
+					(*it)->setDelete();
+				objects->garbageCollection();
+				for (int i = 0; i < 3; ++i) {
+					auto ship = objects->getObject<Ship>(i);
+					ship->setHp(100);
+					ship->setLive(true);
+					ship->setDirection(value{ 1.0f,0.0f,0.0f });
+					ship->setVelocity(0.0f, 0.0f, 0.0f);
+					ship->setRadian(0.0f);
 				}
 				live = 3;
+				break;
 			}
 		}
 		m.unlock();

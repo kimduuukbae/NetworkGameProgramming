@@ -185,3 +185,11 @@ Vector3D Ship::getDirection()
 {
 	return direction;
 }
+
+void Ship::setDirection(value v){
+	direction = v;
+}
+
+void Ship::setRadian(float r){
+	rad = r;
+}

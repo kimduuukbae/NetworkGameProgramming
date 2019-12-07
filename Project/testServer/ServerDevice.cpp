@@ -222,13 +222,10 @@ void ServerDevice::makeThread(){
 			value{ 100.0f,100.0f,0.0f }, E_REEF);
 		eventManager->pushEvent(itemPacket{ -2,reefX[i],reefY[i] }, E_SEND);
 	}
-	posPacket p1{ 0, -400,-200 };
-	posPacket p2{ 1, -400,300 };
-	posPacket p3{ 2, 400,-100 };
-
-	eventManager->pushEvent(p1, E_SEND);
-	eventManager->pushEvent(p2, E_SEND);
-	eventManager->pushEvent(p3, E_SEND);
+	
+	eventManager->pushEvent(posPacket{ 0, -400,-200 }, E_SEND);
+	eventManager->pushEvent(posPacket{ 1, -400, 300 }, E_SEND);
+	eventManager->pushEvent(posPacket{ 2, 400,-100 }, E_SEND);
 
 	std::thread{ &ServerDevice::updateThread,this }.detach();
 

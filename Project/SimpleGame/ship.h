@@ -32,7 +32,10 @@ public:
 	int getbulletCooltime();
     int getHp();
 	void setHp(int hp);
+
 	Vector3D getDirection();
+	void setDirection(value v);
+	void setRadian(float r);
 private:
 	ICollisionComponent* collision;
 	float gearTime;

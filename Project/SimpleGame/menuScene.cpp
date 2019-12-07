@@ -14,24 +14,21 @@
 
 void MenuScene::init() {
 	o = D_OBJECT;
-	o->preGenerateImage("texture/ship.png");
 	o->preGenerateImage("texture/item.png");
 	o->preGenerateImage("texture/bullet.png");
-	o->preGenerateImage("texture/backWind.png");
 	o->preGenerateImage("texture/waiting.png");
+	o->preGenerateImage("texture/finale.png");
 	o->preGenerateImage("texture/reef.png");
-	o->preGenerateImage("texture/reef_2.png");
-	o->preGenerateImage("texture/reef_3.png");
 	o->preGenerateImage("texture/wind.png");
 	o->preGenerateImage("texture/green_ship.png");
 	o->preGenerateImage("texture/red_ship.png");
 
 	o->addObject<Ship>(value{ -1000.0f,500.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
-		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
+		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/green_ship.png");
 	o->addObject<Ship>(value{ -1000.0f,0.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
-		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
+		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/green_ship.png");
 	o->addObject<Ship>(value{ -1000.0f,-500.0f,0.0f }, color{ 0.0f,0.0f,0.0f,0.0f },
-		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/ship.png");
+		value{ 150.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/green_ship.png");
 	o->addObject<Wind>(value{ -700.f,-350.f,0.f }, color{ 0.f,0.f,0.f,0.f },
 		value{ 150.f,150.f,0.f }, value{ 0.f,0.f,0.f }, "texture/wind.png");
 	o->addObject<Object>(value{ 0.f,0.f,0.f }, color{ 1.f,1.f,1.f,1.f },
@@ -48,8 +45,8 @@ void MenuScene::init() {
 }
 
 void MenuScene::update(float dt) {
-	o->update(dt);
 	if (serverDevice.getLive() > 1) {
+		o->update(dt);
 		if (o->getObject<Wind>(3)->getVelocity().size() > 0.1f) {
 			auto [x, y, z] = o->getObject<Wind>(3)->getVelocity();
 			for (auto& i : o->getObjects()) {

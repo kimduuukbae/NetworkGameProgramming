@@ -81,10 +81,8 @@ void ObjectManager::update(float deltaTime) {
 			eventManager->pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
 		}
 		garbageTime -= deltaTime;
-		if (garbageTime < FLT_EPSILON) {
+		if (garbageTime < FLT_EPSILON) 
 			garbageColliection();
-			garbageTime = 10.0f;
-		}
 	}
 	else {
 		rTime += deltaTime;
@@ -96,17 +94,16 @@ void ObjectManager::update(float deltaTime) {
 				(*it).manageHp(-100);
 				(*it).setVelocity(0.f, 0.f, 0.f);
 				(*it).setDirection(1.f, 0.f, 0.f);
-				posPacket p1{ 0, -400,-200 };
-				posPacket p2{ 1, -400,300 };
-				posPacket p3{ 2, 400,-100 };
-
-				eventManager->pushEvent(p1, E_SEND);
-				eventManager->pushEvent(p2, E_SEND);
-				eventManager->pushEvent(p3, E_SEND);
-				eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), 0, E_PACKET_RESET }, E_SEND);
 			}
 			live = 3;
 			rTime = 0.f;
+			eventManager->pushEvent(posPacket{ 0, -400,-200 }, E_SEND);
+			eventManager->pushEvent(posPacket{ 1, -400,300 }, E_SEND);
+			eventManager->pushEvent(posPacket{ 2, 400,-100 }, E_SEND);
+			eventManager->pushEvent(simplePacket{ (char)(0), 0, E_PACKET_RESET }, E_SEND);
+			for (auto it = objects.begin() + 8; it != objects.end(); ++it) 
+				it->setDelete();
+			garbageColliection();
 		}
 	}
 }
@@ -130,11 +127,12 @@ void ObjectManager::garbageColliection() {
 		auto it = objects.end() - (count - 1);
 		objects.erase(it, objects.end());
 	}
+	garbageTime = 10.0f;
 }
 
 void ObjectManager::collideBulletToShip(Object& o, const std::vector<Object>::iterator& shp){
-	eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),(float)findObject(o.getAncester()).getDamage(),E_PACKET_HIT }, E_SEND);
-	(*shp).manageHp(findObject(o.getAncester()).getDamage());
+	eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),100.0f,E_PACKET_HIT }, E_SEND);
+	(*shp).manageHp(100);
 	if ((*shp).getHp() < 1) {
 		(*shp).setLive(false);
 		eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(), 0, E_PACKET_DIE }, E_SEND);
