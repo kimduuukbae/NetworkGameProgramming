@@ -192,7 +192,7 @@ void ObjectManager::update(double deltaTime) {
 				value v[3] = { {-400.f,-200.f,0.f},{-400.f,300.f,0.f},{400.f,-100.f,0.f} };
 				(*it).setPos(v[(*it).getIdx()]);
 				(*it).setLive(true);
-				(*it).manageHp(-100);
+				//(*it).manageHp(-100);
 				(*it).setVelocity(0.f, 0.f, 0.f);
 				(*it).setDirection(1.f, 0.f, 0.f);
 				posPacket p1{ 0, -400,-200 };
