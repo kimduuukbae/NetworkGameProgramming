@@ -66,6 +66,67 @@ void ObjectManager::update(double deltaTime){
 			}
 		}
 
+		// 배와 배의 충돌 체크
+		for (auto fship = objects.begin(); fship != objects.begin() + 3; ++fship) {
+			for (auto sship = objects.begin(); sship != objects.begin() + 3; ++sship) {
+				if ((*fship).getLive() && (*sship).getLive() && fship != sship) {
+					value fshipdir = (*fship).getDirection();
+					value sshipdir = (*sship).getDirection();
+					float fshipdirdegree = radToDegree(atan2(fshipdir.y, fshipdir.x));
+					float sshipdirdegree = radToDegree(atan2(sshipdir.y, sshipdir.x));
+					float degree = fabs(fshipdirdegree - sshipdirdegree);
+					if (degree < 90) {
+						if (fshipdir.y >= 0 && sshipdir.y >= 0) {
+							if ((*fship).getPos().y > (*sship).getPos().y) {
+								(*fship).manageHp(10);
+								(*sship).manageHp(5);
+							}
+							else {
+								(*fship).manageHp(5);
+								(*sship).manageHp(10);
+							}
+						}
+						else if (fshipdir.y < 0 && sshipdir.y < 0) {
+							if ((*fship).getPos().y < (*sship).getPos().y) {
+								(*fship).manageHp(5);
+								(*sship).manageHp(10);
+							}
+							else {
+								(*fship).manageHp(10);
+								(*sship).manageHp(5);
+							}
+						}
+						else if (fshipdir.x >= 0 && sshipdir.x >= 0) {
+							if ((*fship).getPos().x > (*sship).getPos().x) {
+								(*fship).manageHp(10);
+								(*sship).manageHp(5);
+							}
+							else {
+								(*fship).manageHp(5);
+								(*sship).manageHp(10);
+							}
+						}
+						else if (fshipdir.x < 0 && sshipdir.x < 0) {
+							if ((*fship).getPos().x < (*sship).getPos().x) {
+								(*fship).manageHp(5);
+								(*sship).manageHp(10);
+							}
+							else {
+								(*fship).manageHp(10);
+								(*sship).manageHp(5);
+							}
+						}
+					}
+					else {
+						(*fship).manageHp(10);
+						(*sship).manageHp(10);
+					}
+					(*fship).setVelocity(0.f, 0.f, 0.f);
+					(*sship).setVelocity(0.f, 0.f, 0.f);
+				}
+			}
+		}
+
 		// 암초 충돌 체크
 		for (auto it = objects.begin() + 4; it != objects.begin() + 7; ++it) {
 			if (AABBCollision((*it).getBox(), i.getBox())) {

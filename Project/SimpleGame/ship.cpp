@@ -40,6 +40,61 @@ void Ship::update(float deltaTime){
 			if (degree <= 45)
 				setVelocity(0.f, 0.f, 0.f);
 		}
+		else if (i->getType() == E_SHIP) {
+			auto sship = getObjectCast<Ship>(i);
+			float fshipdirdegree = radToDegree(atan2(direction.getY(), direction.getX()));
+			float sshipdirdegree = radToDegree(atan2(sship->getDirection().getY(), sship->getDirection().getY());
+			float degree = fabs(fshipdirdegree - sshipdirdegree);
+			if (degree < 90) {
+				if (direction.getY() >= 0 && sship->getDirection().getY() >= 0) {
+					if (getPos().y > sship->getPos().y) {
+						manageHp(10);
+						sship->manageHp(5);
+					}
+					else {
+						manageHp(5);
+						sship->manageHp(10);
+					}
+				}
+				else if (direction.getY() < 0 && sship->getDirection().getY() < 0) {
+					if (getPos().y < sship->getPos().y) {
+						manageHp(5);
+						sship->manageHp(10);
+					}
+					else {
+						manageHp(10);
+						sship->manageHp(5);
+					}
+				}
+				if (direction.getX() >= 0 && sship->getDirection().getX() >= 0) {
+					if (getPos().x > sship->getPos().x) {
+						manageHp(10);
+						sship->manageHp(5);
+					}
+					else {
+						manageHp(5);
+						sship->manageHp(10);
+					}
+				}
+				else if (direction.getX() < 0 && sship->getDirection().getX() < 0) {
+					if (getPos().x < sship->getPos().x) {
+						manageHp(5);
+						sship->manageHp(10);
+					}
+					else {
+						manageHp(10);
+						sship->manageHp(5);
+					}
+				}
+				
+			}
+			else {
+				manageHp(10);
+				sship->manageHp(10);
+			}
+			setVelocity(0.f, 0.f, 0.f);
+			sship->setVelocity(0.f, 0.f, 0.f);
+		}
 	}
 	if (pushType != E_NONE) {
 		gearTime += deltaTime;
@@ -174,4 +229,9 @@ int Ship::getHp()
 void Ship::setHp(int hp)
 {
 	this->hp = hp;
+}
+
+Vector3D Ship::getDirection()
+{
+	return direction;
 }

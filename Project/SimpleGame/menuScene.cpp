@@ -76,7 +76,7 @@ void MenuScene::update(float dt){
 
 		count = ship->getbulletCooltime();
 
-		if (D_INPUT->isMouseDown() && shootDelay > 0.3f && ship->getbulletCooltime() > 0) {
+		if (D_INPUT->isMouseDown() && shootDelay > 0.3f && ship->getbulletCooltime() > 0 && ship->getLive()) {
 			ship->setbulletCooltime(--count);
 			shootDelay = 0.0f;
 
