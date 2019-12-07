@@ -70,40 +70,56 @@ void ObjectManager::update(double deltaTime) {
 							if (i.getPos().y > (*it).getPos().y) {
 								i.manageHp(10);
 								(*it).manageHp(5);
+								eventManager->pushEvent(simplePacket{ (char)i.getIdx(),10,E_PACKET_HIT }, E_SEND);
+								eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),5,E_PACKET_HIT }, E_SEND);
 							}
 							else {
 								i.manageHp(5);
 								(*it).manageHp(10);
+								eventManager->pushEvent(simplePacket{ (char)i.getIdx(),5,E_PACKET_HIT }, E_SEND);
+								eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),10,E_PACKET_HIT }, E_SEND);
 							}
 						}
 						else if (fshipdir.y < 0 && sshipdir.y < 0) {
 							if (i.getPos().y < (*it).getPos().y) {
 								i.manageHp(5);
 								(*it).manageHp(10);
+								eventManager->pushEvent(simplePacket{ (char)i.getIdx(),5,E_PACKET_HIT }, E_SEND);
+								eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),10,E_PACKET_HIT }, E_SEND);
 							}
 							else {
 								i.manageHp(10);
 								(*it).manageHp(5);
+								eventManager->pushEvent(simplePacket{ (char)i.getIdx(),10,E_PACKET_HIT }, E_SEND);
+								eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),5,E_PACKET_HIT }, E_SEND);
 							}
 						}
 						else if (fshipdir.x >= 0 && sshipdir.x >= 0) {
 							if (i.getPos().x > (*it).getPos().x) {
 								i.manageHp(10);
 								(*it).manageHp(5);
+								eventManager->pushEvent(simplePacket{ (char)i.getIdx(),10,E_PACKET_HIT }, E_SEND);
+								eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),5,E_PACKET_HIT }, E_SEND);
 							}
 							else {
 								i.manageHp(5);
 								(*it).manageHp(10);
+								eventManager->pushEvent(simplePacket{ (char)i.getIdx(),5,E_PACKET_HIT }, E_SEND);
+								eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),10,E_PACKET_HIT }, E_SEND);
 							}
 						}
 						else if (fshipdir.x < 0 && sshipdir.x < 0) {
 							if (i.getPos().x < (*it).getPos().x) {
 								i.manageHp(5);
 								(*it).manageHp(10);
+								eventManager->pushEvent(simplePacket{ (char)i.getIdx(),5,E_PACKET_HIT }, E_SEND);
+								eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),10,E_PACKET_HIT }, E_SEND);
 							}
 							else {
 								i.manageHp(10);
 								(*it).manageHp(5);
+								eventManager->pushEvent(simplePacket{ (char)i.getIdx(),10,E_PACKET_HIT }, E_SEND);
+								eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),5,E_PACKET_HIT }, E_SEND);
 							}
 						}
 					}
