@@ -161,7 +161,7 @@ void ObjectManager::collideReefToShip(Object & o, const std::vector<Object>::ite
 		(*shp).setVelocity(0.f, 0.f, 0.f);
 }
 
-void ObjectManager::collideShipToShip(Object & o, const std::vector<Object>::iterator & shp){
+void ObjectManager::collideShipToShip(Object & o, const std::vector<Object>::iterator & shp) {
 	value fshipdir = o.getDirection();
 	value sshipdir = (*shp).getDirection();
 	float fshipdirdegree = radToDegree(atan2(fshipdir.y, fshipdir.x));
@@ -171,7 +171,7 @@ void ObjectManager::collideShipToShip(Object & o, const std::vector<Object>::ite
 	Vector3D v1 = o.getVelocity();
 	Vector3D v2 = (*shp).getVelocity();
 
-	if ((v1.size() < 2.f) & (v2.size() < 2.f)) 
+	if ((v1.size() < 2.f) & (v2.size() < 2.f))
 		return;
 
 	if (degree < 90) {
@@ -240,4 +240,14 @@ void ObjectManager::collideShipToShip(Object & o, const std::vector<Object>::ite
 	}
 	o.setVelocity(0.f, 0.f, 0.f);
 	(*shp).setVelocity(0.f, 0.f, 0.f);
+	if (o.getHp() < 1) {
+		o.setLive(false);
+		eventManager->pushEvent(simplePacket{ (char)o.getIdx(), 0, E_PACKET_DIE }, E_SEND);
+		live--;
+	}
+	if ((*shp).getHp() < 1) {
+		(*shp).setLive(false);
+		eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(), 0, E_PACKET_DIE }, E_SEND);
+		live--;
+	}
 }
