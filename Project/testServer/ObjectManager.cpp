@@ -3,6 +3,7 @@
 #include <iostream>
 #include "ServerDevice.h"
 #include "EventManager.h"
+#include "Event.h"
 
 
 ObjectManager::ObjectManager() : 
@@ -31,8 +32,7 @@ void ObjectManager::update(double deltaTime){
 					}
 					i.setDelete();
 				}
-				else if (i.getType() == E_ITEM)
-				{
+				else if (i.getType() == E_ITEM){
 					short effect = rand() % 3;
 					eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(),(float)effect,E_PACKET_GETITEM }, E_SEND);
 					switch (effect) {
@@ -48,98 +48,76 @@ void ObjectManager::update(double deltaTime){
 					}
 					i.setDelete();
 				}
-				else if (i.getType() == E_REEF)
-				{
+				else if (i.getType() == E_REEF){
 					value dir = (*it).getDirection();
 					value rpos = i.getPos() - (*it).getPos();
 					float degree = fabs(atan2(dir.y, dir.x) * 180 / 3.14 - atan2(rpos.y, rpos.x) * 180 / 3.14);
-					/*if (degree > 45)
-						i.setCollobject(false);*/
-					if (degree <= 45){// && i.getCollobject() == false) {
-						//i.setCollobject(true);
-						//eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), 0, E_PACKET_COLLREEF },E_SEND);
+					if (degree <= 45)
 						(*it).setVelocity(0.f, 0.f, 0.f);
-						//std::cout << "충돌 패킷 전송" << std::endl;
-					}
 				}
-				break;
-			}
-		}
-
-		// 배와 배의 충돌 체크
-		for (auto fship = objects.begin(); fship != objects.begin() + 3; ++fship) {
-			for (auto sship = objects.begin(); sship != objects.begin() + 3; ++sship) {
-				if ((*fship).getLive() && (*sship).getLive() && fship != sship) {
-					value fshipdir = (*fship).getDirection();
-					value sshipdir = (*sship).getDirection();
+				else if (i.getType() == E_SHIP) {
+					value fshipdir = i.getDirection();
+					value sshipdir = (*it).getDirection();
 					float fshipdirdegree = radToDegree(atan2(fshipdir.y, fshipdir.x));
 					float sshipdirdegree = radToDegree(atan2(sshipdir.y, sshipdir.x));
 					float degree = fabs(fshipdirdegree - sshipdirdegree);
 					if (degree < 90) {
 						if (fshipdir.y >= 0 && sshipdir.y >= 0) {
-							if ((*fship).getPos().y > (*sship).getPos().y) {
-								(*fship).manageHp(10);
-								(*sship).manageHp(5);
+							if (i.getPos().y > (*it).getPos().y) {
+								i.manageHp(10);
+								(*it).manageHp(5);
 							}
 							else {
-								(*fship).manageHp(5);
-								(*sship).manageHp(10);
+								i.manageHp(5);
+								(*it).manageHp(10);
 							}
 						}
 						else if (fshipdir.y < 0 && sshipdir.y < 0) {
-							if ((*fship).getPos().y < (*sship).getPos().y) {
-								(*fship).manageHp(5);
-								(*sship).manageHp(10);
+							if (i.getPos().y < (*it).getPos().y) {
+								i.manageHp(5);
+								(*it).manageHp(10);
 							}
 							else {
-								(*fship).manageHp(10);
-								(*sship).manageHp(5);
+								i.manageHp(10);
+								(*it).manageHp(5);
 							}
 						}
 						else if (fshipdir.x >= 0 && sshipdir.x >= 0) {
-							if ((*fship).getPos().x > (*sship).getPos().x) {
-								(*fship).manageHp(10);
-								(*sship).manageHp(5);
+							if (i.getPos().x > (*it).getPos().x) {
+								i.manageHp(10);
+								(*it).manageHp(5);
 							}
 							else {
-								(*fship).manageHp(5);
-								(*sship).manageHp(10);
+								i.manageHp(5);
+								(*it).manageHp(10);
 							}
 						}
 						else if (fshipdir.x < 0 && sshipdir.x < 0) {
-							if ((*fship).getPos().x < (*sship).getPos().x) {
-								(*fship).manageHp(5);
-								(*sship).manageHp(10);
+							if (i.getPos().x < (*it).getPos().x) {
+								i.manageHp(5);
+								(*it).manageHp(10);
 							}
 							else {
-								(*fship).manageHp(10);
-								(*sship).manageHp(5);
+								i.manageHp(10);
+								(*it).manageHp(5);
 							}
 						}
 					}
 					else {
-						(*fship).manageHp(10);
-						(*sship).manageHp(10);
+						i.manageHp(10);
+						(*it).manageHp(10);
 					}
-					(*fship).setVelocity(0.f, 0.f, 0.f);
-					(*sship).setVelocity(0.f, 0.f, 0.f);
+					i.setVelocity(0.f, 0.f, 0.f);
+					(*it).setVelocity(0.f, 0.f, 0.f);
 				}
+				break;
 			}
 		}
 
 		// 암초 충돌 체크
 		for (auto it = objects.begin() + 4; it != objects.begin() + 7; ++it) {
 			if (AABBCollision((*it).getBox(), i.getBox())) {
-				if (i.getType() == E_SHIP) {
-					//value dir = i.getDirection();
-					//value rPos = (*it).getPos() - i.getPos();
-					//float degree = fabs(atan2(dir.y, dir.x) * 180 / 3.14 - atan2(rPos.y, rPos.x) * 180 / 3.14);
-					//if (degree <= 90.f) {
-					//	//i.setVelocity(0.f, 0.f, 0.f);
-					//	//eventManager->pushEvent()
-					//}
-				}
-				else if (i.getType() == E_BULLET)
+				if (i.getType() == E_BULLET)
 					i.setDelete();
 				else if (i.getType() == E_ITEM) {
 					i.setCollobject(true);
@@ -150,7 +128,7 @@ void ObjectManager::update(double deltaTime){
 	}
 	auto [wvx, wvy, wvz] = findObject(3).getVelocity();
 	for (auto& i : objects) {
-		if (i.getType() == E_SHIP || i.getType() == E_ITEM || i.getType() == E_BULLET) {
+		if (i.getType() == E_SHIP | i.getType() == E_ITEM | i.getType() == E_BULLET) {
 			if (!i.getCollobject()) {
 				auto [x, y, z] = i.getPos();
 				i.setPos(value{ x + wvx * (float)deltaTime,y + wvy * (float)deltaTime,z + wvz * (float)deltaTime });
@@ -158,8 +136,7 @@ void ObjectManager::update(double deltaTime){
 		}
 	}
 	ItemCreateTime -= deltaTime;
-	if (ItemCreateTime < FLT_EPSILON)
-	{
+	if (ItemCreateTime < FLT_EPSILON){
 		ItemCreateTime = 10.f;
 		short effect = rand() % 3;
 		short posX = rand() % (775 - (-775) + 1) + (-775);
@@ -168,8 +145,7 @@ void ObjectManager::update(double deltaTime){
 		eventManager->pushEvent(itemPacket{ effect,posX,posY }, E_SEND);
 	}
 	windChangeTime -= deltaTime;
-	if (windChangeTime < FLT_EPSILON)
-	{
+	if (windChangeTime < FLT_EPSILON){
 		windChangeTime = 5.f;
 		short wind = -1;
 		short windVelX = 0;// rand() % (10 - (-10) + 1) + (-10);

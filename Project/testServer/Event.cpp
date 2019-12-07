@@ -1,20 +1,20 @@
 #include "Event.h"
 
 
-Event::Event(simplePacket& p, E_TARGET_VALUE t) : var{ p }, target{ t }{
+Event::Event(const simplePacket& p, E_TARGET_VALUE t) : var{ p }, target{ t }{
 
 }
 
-Event::Event(shootPacket& p, E_TARGET_VALUE t) : var{ p }, target{ t }{
+Event::Event(const shootPacket& p, E_TARGET_VALUE t) : var{ p }, target{ t }{
 
 }
-Event::Event(posPacket& p, E_TARGET_VALUE t) : var{ p }, target{ t }{
+Event::Event(const posPacket& p, E_TARGET_VALUE t) : var{ p }, target{ t }{
 
 }
-Event::Event(allPacket& p, E_TARGET_VALUE t) : var{ p }, target{ t }{
+Event::Event(const allPacket& p, E_TARGET_VALUE t) : var{ p }, target{ t }{
 
 }
-Event::Event(itemPacket& p, E_TARGET_VALUE t) : var { p }, target{ t }{
+Event::Event(const itemPacket& p, E_TARGET_VALUE t) : var { p }, target{ t }{
 
 }
 std::tuple<simplePacket*, shootPacket*, posPacket*, allPacket*, itemPacket*> Event::getPacket(){

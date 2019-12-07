@@ -8,11 +8,11 @@ enum E_TARGET_VALUE {
 };
 class Event {
 public:
-	Event(simplePacket& p, E_TARGET_VALUE t = E_EVERYONE);
-	Event(shootPacket& p, E_TARGET_VALUE t = E_EVERYONE);
-	Event(posPacket& p, E_TARGET_VALUE t = E_EVERYONE);
-	Event(allPacket& p, E_TARGET_VALUE t = E_EVERYONE);
-	Event(itemPacket& p, E_TARGET_VALUE t = E_EVERYONE);
+	Event(const simplePacket& p, E_TARGET_VALUE t = E_EVERYONE);
+	Event(const shootPacket& p, E_TARGET_VALUE t = E_EVERYONE);
+	Event(const posPacket& p, E_TARGET_VALUE t = E_EVERYONE);
+	Event(const allPacket& p, E_TARGET_VALUE t = E_EVERYONE);
+	Event(const itemPacket& p, E_TARGET_VALUE t = E_EVERYONE);
 	std::tuple<simplePacket*, shootPacket*, posPacket*, allPacket*, itemPacket*> getPacket();
 	int getTarget();
 private:

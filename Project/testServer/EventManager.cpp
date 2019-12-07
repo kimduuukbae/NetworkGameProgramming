@@ -11,7 +11,7 @@ EventManager* EventManager::instance(){
 EventManager::EventManager(){
 	delete _instance;
 }
-void EventManager::pushEvent(const Event & e, E_PUSH_TYPE eventType){
+void EventManager::pushEvent(const Event& e, E_PUSH_TYPE eventType){
 	m2.lock();
 	if (eventType == E_EVENT)
 		eventQueue.push_back(e);
