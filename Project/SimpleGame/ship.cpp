@@ -43,7 +43,7 @@ void Ship::update(float deltaTime){
 		else if (i->getType() == E_SHIP) {
 			auto sship = getObjectCast<Ship>(i);
 			float fshipdirdegree = radToDegree(atan2(direction.getY(), direction.getX()));
-			float sshipdirdegree = radToDegree(atan2(sship->getDirection().getY(), sship->getDirection().getY());
+			float sshipdirdegree = radToDegree(atan2(sship->getDirection().getY(), sship->getDirection().getX()));
 			float degree = fabs(fshipdirdegree - sshipdirdegree);
 			if (degree < 90) {
 				if (direction.getY() >= 0 && sship->getDirection().getY() >= 0) {
