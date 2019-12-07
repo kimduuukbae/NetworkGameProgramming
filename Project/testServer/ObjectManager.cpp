@@ -131,63 +131,63 @@ void ObjectManager::update(double deltaTime) {
 						(*it).setVelocity(0.f, 0.f, 0.f);
 					}
 				}
-
-				// 암초 충돌 체크
-				for (auto it = objects.begin() + 4; it != objects.begin() + 7; ++it) {
-					if (AABBCollision((*it).getBox(), i.getBox())) {
-						if (i.getType() == E_BULLET)
-							i.setDelete();
-						else if (i.getType() == E_ITEM) {
-							i.setCollobject(true);
-						}
-					}
-					i.update(deltaTime);
-				}
-				i.update(deltaTime);
 			}
-			auto [wvx, wvy, wvz] = findObject(3).getVelocity();
-			for (auto& i : objects) {
-				if (i.getType() == E_SHIP | i.getType() == E_ITEM | i.getType() == E_BULLET) {
-					if (!i.getCollobject()) {
-						auto [x, y, z] = i.getPos();
-						i.setPos(value{ x + wvx * (float)deltaTime,y + wvy * (float)deltaTime,z + wvz * (float)deltaTime });
+
+			// 암초 충돌 체크
+			for (auto it = objects.begin() + 4; it != objects.begin() + 7; ++it) {
+				if (AABBCollision((*it).getBox(), i.getBox())) {
+					if (i.getType() == E_BULLET)
+						i.setDelete();
+					else if (i.getType() == E_ITEM) {
+						i.setCollobject(true);
 					}
 				}
-				ItemCreateTime -= deltaTime;
-				if (ItemCreateTime < FLT_EPSILON)
-				{
-					ItemCreateTime = 10.f;
-					short effect = rand() % 3;
-					short posX = rand() % (775 - (-775) + 1) + (-775);
-					short posY = rand() % (425 - (-425) + 1) + (-425);
-					addObject(value{ (float)posX,(float)posY,0.f }, value{ 0.f,0.f,0.f }, value{ 50.f,50.f,0.f }, E_ITEM);
-					eventManager->pushEvent(itemPacket{ effect,posX,posY }, E_SEND);
-				}
-				windChangeTime -= deltaTime;
-				if (windChangeTime < FLT_EPSILON)
-				{
-					windChangeTime = 5.f;
-					short wind = -1;
-					short windVelX = 0;// rand() % (10 - (-10) + 1) + (-10);
-					short windVelY = 0;// rand() % (10 - (-10) + 1) + (-10);
-					findObject(3).setVelocity(windVelX, windVelY, 0.f);
-					eventManager->pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
-				}
-				garbageTime -= deltaTime;
-				if (garbageTime < FLT_EPSILON) {
-					garbageColliection();
-					garbageTime = 10.0f;
+			}
+			i.update(deltaTime);
+		}
+		auto [wvx, wvy, wvz] = findObject(3).getVelocity();
+		for (auto& i : objects) {
+			if (i.getType() == E_SHIP | i.getType() == E_ITEM | i.getType() == E_BULLET) {
+				if (!i.getCollobject()) {
+					auto [x, y, z] = i.getPos();
+					i.setPos(value{ x + wvx * (float)deltaTime,y + wvy * (float)deltaTime,z + wvz * (float)deltaTime });
 				}
 			}
 		}
+		ItemCreateTime -= deltaTime;
+		if (ItemCreateTime < FLT_EPSILON)
+		{
+			ItemCreateTime = 10.f;
+			short effect = rand() % 3;
+			short posX = rand() % (775 - (-775) + 1) + (-775);
+			short posY = rand() % (425 - (-425) + 1) + (-425);
+			addObject(value{ (float)posX,(float)posY,0.f }, value{ 0.f,0.f,0.f }, value{ 50.f,50.f,0.f }, E_ITEM);
+			eventManager->pushEvent(itemPacket{ effect,posX,posY }, E_SEND);
+		}
+		windChangeTime -= deltaTime;
+		if (windChangeTime < FLT_EPSILON)
+		{
+			windChangeTime = 5.f;
+			short wind = -1;
+			short windVelX = 0;// rand() % (10 - (-10) + 1) + (-10);
+			short windVelY = 0;// rand() % (10 - (-10) + 1) + (-10);
+			findObject(3).setVelocity(windVelX, windVelY, 0.f);
+			eventManager->pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
+		}
+		garbageTime -= deltaTime;
+		if (garbageTime < FLT_EPSILON) {
+			garbageColliection();
+			garbageTime = 10.0f;
+		}
+
 	}
 	else {
 		rTime += deltaTime;
 		if (rTime > 5.f) {
 			std::cout << "reset start" << std::endl;
 			/*for (auto it = objects.begin() + 7; it <= objects.end(); ++it) {
-				(*it).setDelete();
-				eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), 0, E_PACKET_RESET }, E_SEND);
+			   (*it).setDelete();
+			   eventManager->pushEvent(simplePacket{ (char)(*it).getIdx(), 0, E_PACKET_RESET }, E_SEND);
 			}*/
 			for (auto it = objects.begin(); it != objects.begin() + 3; ++it) {
 				value v[3] = { {-400.f,-200.f,0.f},{-400.f,300.f,0.f},{400.f,-100.f,0.f} };
