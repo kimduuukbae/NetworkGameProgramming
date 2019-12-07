@@ -19,7 +19,7 @@ Object::Object(value pos, value dir, value vol, E_OBJECT_TYPE e)
 	damage{10}
 {}
 
-void Object::update(double deltaTime){
+void Object::update(float deltaTime){
 	position = position + velocity * deltaTime;
 	position.setX(clamp(-700.0f, position.getX(), 700.0f));
 	position.setY(clamp(-400.0f, position.getY(), 400.0f));
@@ -37,7 +37,7 @@ void Object::update(double deltaTime){
 			gearTime = 0.0f;
 		}
 	}
-	if (type == E_BULLET & velocity.size() < 0.1f)
+	if ((type == E_BULLET) & (velocity.size() < 0.1f))
 		setDelete();
 }
 
@@ -122,8 +122,7 @@ void Object::setDamage(int damage)
 	this->damage += damage;
 }
 
-int Object::getDamage()
-{
+int Object::getDamage(){
 	return damage;
 }
 
@@ -131,33 +130,13 @@ int Object::getHp(){
     return HealthPoint;
 }
 
-int Object::getAncester(){
-	return ancesteridx;
-}
-
-int Object::getIdx(){
-	return idx;
-}
-
 void Object::setDelete(){
 	deleteIt = true;
-}
-
-bool Object::getDelete(){
-	return deleteIt;
 }
 
 box Object::getBox(){
 	auto[x, y, z] = position.getValue();
 	return { x - volume.left, x + volume.right, y + volume.top, y - volume.bottom };
-}
-
-E_OBJECT_TYPE Object::getType(){
-	return type;
-}
-
-value Object::getPos(){
-	return position.getValue();
 }
 
 void Object::setPos(value pos)
@@ -167,26 +146,13 @@ void Object::setPos(value pos)
 	position.setZ(pos.z);
 }
 
-value Object::getVelocity(){
-	return velocity.getValue();
-}
-
 void Object::setDirection(float x, float y, float z)
 {
 	direction = value{ x,y,z };
 }
 
-value Object::getDirection()
-{
-	return direction.getValue();
-}
-
 void Object::setLive(bool flag){
 	live = flag;
-}
-
-bool Object::getLive(){
-	return live;
 }
 
 void Object::setCollobject(bool flag)

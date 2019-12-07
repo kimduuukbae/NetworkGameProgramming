@@ -8,7 +8,8 @@
 #include "Reef.h"
 #include <iostream>
 #include <mutex>
-using namespace std;
+#include <string>
+
 ObjectManager* objects = nullptr;
 std::mutex m;
 ServerDevice::ServerDevice(){
@@ -16,14 +17,14 @@ ServerDevice::ServerDevice(){
 		return;
 }
 
-ServerDevice::~ServerDevice(){
-
-}
-
 void ServerDevice::initialize(){
 	connectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	std::cout << "아이피를 입력해주세요 : " << std::endl;
+	std::string s;
+	std::cin >> s;
+
+	serverAddr.sin_addr.s_addr = inet_addr(s.c_str());
 	serverAddr.sin_port = htons(9000);
 	serverAddr.sin_family = AF_INET;
 
@@ -51,17 +52,13 @@ void ServerDevice::sendData(const std::variant<simplePacket, shootPacket, posPac
 		allPacket pack = std::get<3>(packet);
 		send(connectSocket, (char*)&pack, sizeof(pack), 0);
 	}
-	else {
-		//ERROR...
-	}
 }
 
 int ServerDevice::getId(){
 	return myId;
 }
 
-int ServerDevice::getLive()
-{
+int ServerDevice::getLive(){
 	return live;
 }
 
@@ -117,9 +114,8 @@ void ServerDevice::recvData(){
 				objects->getObject<Ship>(myId)->setPngIdx(objects->getPngIdx("texture/green_ship.png"));
 				
 				for (int i = 0; i < 3; i++) {
-					if (myId != i) {
+					if (myId != i) 
 						objects->getObject<Ship>(i)->setPngIdx(objects->getPngIdx("texture/red_ship.png"));
-					}
 				}
 				break;
 			}
@@ -142,7 +138,6 @@ void ServerDevice::recvData(){
 			}
 			case E_PACKET_ITEM: {
 				itemPacket item = recvItemPacket();
-				//std::cout << (float)item.itemPosX << "  " <<  (float)item.itemPosY << std::endl;
 				if (item.effect == 0) {			// 속도 업
 					int idx = objects->addObject<SpeedItem>(value{ (float)item.itemPosX,(float)item.itemPosY,0.f }, color{ 1.0f,1.0f,1.0f,1.0f },
 						value{ 50.0f,50.0f,100.0f }, value{ 0.0f,0.0f,0.0f }, "texture/item.png");
@@ -224,12 +219,6 @@ void ServerDevice::recvData(){
 				}
 				live = 3;
 			}
-			/*case E_PACKET_COLLREEF: {
-				simplePacket sim = recvSimplePacket();
-				auto o = objects->getObject<Ship>(sim.id);
-				o->setVelocity(0.f, 0.f, 0.f);
-				break;
-			}*/
 		}
 		m.unlock();
 	}

@@ -107,7 +107,8 @@ void ServerDevice::updateThread(){
 					value((float)shtPacket->mposX, (float)shtPacket->mPosY, 0.f),
 					value{ 20.0f,20.0f,1.0f }, E_BULLET);
 				auto[id, mx, my, tx, ty] = *shtPacket;
-				float vTime = sqrtf(pow(mx - tx, 2) + pow(my - ty, 2)) / 300.0f;
+				
+				float vTime = sqrtf(pow(mx - tx, 2) + powf(my - ty, 2)) / 300.0f;
 				objectManager.findObject(idx).setVelocity((mx - tx) / vTime, (my - ty) / vTime,0.0f);
 				objectManager.findObject(idx).setAncesterIdx(id);
 			}
@@ -118,7 +119,7 @@ void ServerDevice::updateThread(){
 
 			}
 		}
-		deltaTime = std::chrono::duration<float, std::milli>(std::chrono::high_resolution_clock::now() - timePoint).count() / 1000.0;
+		deltaTime = float(std::chrono::duration<float, std::milli>(std::chrono::high_resolution_clock::now() - timePoint).count() / 1000.0);
 		if (deltaTime > 0.0159999f) {
 			objectManager.update(deltaTime);
 			sendSync += deltaTime;
@@ -211,7 +212,7 @@ void ServerDevice::makeThread(){
 	objectManager.addObject(value{ 0.f,0.f,0.f }, value{ 0.f,0.f,0.f }, value{ 0.0f,0.0f,0.0f }, E_WIND);
 	for (int i = 0; i < 3; i++) {
 		std::thread{ &ServerDevice::recvData,this,clientSocket[i] }.detach();
-		simplePacket s{ i, 0, E_PACKET_SENID };
+		simplePacket s{ (char)i, 0, E_PACKET_SENID };
 		eventManager->pushEvent(Event{ s, E_ONE }, E_SEND);
 	}
 	for (int i = 0; i < 3; i++) {

@@ -8,7 +8,7 @@
 class ServerDevice {
 public:
 	ServerDevice();
-	~ServerDevice();
+	~ServerDevice() = default;
 	void initialize();
 	void sendData(const std::variant<simplePacket,shootPacket,posPacket, allPacket>& packet);
 	int getId();

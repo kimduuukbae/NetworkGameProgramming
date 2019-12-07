@@ -17,12 +17,12 @@ public:
 	Object() = delete;
 	Object(value pos, value dir, value volume,  E_OBJECT_TYPE e);
 	~Object() = default;
-	void update(double deltaTime);
+	void update(float deltaTime);
 	void increaseSpeed();
 	void decreaseSpeed();
 	void rotation(float r);
 	void addSpeed(float f);
-	void setVelocity(float x, float y, float z);
+	
 	void setIdx(int i);
 	void setAncesterIdx(int i);
     void manageHp(int damage);
@@ -31,26 +31,31 @@ public:
 	float getMaxSpeed();
 	void setDamage(int damage);
 	int getDamage();
-	int getAncester();
-	int getIdx();
+	inline int getAncester() { return ancesteridx; }
+	inline int getIdx() { return idx; }
 
 	void setDelete();
-	bool getDelete();
+	inline bool getDelete() { return deleteIt; }
+
 	box getBox();
-	E_OBJECT_TYPE getType();
-	value getPos();
+	inline E_OBJECT_TYPE getType() { return type; }
+
 	void setPos(value pos);
-	value getVelocity();
+	inline value getPos() { return position.getValue(); }
+
+	void setVelocity(float x, float y, float z);
+	inline value getVelocity() { return velocity.getValue(); }
+
 	void setDirection(float x, float y, float z);
-	value getDirection();
+	inline value getDirection(){ return direction.getValue(); }
 
 	void setLive(bool flag);
-	bool getLive();
+	inline bool getLive() { return live; }
 	
 	void setCollobject(bool flag);
 	bool getCollobject();
-private:
 
+private:
 	Vector3D position;
 	Vector3D direction;
 	Vector3D velocity;

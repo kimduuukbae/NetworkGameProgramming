@@ -15,7 +15,7 @@ class ObjectManager {
 public:
 	ObjectManager();
 	int addObject(value pos, value dir, value v, E_OBJECT_TYPE e);
-	void update(double deltaTime);
+	void update(float deltaTime);
 	inline Object& findObject(int idx) {
 		return objects[idx];
 	}
@@ -27,6 +27,14 @@ private:
 	float windChangeTime;
 	float garbageTime;
 	void garbageColliection();
-	float rTime = 0.f;
-	int live = 3;
+	float rTime;
+	int live;
+
+
+	// private member function
+
+	void collideBulletToShip(Object& o, const std::vector<Object>::iterator& shp);
+	void collideItemToShip(Object& o, const std::vector<Object>::iterator& shp);
+	void collideReefToShip(Object& o, const std::vector<Object>::iterator& shp);
+	void collideShipToShip(Object& o, const std::vector<Object>::iterator& shp);
 };
