@@ -54,7 +54,7 @@ enum packetType : char {
 	E_PACKET_DELT,
 	E_PACKET_GETITEM,
 	E_PACKET_REEF,
-	E_PACKET_COLLREEF
+	E_PACKET_RESET
 };
 /*
 	¡÷¿«

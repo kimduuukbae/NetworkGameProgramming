@@ -171,6 +171,11 @@ value Object::getVelocity(){
 	return velocity.getValue();
 }
 
+void Object::setDirection(float x, float y, float z)
+{
+	direction = value{ x,y,z };
+}
+
 value Object::getDirection()
 {
 	return direction.getValue();

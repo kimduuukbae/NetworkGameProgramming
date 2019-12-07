@@ -41,6 +41,7 @@ public:
 	value getPos();
 	void setPos(value pos);
 	value getVelocity();
+	void setDirection(float x, float y, float z);
 	value getDirection();
 
 	void setLive(bool flag);

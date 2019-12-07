@@ -27,4 +27,6 @@ private:
 	float windChangeTime;
 	float garbageTime;
 	void garbageColliection();
+	float rTime = 0.f;
+	int live = 3;
 };

@@ -60,6 +60,11 @@ int ServerDevice::getId(){
 	return myId;
 }
 
+int ServerDevice::getLive()
+{
+	return live;
+}
+
 void ServerDevice::makeThread(){
 	std::thread{ &ServerDevice::recvData, this }.detach();
 }
@@ -202,6 +207,22 @@ void ServerDevice::recvData(){
 				}
 				printf("%d %f %d %d\n", sim.id, o->getMaxSpeed(), o->getDamage(), o->getHp());
 				break;
+			}
+			case E_PACKET_RESET: {
+				simplePacket sim = recvSimplePacket();
+				if (sim.id > 3) {
+					if (auto t = objects->getObject<Object>(sim.id); t->getType() != NULL)
+						t->getDelete();
+				}
+				else {
+					auto o = objects->getObject<Ship>(sim.id);
+					o->setLive(true);
+					o->manageHp(-100);
+					o->setDegree(0.f);
+					o->setVelocity(0.f, 0.f, 0.f);
+					o->setDegree(0.f);
+				}
+				live = 3;
 			}
 			/*case E_PACKET_COLLREEF: {
 				simplePacket sim = recvSimplePacket();

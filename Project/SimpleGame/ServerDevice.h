@@ -12,6 +12,7 @@ public:
 	void initialize();
 	void sendData(const std::variant<simplePacket,shootPacket,posPacket, allPacket>& packet);
 	int getId();
+	int getLive();
 private:
 	WSADATA wsa;
 	sockaddr_in serverAddr;
@@ -30,4 +31,5 @@ private:
 	int setHeadPacket(const std::variant<simplePacket, shootPacket, posPacket, allPacket>& packet, packetHead& h);
 
 	int myId;
+	int live = 3;
 };
