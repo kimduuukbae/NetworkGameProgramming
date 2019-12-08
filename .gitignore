@@ -23,6 +23,21 @@
 *.sln
 *.iobj
 *.ipdb
+/simplegame/release
+*.exe
+*.lik
+*.pdb
+*.idb
+*.pch
+*.log
+*.tlog
+*.lastbuildstate
+*.suo
+*.db
+*.ilk
+*.sln
+*.iobj
+*.ipdb
 
 # Precompiled Headers
 *.gch

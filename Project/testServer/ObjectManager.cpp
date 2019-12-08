@@ -7,8 +7,8 @@
 
 
 ObjectManager::ObjectManager() :
-	ItemCreateTime{ 5.0f },
-	windChangeTime{ 5.0f },
+	ItemCreateTime{ 20.0f },
+	windChangeTime{ 20.0f },
 	garbageTime{ 10.0f },
 	live{3},
 	rTime{0.0f},
@@ -29,7 +29,7 @@ void ObjectManager::update(float deltaTime) {
 						collideBulletToShip(i, it);
 						i.setDelete();
 					}
-					else if (i.getType() == E_ITEM) {
+					else if (i.getType() == E_ITEM) { 
 						collideItemToShip(i, it);
 						i.setDelete();
 					}
@@ -63,7 +63,7 @@ void ObjectManager::update(float deltaTime) {
 		ItemCreateTime -= deltaTime;
 		if (ItemCreateTime < FLT_EPSILON)
 		{
-			ItemCreateTime = 10.f;
+			ItemCreateTime = 20.f;
 			short effect = rand() % 3;
 			short posX = rand() % (775 - (-775) + 1) + (-775);
 			short posY = rand() % (425 - (-425) + 1) + (-425);
@@ -73,10 +73,10 @@ void ObjectManager::update(float deltaTime) {
 		windChangeTime -= deltaTime;
 		if (windChangeTime < FLT_EPSILON)
 		{
-			windChangeTime = 5.f;
+			windChangeTime = 20.f;
 			short wind = -1;
-			short windVelX = 0;// rand() % (10 - (-10) + 1) + (-10);
-			short windVelY = 0;// rand() % (10 - (-10) + 1) + (-10);
+			short windVelX =  rand() % (10 - (-10) + 1) + (-10);
+			short windVelY =  rand() % (10 - (-10) + 1) + (-10);
 			findObject(3).setVelocity(windVelX, windVelY, 0.f);
 			eventManager->pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
 		}
@@ -94,6 +94,8 @@ void ObjectManager::update(float deltaTime) {
 				(*it).manageHp(-100);
 				(*it).setVelocity(0.f, 0.f, 0.f);
 				(*it).setDirection(1.f, 0.f, 0.f);
+				(*it).setDamage(10);
+				(*it).setMaxSpeed(35.f);
 			}
 			live = 3;
 			rTime = 0.f;
@@ -131,8 +133,8 @@ void ObjectManager::garbageColliection() {
 }
 
 void ObjectManager::collideBulletToShip(Object& o, const std::vector<Object>::iterator& shp){
-	eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),100.0f,E_PACKET_HIT }, E_SEND);
-	(*shp).manageHp(100);
+	eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),(float)findObject(o.getAncester()).getDamage(),E_PACKET_HIT }, E_SEND);
+	(*shp).manageHp(findObject(o.getAncester()).getDamage());
 	if ((*shp).getHp() < 1) {
 		(*shp).setLive(false);
 		eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(), 0, E_PACKET_DIE }, E_SEND);
