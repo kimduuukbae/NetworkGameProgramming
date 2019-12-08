@@ -87,6 +87,9 @@ void ObjectManager::update(float deltaTime) {
 	else {
 		rTime += deltaTime;
 		if (rTime > 5.f) {
+			ItemCreateTime = 20.f;
+			windChangeTime = 20.f;
+			findObject(3).setVelocity(0.f, 0.f, 0.f);
 			for (auto it = objects.begin(); it != objects.begin() + 3; ++it) {
 				value v[3] = { {-400.f,-200.f,0.f},{-400.f,300.f,0.f},{400.f,-100.f,0.f} };
 				(*it).setPos(v[(*it).getIdx()]);

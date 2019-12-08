@@ -6,6 +6,7 @@
 #include "bullet.h"
 #include "item.h"
 #include "Reef.h"
+#include "Wind.h"
 #include <iostream>
 #include <mutex>
 #include <string>
@@ -101,6 +102,8 @@ void ServerDevice::recvData(){
 			case E_PACKET_HIT: {
 				simplePacket sim = recvSimplePacket();
 				objects->getObject<Ship>(sim.id)->manageHp(sim.value);
+				auto o = objects->getObject<Ship>(sim.id);
+				printf("%d번 배 - 최대속력: %f 공격력: %d 체력: %d\n", sim.id, o->getMaxSpeed(), o->getDamage(), o->getHp());
 				break;
 			}
 			case E_PACKET_DIE: {
@@ -204,7 +207,7 @@ void ServerDevice::recvData(){
 						break;
 					}
 				}
-				printf("%d %f %d %d\n", sim.id, o->getMaxSpeed(), o->getDamage(), o->getHp());
+				printf("%d번 배 - 최대속력: %f 공격력: %d 체력: %d\n", sim.id, o->getMaxSpeed(), o->getDamage(), o->getHp());
 				break;
 			}
 			case E_PACKET_RESET: {
@@ -223,6 +226,9 @@ void ServerDevice::recvData(){
 					ship->setDamage(10);
 					ship->setMaxSpeed(35.f);
 				}
+				auto wind = objects->getObject<Wind>(3);
+				wind->setVelocity(0.f, 0.f, 0.f);
+				wind->setDegree(0.f);
 				live = 3;
 				break;
 			}
