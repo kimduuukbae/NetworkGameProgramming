@@ -119,7 +119,7 @@ float Object::getMaxSpeed()
 
 void Object::setDamage(int damage)
 {
-	this->damage += damage;
+	this->damage = damage;
 }
 
 int Object::getDamage(){
