@@ -1,6 +1,5 @@
 #include "Object.h"
 #include <cmath>
-#include <iostream>
 using namespace std;
 Object::Object(value pos, value dir, value vol, E_OBJECT_TYPE e)
 	:

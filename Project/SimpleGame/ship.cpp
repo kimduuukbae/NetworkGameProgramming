@@ -6,10 +6,9 @@
 #include "Reef.h"
 #include "bullet.h"
 #include "Wind.h"
-#include <iostream>
 #include <cmath>
 #include "ObjectManager.h"
-using namespace std;
+
 Ship::Ship(){
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();

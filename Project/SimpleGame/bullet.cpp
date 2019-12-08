@@ -5,7 +5,7 @@
 #include "Input.h"
 #include "ship.h"
 #include<cmath>
-#include<iostream>
+
 Bullet::Bullet() {
 	addComponent<IPhysicsComponent>();
 	addComponent<ICollisionComponent>();

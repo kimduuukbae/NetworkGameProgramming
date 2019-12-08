@@ -1,6 +1,5 @@
 #include "ObjectManager.h"
 #include "Structure.h"
-#include <iostream>
 #include "ServerDevice.h"
 #include "EventManager.h"
 #include "Event.h"

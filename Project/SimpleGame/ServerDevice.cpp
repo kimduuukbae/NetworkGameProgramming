@@ -21,11 +21,11 @@ ServerDevice::ServerDevice(){
 void ServerDevice::initialize(){
 	connectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	//std::cout << "아이피를 입력해주세요 : " << std::endl;
-	//std::string s;
-	//std::cin >> s;
+	std::cout << "아이피를 입력해주세요 : " << std::endl;
+	std::string s;
+	std::cin >> s;
 
-	serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	serverAddr.sin_addr.s_addr = inet_addr(s.c_str());
 	serverAddr.sin_port = htons(9000);
 	serverAddr.sin_family = AF_INET;
 
@@ -103,7 +103,6 @@ void ServerDevice::recvData(){
 				simplePacket sim = recvSimplePacket();
 				objects->getObject<Ship>(sim.id)->manageHp(sim.value);
 				auto o = objects->getObject<Ship>(sim.id);
-				printf("%d번 배 - 최대속력: %f 공격력: %d 체력: %d\n", sim.id, o->getMaxSpeed(), o->getDamage(), o->getHp());
 				break;
 			}
 			case E_PACKET_DIE: {

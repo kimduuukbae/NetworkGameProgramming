@@ -139,7 +139,6 @@ void ServerDevice::updateThread(){
 void ServerDevice::sendData(){
 	while (1) {
 		if (eventManager->sendQSize()) {
-			//std::cout << "보낼 데이터 갯수 !!" << eventManager.sendQSize() << std::endl;
 			m.lock();
 			auto e = eventManager->popSendQueue();
 			m.unlock();
@@ -197,7 +196,7 @@ void ServerDevice::sendData(){
 			}
 		}
 		else
-			Sleep(1);	// 다른 쓰레드에게 시간 넘겨줌
+			Sleep(1);
 	}
 }
 

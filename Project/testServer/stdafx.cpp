@@ -1,5 +1,4 @@
 #include "stdafx.h"
-//#include <iostream>
 void err_quit(const char* msg)
 {
 	LPVOID lpMsgBuf;
