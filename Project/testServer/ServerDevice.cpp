@@ -108,7 +108,7 @@ void ServerDevice::updateThread(){
 					value{ 20.0f,20.0f,1.0f }, E_BULLET);
 				auto[id, mx, my, tx, ty] = *shtPacket;
 				
-				float vTime = sqrtf(pow(mx - tx, 2) + powf(my - ty, 2)) / 300.0f;
+				float vTime = sqrtf(pow(mx - tx, 2) + powf(my - ty, 2)) / 200.0f;
 				objectManager.findObject(idx).setVelocity((mx - tx) / vTime, (my - ty) / vTime,0.0f);
 				objectManager.findObject(idx).setAncesterIdx(id);
 			}

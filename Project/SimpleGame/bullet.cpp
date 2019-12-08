@@ -21,7 +21,7 @@ void Bullet::update(float deltaTime) {
 }
 
 void Bullet::process(short mx, short my, short sPosX, short sPosY) {
-	vTime = sqrtf(pow(mx - sPosX, 2) + pow(my - sPosY, 2)) / 300.f;
+	vTime = sqrtf(pow(mx - sPosX, 2) + pow(my - sPosY, 2)) / 200.f;
 	
 	setVelocity((mx - sPosX) / vTime, (my - sPosY) / vTime, 0.0f);
 }
