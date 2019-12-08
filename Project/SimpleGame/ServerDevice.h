@@ -31,5 +31,5 @@ private:
 	int setHeadPacket(const std::variant<simplePacket, shootPacket, posPacket, allPacket>& packet, packetHead& h);
 
 	int myId;
-	int live = 3;
+	int live = 0;
 };

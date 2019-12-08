@@ -130,8 +130,10 @@ void ServerDevice::recvData(){
 				auto o = objects->getObject<Ship>(pos.id);
 				o->setShipIdx(pos.id);
 				o->setPos(pos.posX, pos.posY, 0);
-				if ((pos.id == 2) &objects->getObject<Object>(4)->getType() != E_REEF)
+				if ((pos.id == 2) &objects->getObject<Object>(4)->getType() != E_REEF) {
 					objects->getObject<Object>(4)->setDelete();
+					live = 3;
+				}
 				break;
 			}
 			case E_PACKET_SYNC: {
@@ -214,6 +216,7 @@ void ServerDevice::recvData(){
 				auto o = objects->getObjects();
 				for (auto it = o.begin() + 8; it != o.end(); ++it)
 					(*it)->setDelete();
+
 				objects->garbageCollection();
 				for (int i = 0; i < 3; ++i) {
 					auto ship = objects->getObject<Ship>(i);
