@@ -13,7 +13,7 @@ Object::Object(value pos, value dir, value vol, E_OBJECT_TYPE e)
 	volume{ box{vol.x / 2, vol.x / 2, vol.y / 2, vol.y / 2} },
 	ancesteridx {-1},
     HealthPoint{100},
-	maxSpeed{15.0f},
+	maxSpeed{35.0f},
 	deleteIt {false},
 	live{true},
 	damage{10}

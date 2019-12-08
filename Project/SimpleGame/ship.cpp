@@ -18,7 +18,7 @@ Ship::Ship(){
 	damage = 10;
 	bulletCount = 3;
 	pushType = E_NONE;
-	maxSpeed = 15.0f;
+	maxSpeed = 35.0f;
 	gearTime = 0.0f;
 	direction = Vector3D(1.0f, 0.0f, 0.0f);
 	rad = 0.0f;

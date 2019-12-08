@@ -220,6 +220,8 @@ void ServerDevice::recvData(){
 					ship->setDirection(value{ 1.0f,0.0f,0.0f });
 					ship->setVelocity(0.0f, 0.0f, 0.0f);
 					ship->setRadian(0.0f);
+					ship->setDamage(10);
+					ship->setMaxSpeed(35.f);
 				}
 				live = 3;
 				break;

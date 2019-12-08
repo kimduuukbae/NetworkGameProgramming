@@ -216,8 +216,8 @@ void ServerDevice::makeThread(){
 		eventManager->pushEvent(Event{ s, E_ONE }, E_SEND);
 	}
 	for (int i = 0; i < 3; i++) {
-		short reefX[3] = { 0,-400,360 };
-		short reefY[3] = { 150,0,-230 };
+		short reefX[3] = { 0,-400,150 };
+		short reefY[3] = { 150,0,-110 };
 		objectManager.addObject(value{ (float)reefX[i], (float)reefY[i], 0.0f }, value{ 0.0f,0.0f,0.0f },
 			value{ 100.0f,100.0f,0.0f }, E_REEF);
 		eventManager->pushEvent(itemPacket{ -2,reefX[i],reefY[i] }, E_SEND);

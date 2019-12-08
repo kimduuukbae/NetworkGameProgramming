@@ -16,6 +16,7 @@ private:
 	int shipIdx;
 	float vTime;
 	float fTime = 0.0f;
+	value bVol;
 	ICollisionComponent* collision;
 };
 
