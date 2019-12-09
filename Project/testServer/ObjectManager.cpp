@@ -9,8 +9,8 @@ ObjectManager::ObjectManager() :
 	ItemCreateTime{ 20.0f },
 	windChangeTime{ 20.0f },
 	garbageTime{ 10.0f },
-	live{3},
-	rTime{0.0f},
+	live{ 3 },
+	rTime{ 0.0f },
 	eventManager{ EventManager::instance() }
 {}
 
@@ -28,14 +28,14 @@ void ObjectManager::update(float deltaTime) {
 						collideBulletToShip(i, it);
 						i.setDelete();
 					}
-					else if (i.getType() == E_ITEM) { 
+					else if (i.getType() == E_ITEM) {
 						collideItemToShip(i, it);
 						i.setDelete();
 					}
-					else if (i.getType() == E_REEF) 
+					else if (i.getType() == E_REEF)
 						collideReefToShip(i, it);
-					
-					else if (i.getType() == E_SHIP) 
+
+					else if (i.getType() == E_SHIP)
 						collideShipToShip(i, it);
 				}
 			}
@@ -74,13 +74,13 @@ void ObjectManager::update(float deltaTime) {
 		{
 			windChangeTime = 20.f;
 			short wind = -1;
-			short windVelX =  rand() % (10 - (-10) + 1) + (-10);
-			short windVelY =  rand() % (10 - (-10) + 1) + (-10);
+			short windVelX = rand() % (10 - (-10) + 1) + (-10);
+			short windVelY = rand() % (10 - (-10) + 1) + (-10);
 			findObject(3).setVelocity(windVelX, windVelY, 0.f);
 			eventManager->pushEvent(itemPacket{ wind,windVelX,windVelY }, E_SEND);
 		}
 		garbageTime -= deltaTime;
-		if (garbageTime < FLT_EPSILON) 
+		if (garbageTime < FLT_EPSILON)
 			garbageColliection();
 	}
 	else {
@@ -105,7 +105,7 @@ void ObjectManager::update(float deltaTime) {
 			eventManager->pushEvent(posPacket{ 1, -400,300 }, E_SEND);
 			eventManager->pushEvent(posPacket{ 2, 400,-100 }, E_SEND);
 			eventManager->pushEvent(simplePacket{ (char)(0), 0, E_PACKET_RESET }, E_SEND);
-			for (auto it = objects.begin() + 8; it != objects.end(); ++it) 
+			for (auto it = objects.begin() + 8; it != objects.end(); ++it)
 				it->setDelete();
 			garbageColliection();
 		}
@@ -134,7 +134,7 @@ void ObjectManager::garbageColliection() {
 	garbageTime = 10.0f;
 }
 
-void ObjectManager::collideBulletToShip(Object& o, const std::vector<Object>::iterator& shp){
+void ObjectManager::collideBulletToShip(Object& o, const std::vector<Object>::iterator& shp) {
 	eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),(float)findObject(o.getAncester()).getDamage(),E_PACKET_HIT }, E_SEND);
 	(*shp).manageHp(findObject(o.getAncester()).getDamage());
 	if ((*shp).getHp() < 1) {
@@ -144,7 +144,7 @@ void ObjectManager::collideBulletToShip(Object& o, const std::vector<Object>::it
 	}
 }
 
-void ObjectManager::collideItemToShip(Object & o, const std::vector<Object>::iterator & shp){
+void ObjectManager::collideItemToShip(Object & o, const std::vector<Object>::iterator & shp) {
 	short effect = rand() % 3;
 	eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),(float)effect,E_PACKET_GETITEM }, E_SEND);
 	if (effect == 0)
@@ -155,7 +155,7 @@ void ObjectManager::collideItemToShip(Object & o, const std::vector<Object>::ite
 		(*shp).manageHp(-20);
 }
 
-void ObjectManager::collideReefToShip(Object & o, const std::vector<Object>::iterator & shp){
+void ObjectManager::collideReefToShip(Object & o, const std::vector<Object>::iterator & shp) {
 	value dir = (*shp).getDirection();
 	value rpos = o.getPos() - (*shp).getPos();
 	float degree = fabsf(atan2(dir.y, dir.x) * 180 / 3.14 - atan2(rpos.y, rpos.x) * 180 / 3.14);
@@ -173,73 +173,72 @@ void ObjectManager::collideShipToShip(Object & o, const std::vector<Object>::ite
 	Vector3D v1 = o.getVelocity();
 	Vector3D v2 = (*shp).getVelocity();
 
-	
-	if ((v1.size() > 10.f) | (v2.size() > 10.f)) {
-		if (degree < 90) {
-			if (fshipdir.y >= 0 && sshipdir.y >= 0) {
-				if (o.getPos().y > (*shp).getPos().y) {
-					o.manageHp(10);
-					(*shp).manageHp(5);
-					eventManager->pushEvent(simplePacket{ (char)o.getIdx(),10,E_PACKET_HIT }, E_SEND);
-					eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),5,E_PACKET_HIT }, E_SEND);
-				}
-				else {
-					o.manageHp(5);
-					(*shp).manageHp(10);
-					eventManager->pushEvent(simplePacket{ (char)o.getIdx(),5,E_PACKET_HIT }, E_SEND);
-					eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),10,E_PACKET_HIT }, E_SEND);
-				}
+
+	if (degree < 90) {
+		if (fshipdir.y >= 0 && sshipdir.y >= 0) {
+			if (o.getPos().y > (*shp).getPos().y) {
+				o.manageHp(10);
+				(*shp).manageHp(5);
+				eventManager->pushEvent(simplePacket{ (char)o.getIdx(),10,E_PACKET_HIT }, E_SEND);
+				eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),5,E_PACKET_HIT }, E_SEND);
 			}
-			else if (fshipdir.y < 0 && sshipdir.y < 0) {
-				if (o.getPos().y < (*shp).getPos().y) {
-					o.manageHp(5);
-					(*shp).manageHp(10);
-					eventManager->pushEvent(simplePacket{ (char)o.getIdx(),5,E_PACKET_HIT }, E_SEND);
-					eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),10,E_PACKET_HIT }, E_SEND);
-				}
-				else {
-					o.manageHp(10);
-					(*shp).manageHp(5);
-					eventManager->pushEvent(simplePacket{ (char)o.getIdx(),10,E_PACKET_HIT }, E_SEND);
-					eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),5,E_PACKET_HIT }, E_SEND);
-				}
-			}
-			else if (fshipdir.x >= 0 && sshipdir.x >= 0) {
-				if (o.getPos().x > (*shp).getPos().x) {
-					o.manageHp(10);
-					(*shp).manageHp(5);
-					eventManager->pushEvent(simplePacket{ (char)o.getIdx(),10,E_PACKET_HIT }, E_SEND);
-					eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),5,E_PACKET_HIT }, E_SEND);
-				}
-				else {
-					o.manageHp(5);
-					(*shp).manageHp(10);
-					eventManager->pushEvent(simplePacket{ (char)o.getIdx(),5,E_PACKET_HIT }, E_SEND);
-					eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),10,E_PACKET_HIT }, E_SEND);
-				}
-			}
-			else if (fshipdir.x < 0 && sshipdir.x < 0) {
-				if (o.getPos().x < (*shp).getPos().x) {
-					o.manageHp(5);
-					(*shp).manageHp(10);
-					eventManager->pushEvent(simplePacket{ (char)o.getIdx(),5,E_PACKET_HIT }, E_SEND);
-					eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),10,E_PACKET_HIT }, E_SEND);
-				}
-				else {
-					o.manageHp(10);
-					(*shp).manageHp(5);
-					eventManager->pushEvent(simplePacket{ (char)o.getIdx(),10,E_PACKET_HIT }, E_SEND);
-					eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),5,E_PACKET_HIT }, E_SEND);
-				}
+			else {
+				o.manageHp(5);
+				(*shp).manageHp(10);
+				eventManager->pushEvent(simplePacket{ (char)o.getIdx(),5,E_PACKET_HIT }, E_SEND);
+				eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),10,E_PACKET_HIT }, E_SEND);
 			}
 		}
-		else {
-			o.manageHp(10);
-			(*shp).manageHp(10);
-			eventManager->pushEvent(simplePacket{ (char)o.getIdx(),10,E_PACKET_HIT }, E_SEND);
-			eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),10,E_PACKET_HIT }, E_SEND);
+		else if (fshipdir.y < 0 && sshipdir.y < 0) {
+			if (o.getPos().y < (*shp).getPos().y) {
+				o.manageHp(5);
+				(*shp).manageHp(10);
+				eventManager->pushEvent(simplePacket{ (char)o.getIdx(),5,E_PACKET_HIT }, E_SEND);
+				eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),10,E_PACKET_HIT }, E_SEND);
+			}
+			else {
+				o.manageHp(10);
+				(*shp).manageHp(5);
+				eventManager->pushEvent(simplePacket{ (char)o.getIdx(),10,E_PACKET_HIT }, E_SEND);
+				eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),5,E_PACKET_HIT }, E_SEND);
+			}
+		}
+		else if (fshipdir.x >= 0 && sshipdir.x >= 0) {
+			if (o.getPos().x > (*shp).getPos().x) {
+				o.manageHp(10);
+				(*shp).manageHp(5);
+				eventManager->pushEvent(simplePacket{ (char)o.getIdx(),10,E_PACKET_HIT }, E_SEND);
+				eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),5,E_PACKET_HIT }, E_SEND);
+			}
+			else {
+				o.manageHp(5);
+				(*shp).manageHp(10);
+				eventManager->pushEvent(simplePacket{ (char)o.getIdx(),5,E_PACKET_HIT }, E_SEND);
+				eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),10,E_PACKET_HIT }, E_SEND);
+			}
+		}
+		else if (fshipdir.x < 0 && sshipdir.x < 0) {
+			if (o.getPos().x < (*shp).getPos().x) {
+				o.manageHp(5);
+				(*shp).manageHp(10);
+				eventManager->pushEvent(simplePacket{ (char)o.getIdx(),5,E_PACKET_HIT }, E_SEND);
+				eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),10,E_PACKET_HIT }, E_SEND);
+			}
+			else {
+				o.manageHp(10);
+				(*shp).manageHp(5);
+				eventManager->pushEvent(simplePacket{ (char)o.getIdx(),10,E_PACKET_HIT }, E_SEND);
+				eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),5,E_PACKET_HIT }, E_SEND);
+			}
 		}
 	}
+	else {
+		o.manageHp(10);
+		(*shp).manageHp(10);
+		eventManager->pushEvent(simplePacket{ (char)o.getIdx(),10,E_PACKET_HIT }, E_SEND);
+		eventManager->pushEvent(simplePacket{ (char)(*shp).getIdx(),10,E_PACKET_HIT }, E_SEND);
+	}
+
 	o.setVelocity(0.f, 0.f, 0.f);
 	(*shp).setVelocity(0.f, 0.f, 0.f);
 	if (o.getHp() < 1) {
