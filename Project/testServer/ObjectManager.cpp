@@ -37,6 +37,7 @@ void ObjectManager::update(float deltaTime) {
 
 					else if (i.getType() == E_SHIP)
 						collideShipToShip(i, it);
+					break;
 				}
 			}
 
@@ -173,6 +174,8 @@ void ObjectManager::collideShipToShip(Object & o, const std::vector<Object>::ite
 	Vector3D v1 = o.getVelocity();
 	Vector3D v2 = (*shp).getVelocity();
 
+	if ((v1.size() < 2.0f) | (v2.size() < 2.0f))
+		return;
 
 	if (degree < 90) {
 		if (fshipdir.y >= 0 && sshipdir.y >= 0) {
